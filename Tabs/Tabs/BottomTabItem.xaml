@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<tabs:TabTextItem x:Class="Sharpnado.Tabs.BottomTabItem"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:effects="clr-namespace:Sharpnado.Tabs.Effects;assembly=Tabs"
+                  xmlns:tabs="clr-namespace:Sharpnado.Tabs;assembly=Tabs"
+                  x:Name="RootLayout">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TabIcon" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="TabIconLabel" TargetType="Label">
+                <Setter Property="LineBreakMode" Value="TailTruncation" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Start" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Grid BackgroundColor="Transparent"
+              ColumnSpacing="0"
+              RowSpacing="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*" />
+                <RowDefinition x:Name="TextRowDefinition" Height="5*" />
+            </Grid.RowDefinitions>
+
+            <Image x:Name="Icon"
+                   Grid.Row="0"
+                   Style="{StaticResource TabIcon}"
+                   WidthRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
+                   HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
+                   effects:ImageEffect.TintColor="{Binding Source={x:Reference RootLayout}, Path=UnselectedIconColor}"
+                   Source="{Binding Source={x:Reference RootLayout}, Path=IconImageSource}">
+                <Image.Triggers>
+                    <DataTrigger Binding="{Binding Source={x:Reference RootLayout}, Path=IsSelected}"
+                                 TargetType="Image"
+                                 Value="true">
+                        <Setter Property="effects:ImageEffect.TintColor" Value="{Binding Source={x:Reference RootLayout}, Path=SelectedTabColor}" />
+                    </DataTrigger>
+                </Image.Triggers>
+            </Image>
+
+            <Label x:Name="IconText"
+                   Grid.Row="1"
+                   Style="{StaticResource TabIconLabel}"
+                   FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
+                   FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
+                   Text="{Binding Source={x:Reference RootLayout}, Path=Label}"
+                   TextColor="{Binding Source={x:Reference RootLayout}, Path=UnselectedLabelColor}">
+                <Label.Triggers>
+                    <DataTrigger Binding="{Binding Source={x:Reference RootLayout}, Path=IsSelected}"
+                                 TargetType="Label"
+                                 Value="true">
+                        <Setter Property="TextColor" Value="{Binding Source={x:Reference RootLayout}, Path=SelectedTabColor}" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+        </Grid>
+    </ContentView.Content>
+</tabs:TabTextItem>
