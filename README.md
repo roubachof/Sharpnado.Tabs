@@ -1,4 +1,4 @@
-# Sharpnado.Shadows
+# Sharpnado.Tabs
 
 <p align="left"><img src="Docs/tabs.png" height="180"/>
 
