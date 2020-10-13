@@ -203,6 +203,39 @@ namespace Sharpnado.Tabs
             }
         }
 
+        private static void OnSegmentedHasSeparatorChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
+            var tabHost = (TabHostView)bindable;
+            if (!tabHost.IsSegmented)
+            {
+                return;
+            }
+
+            if (!(bool)oldvalue && (bool)newvalue)
+            {
+                tabHost.AddSeparators();
+            }
+
+            if ((bool)oldvalue && !(bool)newvalue)
+            {
+                tabHost.RemoveSeparators();
+            }
+        }
+
+        private static void SelectedIndexPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
+            var tabHostView = (TabHostView)bindable;
+
+            int selectedIndex = (int)newvalue;
+            if (selectedIndex < 0)
+            {
+                return;
+            }
+
+            tabHostView.UpdateSelectedIndex(selectedIndex);
+            tabHostView.RaiseSelectedTabIndexChanged(new SelectedPositionChangedEventArgs(selectedIndex));
+        }
+
         private void UpdateSegmentedOutlineColor()
         {
             if (_frame == null)
@@ -248,39 +281,6 @@ namespace Sharpnado.Tabs
             }
 
             _frame.CornerRadius = CornerRadius;
-        }
-
-        private static void OnSegmentedHasSeparatorChanged(BindableObject bindable, object oldvalue, object newvalue)
-        {
-            var tabHost = (TabHostView)bindable;
-            if (!tabHost.IsSegmented)
-            {
-                return;
-            }
-
-            if (!(bool)oldvalue && (bool)newvalue)
-            {
-                tabHost.AddSeparators();
-            }
-
-            if ((bool)oldvalue && !(bool)newvalue)
-            {
-                tabHost.RemoveSeparators();
-            }
-        }
-
-        private static void SelectedIndexPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
-        {
-            var tabHostView = (TabHostView)bindable;
-
-            int selectedIndex = (int)newvalue;
-            if (selectedIndex < 0)
-            {
-                return;
-            }
-
-            tabHostView.UpdateSelectedIndex(selectedIndex);
-            tabHostView.RaiseSelectedTabIndexChanged(new SelectedPositionChangedEventArgs(selectedIndex));
         }
 
         private void AddSeparators()
@@ -353,13 +353,12 @@ namespace Sharpnado.Tabs
 
             if (TabType == TabType.Scrollable)
             {
-                base.Content = _scrollView
-                    ?? (_scrollView = new ScrollView()
-                    {
-                        Orientation = ScrollOrientation.Horizontal,
-                        HorizontalScrollBarVisibility =
-                            ShowScrollbar ? ScrollBarVisibility.Always : ScrollBarVisibility.Never,
-                    });
+                base.Content = _scrollView ??= new ScrollView
+                {
+                    Orientation = ScrollOrientation.Horizontal,
+                    HorizontalScrollBarVisibility =
+                        ShowScrollbar ? ScrollBarVisibility.Always : ScrollBarVisibility.Never,
+                };
 
                 if (IsSegmented)
                 {

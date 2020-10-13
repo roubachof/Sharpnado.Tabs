@@ -36,9 +36,9 @@ namespace Sharpnado.Tabs.Effects
             typeof(TapCommandEffect),
             default(object));
 
-        public static void SetTap(BindableObject view, ICommand value)
+        public static void SetTap(BindableObject bindableObject, ICommand value)
         {
-            view.SetValue(TapProperty, value);
+            bindableObject.SetValue(TapProperty, value);
         }
 
         public static ICommand GetTap(BindableObject view)
@@ -74,6 +74,35 @@ namespace Sharpnado.Tabs.Effects
         public static object GetLongTapParameter(BindableObject view)
         {
             return view.GetValue(LongTapParameterProperty);
+        }
+
+        private static void SetTapUwp(BindableObject bindableObject)
+        {
+            if (Device.RuntimePlatform != Device.UWP || !(bindableObject is View view))
+            {
+                return;
+            }
+
+            var tapCommand = GetTap(view);
+            var tapParameter = GetTapParameter(view);
+
+            if (tapCommand == null)
+            {
+                return;
+            }
+
+            var tapGesture = (TapGestureRecognizer)view.GestureRecognizers.FirstOrDefault(
+                g => g is TapGestureRecognizer tapGesture && tapGesture.Command == tapCommand);
+
+            if (tapGesture == null)
+            {
+                view.GestureRecognizers.Add(
+                    new TapGestureRecognizer() { Command = tapCommand, CommandParameter = tapParameter, });
+            }
+            else
+            {
+                tapGesture.CommandParameter = tapParameter;
+            }
         }
 
         private static void PropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -123,7 +152,16 @@ namespace Sharpnado.Tabs.Effects
 
                 if (frame == null && eff == null)
                 {
-                    view.Effects.Add(new TapCommandRoutingEffect());
+                    if (Device.RuntimePlatform == Device.UWP
+                        && newValue != null
+                        && (GetTap(bindable) == newValue || GetTapParameter(bindable) == newValue))
+                    {
+                        SetTapUwp(bindable);
+                    }
+                    else
+                    {
+                        view.Effects.Add(new TapCommandRoutingEffect());
+                    }
                 }
             }
             else

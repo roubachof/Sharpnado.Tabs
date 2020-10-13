@@ -44,7 +44,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.UWP;
 
-using Color = System.Drawing.Color;
 using Image = Windows.UI.Xaml.Controls.Image;
 using Size = Windows.Foundation.Size;
 
@@ -77,30 +76,26 @@ namespace Sharpnado.Tabs.Uwp
         {
             base.OnElementPropertyChanged(args);
 
-            if ((Element != null) && args.PropertyName == Xamarin.Forms.Image.SourceProperty.PropertyName)
+            if (Element == null)
             {
-                UpdateColor();
+                return;
+            }
+
+            switch (args.PropertyName)
+            {
+                case nameof(Element.Source):
+                case nameof(Element.Height):
+                    UpdateColor();
+                    break;
             }
         }
 
         private void UpdateColor()
         {
-            if (!(Control is Image nativeImage))
+            if (!(Control is Image))
             {
                 return;
             }
-
-            TaskMonitor.Create(CreateTintEffectBrushAsync(nativeImage));
-        }
-
-        private async Task CreateTintEffectBrushAsync(Image nativeImage)
-        {
-            if (Control == null || Element == null || Element.Width <= 0 || Element.Height <= 0)
-            {
-                return;
-            }
-
-            var uri = new Uri($"ms-appx:///{((FileImageSource)Element.Source).File}");
 
             var effect = (TintableImageEffect)Element.Effects.FirstOrDefault(x => x is TintableImageEffect);
 
@@ -110,7 +105,25 @@ namespace Sharpnado.Tabs.Uwp
                 return;
             }
 
-            var nativeColor = GetNativeColor(color.Value);
+            if (Element.Source is FontImageSource fontImageSource)
+            {
+                fontImageSource.Color = color.Value;
+                return;
+            }
+
+            TaskMonitor.Create(CreateTintEffectBrushAsync(color.Value));
+        }
+
+        private async Task CreateTintEffectBrushAsync(Color color)
+        {
+            if (Control == null || Element == null || Element.Width <= 0 || Element.Height <= 0)
+            {
+                return;
+            }
+
+            var uri = new Uri($"ms-appx:///{((FileImageSource)Element.Source).File}");
+
+            var nativeColor = GetNativeColor(color);
 
             SetupCompositor();
 
