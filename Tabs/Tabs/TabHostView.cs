@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -22,6 +23,17 @@ namespace Sharpnado.Tabs
     [ContentProperty("TabHostContent")]
     public class TabHostView : Shadows
     {
+        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
+            nameof(ItemsSource),
+            typeof(IEnumerable),
+            typeof(TabHostView),
+            defaultValueCreator: _ => new TabItem[0]);
+
+        public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
+            nameof(ItemTemplate),
+            typeof(DataTemplate),
+            typeof(TabHostView));
+
         public static readonly BindableProperty TabsProperty = BindableProperty.Create(
             nameof(Tabs),
             typeof(ObservableCollection<TabItem>),
@@ -72,6 +84,8 @@ namespace Sharpnado.Tabs
         private readonly Frame _frame;
         private readonly List<TabItem> _selectableTabs = new List<TabItem>();
 
+        private INotifyCollectionChanged _currentNotifyCollection;
+
         private ScrollView _scrollView;
 
         private ColumnDefinition _lastFillingColumn;
@@ -111,6 +125,18 @@ namespace Sharpnado.Tabs
         }
 
         public event EventHandler<SelectedPositionChangedEventArgs> SelectedTabIndexChanged;
+
+        public IEnumerable ItemsSource
+        {
+            get => (IEnumerable)GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
+
+        public DataTemplate ItemTemplate
+        {
+            get => (DataTemplate)GetValue(ItemTemplateProperty);
+            set => SetValue(ItemTemplateProperty, value);
+        }
 
         public ObservableCollection<TabItem> Tabs
         {
@@ -185,6 +211,12 @@ namespace Sharpnado.Tabs
 
             switch (propertyName)
             {
+                case nameof(ItemsSource):
+                    UpdateItemsSource();
+                    break;
+                case nameof(ItemTemplate):
+                    UpdateItemTemplate();
+                    break;
                 case nameof(BackgroundColor):
                     UpdateBackgroundColor();
                     break;
@@ -234,6 +266,100 @@ namespace Sharpnado.Tabs
 
             tabHostView.UpdateSelectedIndex(selectedIndex);
             tabHostView.RaiseSelectedTabIndexChanged(new SelectedPositionChangedEventArgs(selectedIndex));
+        }
+
+        private void InitializeItems()
+        {
+            if (ItemTemplate == null)
+            {
+                return;
+            }
+
+            int index = 0;
+            foreach (var model in ItemsSource ?? new object[0])
+            {
+                var tabItem = CreateTabItem(model);
+                Tabs.Insert(index++, tabItem);
+            }
+        }
+
+        private void UpdateItemsSource()
+        {
+            if (_currentNotifyCollection != null)
+            {
+                _currentNotifyCollection.CollectionChanged -= ItemsSourceCollectionChanged;
+                _currentNotifyCollection = null;
+            }
+
+            if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
+            {
+                _currentNotifyCollection = notifyCollectionChanged;
+                _currentNotifyCollection.CollectionChanged += ItemsSourceCollectionChanged;
+            }
+
+            InitializeItems();
+        }
+
+        private void UpdateItemTemplate()
+        {
+            InitializeItems();
+        }
+
+        private void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (ItemTemplate is null)
+            {
+                return;
+            }
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    var addedIndex = e.NewStartingIndex;
+                    foreach (var model in e.NewItems)
+                    {
+                        var tabItem = CreateTabItem(model);
+                        Tabs.Insert(addedIndex++, tabItem);
+                    }
+
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    for (int removedIndex = e.OldStartingIndex + (e.OldItems.Count - 1);
+                        removedIndex >= e.OldStartingIndex;
+                        removedIndex--)
+                    {
+                        Tabs.RemoveAt(removedIndex);
+                    }
+
+                    break;
+
+                default:
+                    Console.WriteLine("Warning: TabHostView ItemsSource only support Add, Remove and Reset actions");
+                    break;
+            }
+        }
+
+        private TabItem CreateTabItem(object item)
+        {
+            View result;
+            if (ItemTemplate is DataTemplateSelector selector)
+            {
+                var template = selector.SelectTemplate(item, this);
+                result = (View)template.CreateContent();
+            }
+            else
+            {
+                result = (View)ItemTemplate.CreateContent();
+            }
+
+            if (!(result is TabItem tabItem))
+            {
+                throw new InvalidOperationException("Your ItemTemplate DataTemplate should contain a view inheriting from TabItem");
+            }
+
+            tabItem.BindingContext = item;
+            return tabItem;
         }
 
         private void UpdateSegmentedOutlineColor()
@@ -399,9 +525,10 @@ namespace Sharpnado.Tabs
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
+                    var index = e.NewStartingIndex;
                     foreach (var tab in e.NewItems)
                     {
-                        OnChildAdded((TabItem)tab);
+                        OnChildAdded((TabItem)tab, index++);
                     }
 
                     break;
@@ -440,10 +567,9 @@ namespace Sharpnado.Tabs
             }
         }
 
-        private void OnChildAdded(TabItem tabItem)
+        private void OnChildAdded(TabItem tabItem, int index)
         {
             bool previousItemIsTab = _grid.Children.LastOrDefault() is TabItem;
-            int lastTabIndex = _grid.Children.Count;
 
             if (previousItemIsTab && IsSegmented && SegmentedHasSeparator)
             {
@@ -452,7 +578,7 @@ namespace Sharpnado.Tabs
 
                 _grid.ColumnDefinitions.Add(new ColumnDefinition { Width = separator.WidthRequest });
 
-                Grid.SetColumn(separator, lastTabIndex++);
+                Grid.SetColumn(separator, index);
                 Grid.SetRow(separator, 0);
             }
 
@@ -475,7 +601,7 @@ namespace Sharpnado.Tabs
                 }
             }
 
-            Grid.SetColumn(tabItem, lastTabIndex);
+            Grid.SetColumn(tabItem, index);
             Grid.SetRow(tabItem, 0);
 
             RaiseTabButtons();
