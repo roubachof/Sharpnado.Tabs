@@ -80,9 +80,11 @@ namespace Sharpnado.Tabs
             typeof(TabHostView),
             Color.Transparent);
 
+        private const string Tag = nameof(TabHostView);
+
         private readonly Grid _grid;
         private readonly Frame _frame;
-        private readonly List<TabItem> _selectableTabs = new List<TabItem>();
+        private List<TabItem> _selectableTabs = new List<TabItem>();
 
         private INotifyCollectionChanged _currentNotifyCollection;
 
@@ -450,6 +452,8 @@ namespace Sharpnado.Tabs
             }
 
             SelectedIndex = selectedIndex;
+
+            InternalLogger.Debug(Tag, () => $"SelectedIndex: {SelectedIndex}");
         }
 
         private void OnTabItemTapped(object tappedItem)
@@ -463,6 +467,8 @@ namespace Sharpnado.Tabs
         private void UpdateTabType()
         {
             BatchBegin();
+
+            InternalLogger.Debug(Tag, () => $"UpdateTabType() => TabType: {TabType}, IsSegmented: {IsSegmented}");
 
             if (IsSegmented)
             {
@@ -569,6 +575,10 @@ namespace Sharpnado.Tabs
 
         private void OnChildAdded(TabItem tabItem, int index)
         {
+            InternalLogger.Debug(Tag, () => $"OnChildAdded( tabItem: {tabItem.GetType().Name}, index: {index} )");
+
+            BatchBegin();
+
             bool previousItemIsTab = _grid.Children.LastOrDefault() is TabItem;
 
             if (previousItemIsTab && IsSegmented && SegmentedHasSeparator)
@@ -609,7 +619,6 @@ namespace Sharpnado.Tabs
             if (tabItem.IsSelectable)
             {
                 AddTapCommand(tabItem);
-                _selectableTabs.Add(tabItem);
             }
 
             if (TabType == TabType.Fixed)
@@ -618,7 +627,12 @@ namespace Sharpnado.Tabs
                 UpdateTabVisibility(tabItem);
             }
 
-            UpdateSelectedIndex(SelectedIndex);
+            UpdateSelectableTabs();
+
+            ConsolidateColumnIndexes();
+            ConsolidateSelectedIndex();
+
+            BatchCommit();
         }
 
         private void OnChildRemoved(TabItem tabItem)
@@ -628,6 +642,8 @@ namespace Sharpnado.Tabs
                 return;
             }
 
+            BatchBegin();
+
             if (TabType == TabType.Scrollable)
             {
                 if (Tabs.Count == 0)
@@ -636,12 +652,9 @@ namespace Sharpnado.Tabs
                 }
             }
 
-            if (tabItem.IsSelectable)
-            {
-                _selectableTabs.Remove(tabItem);
-            }
-
             int tabItemIndex = _grid.Children.IndexOf(tabItem);
+
+            InternalLogger.Debug(Tag, () => $"OnChildRemoved( tabItem: {tabItem.GetType().Name}, index: {tabItemIndex} )");
 
             if (tabItemIndex > 1 && _grid.Children[tabItemIndex - 1] is BoxView)
             {
@@ -654,7 +667,65 @@ namespace Sharpnado.Tabs
 
             tabItem.PropertyChanged -= OnTabItemPropertyChanged;
 
-            UpdateSelectedIndex(SelectedIndex);
+            UpdateSelectableTabs();
+
+            ConsolidateColumnIndexes();
+            ConsolidateSelectedIndex();
+
+            BatchCommit();
+        }
+
+        private void UpdateSelectableTabs()
+        {
+            _selectableTabs = Tabs.Where(t => t.IsSelectable).ToList();
+        }
+
+        private void ConsolidateColumnIndexes()
+        {
+            for (int index = 0; index < Tabs.Count; index++)
+            {
+                var tabItem = Tabs[index];
+                Grid.SetColumn(tabItem, index);
+            }
+        }
+
+        private void ConsolidateSelectedIndex()
+        {
+            if (_selectableTabs.Count == 0)
+            {
+                SelectedIndex = 0;
+                return;
+            }
+
+            bool found = false;
+            for (int index = 0; index < _selectableTabs.Count; index++)
+            {
+                var tabItem = _selectableTabs[index];
+                if (tabItem.IsSelected)
+                {
+                    if (found)
+                    {
+                        tabItem.IsSelected = false;
+                    }
+                    else
+                    {
+                        SelectedIndex = index;
+                        found = true;
+                    }
+                }
+            }
+
+            if (found || SelectedIndex < 0)
+            {
+                return;
+            }
+
+            if (SelectedIndex >= _selectableTabs.Count)
+            {
+                SelectedIndex = _selectableTabs.Count - 1;
+            }
+
+            _selectableTabs[SelectedIndex].IsSelected = true;
         }
 
         private void OnTabItemPropertyChanged(object sender, PropertyChangedEventArgs e)
