@@ -53,20 +53,5 @@ namespace Sharpnado.Tabs
             get => (string)GetValue(FontFamilyProperty);
             set => SetValue(FontFamilyProperty, value);
         }
-
-        protected override void OnBindingContextChanged()
-        {
-            base.OnBindingContextChanged();
-        }
-
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-
-            if (propertyName == nameof(Label))
-            {
-                System.Diagnostics.Debug.WriteLine("PIPO");
-            }
-        }
     }
 }

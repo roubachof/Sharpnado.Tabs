@@ -21,7 +21,7 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Grid BackgroundColor="Transparent">
+        <Grid x:Name="Grid" BackgroundColor="Transparent">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

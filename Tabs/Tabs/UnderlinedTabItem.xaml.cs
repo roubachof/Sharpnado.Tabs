@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Linq;
+using System.Runtime.CompilerServices;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -34,41 +35,49 @@ namespace Sharpnado.Tabs
             switch (propertyName)
             {
                 case nameof(Margin):
-                    if (UnderlineAllTab)
-                    {
-                        Underline.Margin = new Thickness(Underline.Margin.Left - Margin.Left, 0, Underline.Margin.Right - Margin.Right, 0);
-                    }
-                    else
-                    {
-                        Underline.Margin = new Thickness(0);
-                    }
-
+                    UpdateMargin();
                     break;
 
                 case nameof(Padding):
-                    if (UnderlineAllTab)
-                    {
-                        Underline.Margin = new Thickness(Underline.Margin.Left - Padding.Left, 0, Underline.Margin.Right - Padding.Right, 0);
-                    }
-                    else
-                    {
-                        Underline.Margin = new Thickness(0);
-                    }
-
+                    UpdatePadding();
                     break;
 
                 case nameof(UnderlineAllTab):
-                    if (UnderlineAllTab)
-                    {
-                        Underline.Margin = new Thickness(-Margin.Left - Padding.Left, 0, -Margin.Right - Padding.Right, 0);
-                    }
-                    else
-                    {
-                        Underline.Margin = new Thickness(0);
-                    }
-
+                    UpdateUnderlineAllTab();
                     break;
             }
+        }
+
+        protected override void OnBadgeChanged(BadgeView oldBadge)
+        {
+            if (oldBadge != null)
+            {
+                Grid.Children.Remove(Badge);
+                return;
+            }
+
+            Grid.Children.Add(Badge);
+        }
+
+        private void UpdateUnderlineAllTab()
+        {
+            Underline.Margin = UnderlineAllTab
+                ? new Thickness(-Margin.Left - Padding.Left, 0, -Margin.Right - Padding.Right, 0)
+                : new Thickness(0);
+        }
+
+        private void UpdatePadding()
+        {
+            Underline.Margin = UnderlineAllTab
+                ? new Thickness(Underline.Margin.Left - Padding.Left, 0, Underline.Margin.Right - Padding.Right, 0)
+                : new Thickness(0);
+        }
+
+        private void UpdateMargin()
+        {
+            Underline.Margin = UnderlineAllTab
+                ? new Thickness(Underline.Margin.Left - Margin.Left, 0, Underline.Margin.Right - Margin.Right, 0)
+                : new Thickness(0);
         }
     }
 }

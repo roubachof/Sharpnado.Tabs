@@ -150,6 +150,11 @@ namespace Sharpnado.Tabs
             }
         }
 
+        protected override void OnBadgeChanged(BadgeView oldBadge)
+        {
+            throw new NotSupportedException("Badge is not currently supported for TabButton");
+        }
+
         private void UpdateCornerRadius()
         {
             _imageButton.CornerRadius = CornerRadius;

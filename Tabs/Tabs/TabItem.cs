@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace Sharpnado.Tabs
 {
@@ -16,6 +17,13 @@ namespace Sharpnado.Tabs
             typeof(TabTextItem),
             Color.Default);
 
+        public static readonly BindableProperty BadgeProperty = BindableProperty.Create(
+            nameof(Badge),
+            typeof(BadgeView),
+            typeof(TabItem),
+            default(BadgeView),
+            propertyChanged: OnBadgeChanged);
+
         public bool IsSelected
         {
             get => (bool)GetValue(IsSelectedProperty);
@@ -28,6 +36,20 @@ namespace Sharpnado.Tabs
             set => SetValue(SelectedTabColorProperty, value);
         }
 
+        public BadgeView Badge
+        {
+            get => (BadgeView)GetValue(BadgeProperty);
+            set => SetValue(BadgeProperty, value);
+        }
+
         public bool IsSelectable { get; set; } = true;
+
+        protected abstract void OnBadgeChanged(BadgeView oldBadge);
+
+        private static void OnBadgeChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
+            var tabItem = (TabItem)bindable;
+            tabItem.OnBadgeChanged((BadgeView)oldvalue);
+        }
     }
 }

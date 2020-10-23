@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 using Xamarin.Forms;
 
@@ -43,6 +44,11 @@ namespace Sharpnado.Tabs
                     UpdateLabel();
                     break;
             }
+        }
+
+        protected override void OnBadgeChanged(BadgeView oldBadge)
+        {
+            throw new NotSupportedException("Badge is not currently supported for SegmentedTabItem");
         }
 
         private void UpdateLabel()

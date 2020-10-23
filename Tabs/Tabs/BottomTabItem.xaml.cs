@@ -85,6 +85,18 @@ namespace Sharpnado.Tabs
             }
         }
 
+        protected override void OnBadgeChanged(BadgeView oldBadge)
+        {
+            if (oldBadge != null)
+            {
+                Grid.Children.Remove(oldBadge);
+                return;
+            }
+
+            Grid.SetRow(Badge, 0);
+            Grid.Children.Add(Badge);
+        }
+
         private void UpdateTextVisibility()
         {
             if (IsTextVisible)

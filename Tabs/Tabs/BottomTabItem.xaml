@@ -23,7 +23,8 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Grid BackgroundColor="Transparent"
+        <Grid x:Name="Grid"
+              BackgroundColor="Transparent"
               ColumnSpacing="0"
               RowSpacing="0">
 
