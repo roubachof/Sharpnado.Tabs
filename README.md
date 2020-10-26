@@ -1,6 +1,6 @@
 # Sharpnado.Tabs
 
-<p align="left"><img src="Docs/tabs.png" height="180"/>
+<p align="left"><img src="Docs/logo.png" height="180"/>
 
 Get it from NuGet:
 
@@ -75,7 +75,26 @@ Get it from NuGet:
   </tbody>
 </table>
 
-## Silly! app
+<table>
+  <thead>
+    <tr>      
+      <th>BadgeView</th>
+      <th>BadgeView (Chips)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="Docs/bottom_tabs_uwp.png" width="300" /></td>
+      <td><img src="Docs/underlined_tabs_droid.png" width="300" /></td>
+    </tr>
+    <tr>
+      <td>Numbers, Indicator</td>
+      <td>Chips with text</td>
+    </tr>   
+  </tbody>
+</table>
+
+## Sample app
 
 The tabs components are presented in the Silly! app in the following repository:
 
@@ -166,6 +185,17 @@ The ```TabHostView``` and the ```ViewSwitcher``` are really two independent comp
 Since they don't know each other, you just need to link them through their ```SelectedIndex``` property. You will bind the ```ViewSwitcher``` to your view model, and the ```TabHostView``` to the ```ViewSwitcher```'s ```SelectedIndex``` property.
 
 You can also see a mysterious ```Animate``` property. It just adds a nice appearing effect. It's really just a little bonus.
+
+### UnderlineAllTab
+
+`UnderlinedTabItem.UnderlineAllTab=(true|false)`
+
+You can decide whether or not you want the underline to take the whole tab width, or just the text width.
+
+<p align="center">
+  <img src="Docs/scrollable_tabs_underline_text.gif" width="250" />
+</p>
+
 
 ## View model
 
@@ -287,6 +317,16 @@ And let's have a look at its xaml:
   <img src="Docs/ios_segmented_neu.png" width="250" />
 </p>
 
+### IsTextVisible
+
+`BottomTabItem.IsTextVisible=(true|false)`
+
+If you like your bottom bar items without text:
+
+<p align="center">
+  <img src="Docs/tab_bottom_notext.png" width="250" />
+</p>
+
 
 ### Styling
 
@@ -370,7 +410,7 @@ Use it with `IsSegmented`, `SegmentedOutlineColor`, and `SegmentedHasSeparator`,
 </Style>
 ```
 
-#### Properties
+### Properties
 
 <table>
   <tr>
@@ -473,23 +513,179 @@ You can also decide to have a more boring button, why not?
                 IconImageSource="camera_96.png" />
 ```
 
-## New properties
 
-`UnderlinedTabItem.UnderlineAllTab=(true|false)`
+## BadgeView (Chips)
 
-You can decide whether or not you want the underline to take the whole tab width, or just the text width.
+You can add a badge on any `UnderlinedTabItem` and `BottomTabItem`.
 
-<p align="center">
-  <img src="Docs/scrollable_tabs_underline_text.gif" width="250" />
-</p>
+By default the `BadgeView` is placed in the top right corner of the `TabItem` by setting `HorizontalOptions=End` and `VerticalOptions=Start`.
 
-`BottomTabItem.IsTextVisible=(true|false)`
-
-If you like your bottom bar items without text:
+### Badges on BottomTabItem
 
 <p align="center">
-  <img src="Docs/tab_bottom_notext.png" width="250" />
+  <img src="Docs/bottom_tabs_badge.png" width="350" />
 </p>
+
+*SillyBottomTabsPage.xml from the Silly! app*
+
+```xml
+<!--  Example of segmented tab bar (rounded floating tabs)  -->
+<tabs:TabHostView Grid.Row="2"
+                    WidthRequest="280"
+                    HeightRequest="60"
+                    Margin="15"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    CornerRadius="30"
+                    IsSegmented="True"
+                    Shades="{sh:NeumorphismShades}"
+                    TabType="Fixed"
+                    SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
+    <tabs:TabHostView.Tabs>
+        <tabs:BottomTabItem IconImageSource="house_96.png" Label="{localization:Translate Tabs_Home}">
+            <tabs:BottomTabItem.Badge>
+                <tabs:BadgeView BackgroundColor="White"
+                                BorderColor="{StaticResource Accent}"
+                                TextColor="{StaticResource Accent}"
+                                Text="999+" />
+            </tabs:BottomTabItem.Badge>
+        </tabs:BottomTabItem>
+        <tabs:BottomTabItem IconImageSource="list_96.png" Label="{localization:Translate Tabs_List}">
+            <tabs:BottomTabItem.Badge>
+                <tabs:BadgeView BackgroundColor="DodgerBlue"
+                                BadgePadding="4,2"
+                                TextSize="13"
+                                Text="{Binding ListPageViewModel.SillyCount}" />
+            </tabs:BottomTabItem.Badge>
+        </tabs:BottomTabItem>
+        <tabs:BottomTabItem IconImageSource="grid_view_96.png" Label="{localization:Translate Tabs_Grid}">
+            <tabs:BottomTabItem.Badge>
+                <tabs:BadgeView Margin="20,5"
+                                BackgroundColor="Red"
+                                ShowIndicator="True"
+                                TextSize="14"
+                                Text="3" />
+            </tabs:BottomTabItem.Badge>
+        </tabs:BottomTabItem>
+    </tabs:TabHostView.Tabs>
+</tabs:TabHostView>
+```
+
+### Badges on UnderlinedTabItem
+
+<p align="center">
+  <img src="Docs/underlined_tabs_badge.png" width="350" />
+</p>
+
+*SillyDudePage.xml from the Silly! app*
+
+```xml
+<tabs:TabHostView x:Name="TabHost"
+                    Grid.Row="4"
+                    Margin="-16,0,-16,30"
+                    BackgroundColor="{DynamicResource DynamicBottomBarBackground}"
+                    CornerRadius="20"
+                    Shades="{DynamicResource DynamicTabsShadow}"
+                    TabType="Fixed"
+                    SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
+    <tabs:TabHostView.Tabs>
+        <tabs:UnderlinedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Quote">
+            <tabs:UnderlinedTabItem.Badge>
+                <tabs:BadgeView BackgroundColor="{StaticResource Accent}"
+                                BadgePadding="6,2"
+                                FontFamily="{StaticResource FontExtraBold}"
+                                TextSize="12"
+                                Text="9" />
+            </tabs:UnderlinedTabItem.Badge>
+        </tabs:UnderlinedTabItem>
+        <tabs:UnderlinedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Movies">
+            <tabs:UnderlinedTabItem.Badge>
+                <tabs:BadgeView BackgroundColor="DodgerBlue"
+                                BadgePadding="6,1,6,2"
+                                Text="new" />
+            </tabs:UnderlinedTabItem.Badge>
+        </tabs:UnderlinedTabItem>
+        <tabs:UnderlinedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Meme">
+            <tabs:UnderlinedTabItem.Badge>
+                <tabs:BadgeView Margin="20,0"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                BackgroundColor="White"
+                                BorderColor="{StaticResource Accent}"
+                                TextColor="{StaticResource Accent}"
+                                Text="14" />
+            </tabs:UnderlinedTabItem.Badge>
+        </tabs:UnderlinedTabItem>
+    </tabs:TabHostView.Tabs>
+    </tabs:TabHostView>
+```
+
+### Properties
+
+<table>
+  <tr>
+    <td><b>Property</b></td>
+    <td><b>Description</b></td>
+    <td><b>Default</b></td>    
+  </tr>
+  <tr>
+    <td><code>Text</code></td>
+    <td>Sets the text for the badge text.<br>
+If it's an integer, the badge will be hidden if the value is 0.</td>
+    <td><code>string.Empty</code></td>
+  </tr>
+  <tr>
+    <td><code>TextSize</code></td>
+    <td>Sets the text size used for the badge text.</td>
+    <td><code>10</code></td>
+  </tr>
+  <tr>
+    <td><code>TextColor</code></td>
+    <td>Sets the text color used for the badge text.</td>
+    <td><code>Color.White</code></td>
+  </tr>
+  <tr>
+    <td><code>FontFamily</code></td>
+    <td>Sets the font family used for the badge text.</td>
+    <td><code>null</code></td>
+  </tr>
+  <tr>
+    <td><code>BadgePadding</code></td>
+    <td>Precisely adjust inner text margin.</td>
+    <td><code>new Thickness(4, 2)</code></td>
+  </tr>
+  <tr>
+    <td><code>ShowIndicator</code></td>
+    <td>Shows a small dot instead of the babdge.</td>
+    <td><code>false</code></td>
+  </tr>
+  <tr>
+    <td><code>BackgroundColor</code></td>
+    <td>Sets the background for the badge.</td>
+    <td><code>Color.Red</code></td>
+  </tr>
+  <tr>
+    <td><code>BorderColor</code></td>
+    <td>Sets a border color for the badge.</td>
+    <td><code>Transparent</code></td>
+  </tr>
+  <tr>
+    <td><code>Margin</code></td>
+    <td>Sets a precise margin for the badge.</td>
+    <td><code>10</code></td>
+  </tr>
+  <tr>
+    <td><code>HorizontalOptions</code></td>
+    <td>Sets the horizontal location of the badge.</td>
+    <td><code>LayoutOptions.End</code></td>
+  </tr>
+  <tr>
+    <td><code>VerticalOptions</code></td>
+    <td>Sets the vertical location of the badge.</td>
+    <td><code>LayoutOptions.Start</code></td>
+  </tr>
+</table>
+
 
 
 ## Custom SPAM tabs !
