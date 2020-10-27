@@ -13,10 +13,12 @@ Get it from NuGet:
 | :heavy_check_mark: UWP     |
 
 * Fully customizable
-* Stylable
+* Underlined tabs, bottom tabs, Segmented control, scrollable tabs
+* Badge on tabs
 * Component oriented architecture
-* Layout your tabs and ```ViewSwitcher``` as you want
-* Shadows included in `TabHost`
+* Layout your tabs and ViewSwitcher as you want
+* Shadows included in TabHost
+* Bindable
 
 <table>
   <thead>
@@ -110,6 +112,7 @@ Mandatory initializations on iOS:
 
     Xamarin.Forms.Forms.Init();
     Sharpnado.Tabs.Preserver.Preserve();
+    Sharpnado.Shades.iOS.iOSShadowsRenderer.Initialize();
 
 Mandatory initializations on UWP:
 

@@ -13,19 +13,21 @@
       <icon>images\logo_2_1.png</icon>
       <requireLicenseAcceptance>false</requireLicenseAcceptance>
       <repository type="git" branch="master" url="https://github.com/roubachof/Sharpnado.Tabs" />
-      <summary>Including fixed tabs, scrollable tabs, bottom tabs, segmented control, custom tabs, button tabs, ...</summary>
-      <tags>xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs</tags>
+      <summary>Including fixed tabs, scrollable tabs, bottom tabs, badge, segmented control, custom tabs, button tabs, ...</summary>
+      <tags>xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</tags>
       <releaseNotes>First release.</releaseNotes>
       <description>
 Pure Xamarin.Forms tabs:
-  * Fixed tabs (android tabs style)
+  * Fixed tabs (android tabs style)  
   * Scrollable tabs
   * Segmented tabs
   * Custom shadows (neumorphism ready)
+  * Badges on tabs
   * Circle button in tab bar
   * Bottom bar tabs (ios tabs style)
   * Custom tabs (be creative just implement TabItem)
   * Independent ViewSwitcher
+  * Bindable with ItemsSource
 
 --------------
  Installation
@@ -35,6 +37,7 @@ Pure Xamarin.Forms tabs:
 
     Xamarin.Forms.Forms.Init();
     Sharpnado.Tabs.Preserver.Preserve();
+    Sharpnado.Shades.iOS.iOSShadowsRenderer.Initialize();
 
 * Mandatory initialization on UWP:
 
