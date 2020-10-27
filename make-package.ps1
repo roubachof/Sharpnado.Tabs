@@ -1,12 +1,15 @@
 $formsVersion = "3.6.0.220655"
 
-$orgName = "$orgName"
+$orgName = "Sharpnado"
 $projectName = "Tabs"
 
 $netstandardProject = ".\$projectName\$projectName\$projectName.csproj"
 $droidProject = ".\$projectName\$projectName.Droid\$projectName.Droid.csproj"
 $iosProject = ".\$projectName\$projectName.iOS\$projectName.iOS.csproj"
 $uwpProject = ".\$projectName\$projectName.UWP\$projectName.UWP.csproj"
+
+$droidBin = ".\$projectName\$projectName.Droid\bin\Release"
+$droidObj = ".\$projectName\$projectName.Droid\obj\Release"
 
 rm *.txt
 
@@ -51,7 +54,7 @@ if ($LastExitCode -gt 0)
     return
 }
 
-$version = (Get-Item $projectName\bin\Release\netstandard2.0\$orgName.$projectName.dll).VersionInfo.FileVersion
+$version = (Get-Item $projectName\$projectName\bin\Release\netstandard2.0\$orgName.$projectName.dll).VersionInfo.FileVersion
 
 echo "  packaging $orgName.$projectName.nuspec (v$version)"
 nuget pack .\$orgName.$projectName.nuspec -Version $version

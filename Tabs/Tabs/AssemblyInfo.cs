@@ -8,9 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Reflection.AssemblyTitle("Tabs")]
+[assembly: System.Reflection.AssemblyTitle("Sharpnado.Tabs")]
 [assembly: System.Reflection.AssemblyCompany("Sharpnado")]
-[assembly: System.Reflection.AssemblyDescription("\"Pure\" Xamarin.Forms Tabs (no renderers).")]
+[assembly: System.Reflection.AssemblyDescription("\"Pure\" Xamarin.Forms Tabs (no renderers). Segmented control, bottombar tabs, unde" +
+    "rlined tabs, scrollable tabs, badges...")]
 [assembly: System.Reflection.AssemblyProduct("Tabs")]
 [assembly: System.Reflection.AssemblyCopyright("Copyright © Sharpnado 2020")]
 [assembly: System.Reflection.AssemblyVersion("2.0.0")]

@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <RootNamespace>Sharpnado.Tabs</RootNamespace>
+    <AssemblyName>Sharpnado.Tabs</AssemblyName>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 
@@ -43,3 +44,7 @@
   <Import Project="..\AssemblyInfo.targets" />
 
 </Project>
+
+
+
+
