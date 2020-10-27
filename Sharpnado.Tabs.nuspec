@@ -10,7 +10,7 @@
       <owners></owners>
       <projectUrl>https://github.com/roubachof/Sharpnado.Tabs</projectUrl>
       <license type="file">LICENSE</license>
-      <icon>images\tabs.png</icon>
+      <icon>images\logo_2_1.png</icon>
       <requireLicenseAcceptance>false</requireLicenseAcceptance>
       <repository type="git" branch="master" url="https://github.com/roubachof/Sharpnado.Tabs" />
       <summary>Including fixed tabs, scrollable tabs, bottom tabs, segmented control, custom tabs, button tabs, ...</summary>
@@ -101,7 +101,7 @@ Pure Xamarin.Forms tabs:
         <file src="Tabs\Tabs.UWP\bin\Release\Sharpnado.Tabs.pdb" target="lib\uap10.0.16299\Sharpnado.Tabs.pdb" />
 
         <!--Icon-->
-        <file src="Docs\Tabs.png" target="images\" />
+        <file src="Docs\logo_2_1.png" target="images\" />
 
         <!--License-->
         <file src="LICENSE" target="LICENSE" />
