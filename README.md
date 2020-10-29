@@ -127,7 +127,7 @@ public App()
 
 ```csharp
     Xamarin.Forms.Forms.Init();
-    Sharpnado.Tabs.Preserver.Preserve();
+    Sharpnado.Tabs.iOS.Preserver.Preserve();
     Sharpnado.Shades.iOS.iOSShadowsRenderer.Initialize();
 ```
 
