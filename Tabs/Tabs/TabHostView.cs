@@ -577,24 +577,13 @@ namespace Sharpnado.Tabs
         {
             InternalLogger.Debug(Tag, () => $"OnChildAdded( tabItem: {tabItem.GetType().Name}, index: {index} )");
 
+            _grid.BatchBegin();
             BatchBegin();
 
-            bool previousItemIsTab = _grid.Children.LastOrDefault() is TabItem;
+            int tabIndexInGrid = GetTabIndexInGrid(index);
 
-            if (previousItemIsTab && IsSegmented && SegmentedHasSeparator)
-            {
-                var separator = CreateSeparator();
-                _grid.Children.Add(separator);
-
-                _grid.ColumnDefinitions.Add(new ColumnDefinition { Width = separator.WidthRequest });
-
-                Grid.SetColumn(separator, index);
-                Grid.SetRow(separator, 0);
-            }
-
-            _grid.Children.Add(tabItem);
-
-            _grid.ColumnDefinitions.Add(new ColumnDefinition { Width = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
+            _grid.Children.Insert(tabIndexInGrid, tabItem);
+            _grid.ColumnDefinitions.Insert(tabIndexInGrid, new ColumnDefinition { Width = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
 
             if (TabType == TabType.Scrollable)
             {
@@ -611,7 +600,6 @@ namespace Sharpnado.Tabs
                 }
             }
 
-            Grid.SetColumn(tabItem, index);
             Grid.SetRow(tabItem, 0);
 
             RaiseTabButtons();
@@ -629,10 +617,38 @@ namespace Sharpnado.Tabs
 
             UpdateSelectableTabs();
 
-            ConsolidateColumnIndexes();
+            if (IsSegmented && SegmentedHasSeparator)
+            {
+                ConsolidateSeparatedColumnIndexes();
+            }
+            else
+            {
+                ConsolidateColumnIndexes();
+            }
+
             ConsolidateSelectedIndex();
 
             BatchCommit();
+            _grid.BatchCommit();
+        }
+
+        private int GetTabIndexInGrid(int index)
+        {
+            if (IsSegmented && SegmentedHasSeparator)
+            {
+                if (_grid.Children.Count == 0 || index == 0)
+                {
+                    return 0;
+                }
+
+                var previousElementAt = _grid.Children.Where(v => v is TabItem).ElementAtOrDefault(index - 1);
+                int indexInGrid = _grid.Children.IndexOf(previousElementAt) + 1;
+
+                InternalLogger.Debug(Tag, () => $"GetTabIndexInGrid() => indexInGrid: {indexInGrid}");
+                return indexInGrid;
+            }
+
+            return index;
         }
 
         private void OnChildRemoved(TabItem tabItem)
@@ -642,6 +658,7 @@ namespace Sharpnado.Tabs
                 return;
             }
 
+            _grid.BatchBegin();
             BatchBegin();
 
             if (TabType == TabType.Scrollable)
@@ -667,12 +684,20 @@ namespace Sharpnado.Tabs
 
             tabItem.PropertyChanged -= OnTabItemPropertyChanged;
 
-            UpdateSelectableTabs();
+            if (IsSegmented && SegmentedHasSeparator)
+            {
+                ConsolidateSeparatedColumnIndexes();
+            }
+            else
+            {
+                ConsolidateColumnIndexes();
+            }
 
-            ConsolidateColumnIndexes();
+            UpdateSelectableTabs();
             ConsolidateSelectedIndex();
 
             BatchCommit();
+            _grid.BatchCommit();
         }
 
         private void UpdateSelectableTabs()
@@ -682,10 +707,63 @@ namespace Sharpnado.Tabs
 
         private void ConsolidateColumnIndexes()
         {
-            for (int index = 0; index < Tabs.Count; index++)
+            int index = 0;
+            foreach (var tabItem in Tabs)
             {
-                var tabItem = Tabs[index];
-                Grid.SetColumn(tabItem, index);
+                Grid.SetColumn(tabItem, index++);
+            }
+        }
+
+        private void ConsolidateSeparatedColumnIndexes()
+        {
+            if (_grid.Children.FirstOrDefault() is BoxView)
+            {
+                _grid.Children.RemoveAt(0);
+                _grid.ColumnDefinitions.RemoveAt(0);
+            }
+
+            if (_grid.Children.LastOrDefault() is BoxView)
+            {
+                _grid.Children.RemoveAt(_grid.Children.Count - 1);
+                _grid.ColumnDefinitions.RemoveAt(_grid.Children.Count - 1);
+            }
+
+            int index = 0;
+            while (index < _grid.Children.Count)
+            {
+                var currentItem = _grid.Children[index];
+
+                bool previousItemIsTab = index > 0 && _grid.Children[index - 1] is TabItem;
+                bool currentItemIsTab = currentItem is TabItem;
+
+                if (previousItemIsTab && currentItemIsTab)
+                {
+                    var separator = CreateSeparator();
+
+                    _grid.ColumnDefinitions.Insert(index, new ColumnDefinition { Width = separator.WidthRequest });
+                    _grid.Children.Insert(index, separator);
+
+                    Grid.SetColumn(separator, index);
+                    Grid.SetRow(separator, 0);
+
+                    index++;
+
+                    continue;
+                }
+
+                bool previousItemIsSeparator = index > 0 && _grid.Children[index - 1] is BoxView;
+                bool currentItemIsSeparator = currentItem is BoxView;
+
+                if (previousItemIsSeparator && currentItemIsSeparator)
+                {
+                    _grid.Children.Remove(currentItem);
+                    _grid.ColumnDefinitions.RemoveAt(index);
+
+                    continue;
+                }
+
+                Grid.SetColumn(currentItem, index);
+                index++;
             }
         }
 

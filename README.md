@@ -117,7 +117,6 @@ public App()
 {
     InitializeComponent();
 
-    Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
     Sharpnado.Tabs.Initializer.Initialize(loggerEnable: false);
     ...
 }
@@ -128,7 +127,6 @@ public App()
 ```csharp
     Xamarin.Forms.Forms.Init();
     Sharpnado.Tabs.iOS.Preserver.Preserve();
-    Sharpnado.Shades.iOS.iOSShadowsRenderer.Initialize();
 ```
 
 * Mandatory initializations on UWP:
