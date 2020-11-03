@@ -108,7 +108,7 @@ If you want to know how to use them, it's the best place to start.
 
 Because Tabs uses platform-specific effects like tinted images and tap feedback color, you must install the nuget package in all your targeted platforms projects (netstandard, ios, android, uwp).
 
-* On Core project in `App.xaml.cs`:
+* In Core project in `App.xaml.cs`:
 
 For the namespace xaml schema to work (remove duplicates xml namespace: [see this xamarin doc](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/custom-namespace-schemas)), you need to call tabs and shadows initializers from the `App.xaml.cs` file like this:
 

@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <Copyright>Copyright © Sharpnado 2020</Copyright>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <Company>Sharpnado</Company>
     <Product>Tabs</Product>
     <Description>"Pure" Xamarin.Forms Tabs (no renderers). Segmented control, bottombar tabs, underlined tabs, scrollable tabs, badges...</Description>
