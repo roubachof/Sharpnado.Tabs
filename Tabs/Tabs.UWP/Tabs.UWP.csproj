@@ -136,7 +136,7 @@
       <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>4.7.0.1351</Version>
+      <Version>4.8.0.1687</Version>
     </PackageReference>
     <PackageReference Include="MSBuildTasks" Version="1.5.0.235">
       <PrivateAssets>all</PrivateAssets>

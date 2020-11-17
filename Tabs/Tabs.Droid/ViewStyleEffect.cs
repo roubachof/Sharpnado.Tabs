@@ -8,7 +8,6 @@ using System.Linq;
 
 using Android.Animation;
 using Android.Content.Res;
-using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
@@ -22,6 +21,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 using Color = Xamarin.Forms.Color;
+using Rect = Android.Graphics.Rect;
 using View = Android.Views.View;
 
 [assembly: ExportEffect(typeof(ViewStyleDroidEffect), nameof(ViewStyleEffect))]
