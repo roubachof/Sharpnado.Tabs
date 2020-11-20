@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -986,6 +985,17 @@ namespace Sharpnado.Tabs
 
             _grid.BatchBegin();
             BatchBegin();
+
+            if (_grid.RowDefinitions.Count() != 0)
+            {
+                _grid.RowDefinitions.Clear();
+            }
+
+            if (_grid.ColumnDefinitions.Count() != 0)
+            {
+                _grid.ColumnDefinitions.Clear();
+            }
+
             int index = 0;
             foreach (var tabItem in Tabs)
             {
@@ -993,11 +1003,6 @@ namespace Sharpnado.Tabs
 
                 if (Orientation == OrientationType.Horizontal)
                 {
-                    if (_grid.RowDefinitions.Count() != 0)
-                    {
-                        _grid.RowDefinitions.Clear();
-                    }
-
                     _grid.ColumnDefinitions.Insert(tabIndexInGrid, new ColumnDefinition { Width = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
 
                     if (TabType == TabType.Scrollable)
@@ -1019,11 +1024,6 @@ namespace Sharpnado.Tabs
                 }
                 else
                 {
-                    if (_grid.ColumnDefinitions.Count() != 0)
-                    {
-                        _grid.ColumnDefinitions.Clear();
-                    }
-
                     _grid.RowDefinitions.Insert(tabIndexInGrid, new RowDefinition { Height = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
 
                     if (TabType == TabType.Scrollable)
@@ -1069,11 +1069,11 @@ namespace Sharpnado.Tabs
                 }
 
                 ConsolidateSelectedIndex();
-
-                BatchCommit();
-                _grid.BatchCommit();
                 index++;
             }
+
+            BatchCommit();
+            _grid.BatchCommit();
         }
     }
 }
