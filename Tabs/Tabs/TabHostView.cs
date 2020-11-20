@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -18,6 +19,12 @@ namespace Sharpnado.Tabs
     {
         Fixed = 0,
         Scrollable,
+    }
+
+    public enum OrientationType
+    {
+        Horizontal = 0,
+        Vertical,
     }
 
     [ContentProperty("TabHostContent")]
@@ -74,6 +81,13 @@ namespace Sharpnado.Tabs
             defaultValue: -1,
             propertyChanged: SelectedIndexPropertyChanged);
 
+        public static readonly BindableProperty OrientationProperty = BindableProperty.Create(
+            nameof(Orientation),
+            typeof(OrientationType),
+            typeof(TabHostView),
+            defaultValue: OrientationType.Horizontal,
+            propertyChanged: OrientationPropertyChanged);
+
         public static readonly new BindableProperty BackgroundColorProperty = BindableProperty.Create(
             nameof(BackgroundColor),
             typeof(Color),
@@ -91,6 +105,8 @@ namespace Sharpnado.Tabs
         private ScrollView _scrollView;
 
         private ColumnDefinition _lastFillingColumn;
+
+        private RowDefinition _lastFillingRow;
 
         public TabHostView()
         {
@@ -182,6 +198,12 @@ namespace Sharpnado.Tabs
             set => SetValue(SelectedIndexProperty, value);
         }
 
+        public OrientationType Orientation
+        {
+            get => (OrientationType)GetValue(OrientationProperty);
+            set => SetValue(OrientationProperty, value);
+        }
+
         public new Color BackgroundColor
         {
             get => (Color)GetValue(BackgroundColorProperty);
@@ -268,6 +290,15 @@ namespace Sharpnado.Tabs
 
             tabHostView.UpdateSelectedIndex(selectedIndex);
             tabHostView.RaiseSelectedTabIndexChanged(new SelectedPositionChangedEventArgs(selectedIndex));
+        }
+
+        private static void OrientationPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
+            if (oldvalue != newvalue)
+            {
+                var tabHostView = (TabHostView)bindable;
+                tabHostView.UpdateTabOrientation();
+            }
         }
 
         private void InitializeItems()
@@ -432,7 +463,17 @@ namespace Sharpnado.Tabs
             }
         }
 
-        private BoxView CreateSeparator() => new BoxView { BackgroundColor = SegmentedOutlineColor, WidthRequest = 1 };
+        private BoxView CreateSeparator()
+        {
+            if (Orientation == OrientationType.Horizontal)
+            {
+                return new BoxView { BackgroundColor = SegmentedOutlineColor, WidthRequest = 1 };
+            }
+            else
+            {
+                return new BoxView { BackgroundColor = SegmentedOutlineColor, HeightRequest = 1 };
+            }
+        }
 
         private void UpdateSelectedIndex(int selectedIndex)
         {
@@ -452,7 +493,6 @@ namespace Sharpnado.Tabs
             }
 
             SelectedIndex = selectedIndex;
-
             InternalLogger.Debug(Tag, () => $"SelectedIndex: {SelectedIndex}");
         }
 
@@ -487,7 +527,7 @@ namespace Sharpnado.Tabs
             {
                 base.Content = _scrollView ??= new ScrollView
                 {
-                    Orientation = ScrollOrientation.Horizontal,
+                    Orientation = this.Orientation == OrientationType.Horizontal ? ScrollOrientation.Horizontal : ScrollOrientation.Vertical,
                     HorizontalScrollBarVisibility =
                         ShowScrollbar ? ScrollBarVisibility.Always : ScrollBarVisibility.Never,
                 };
@@ -501,9 +541,19 @@ namespace Sharpnado.Tabs
                     _scrollView.Content = _grid;
                 }
 
-                foreach (var definition in _grid.ColumnDefinitions)
+                if (Orientation == OrientationType.Horizontal)
                 {
-                    definition.Width = GridLength.Auto;
+                    foreach (var definition in _grid.ColumnDefinitions)
+                    {
+                        definition.Width = GridLength.Auto;
+                    }
+                }
+                else
+                {
+                    foreach (var definition in _grid.RowDefinitions)
+                    {
+                        definition.Height = GridLength.Star;
+                    }
                 }
             }
             else
@@ -517,9 +567,19 @@ namespace Sharpnado.Tabs
                     base.Content = _grid;
                 }
 
-                foreach (var definition in _grid.ColumnDefinitions)
+                if (Orientation == OrientationType.Horizontal)
                 {
-                    definition.Width = GridLength.Star;
+                    foreach (var definition in _grid.ColumnDefinitions)
+                    {
+                        definition.Width = GridLength.Star;
+                    }
+                }
+                else
+                {
+                    foreach (var definition in _grid.RowDefinitions)
+                    {
+                        definition.Height = GridLength.Star;
+                    }
                 }
             }
 
@@ -583,24 +643,48 @@ namespace Sharpnado.Tabs
             int tabIndexInGrid = GetTabIndexInGrid(index);
 
             _grid.Children.Insert(tabIndexInGrid, tabItem);
-            _grid.ColumnDefinitions.Insert(tabIndexInGrid, new ColumnDefinition { Width = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
-
-            if (TabType == TabType.Scrollable)
+            if (Orientation == OrientationType.Horizontal)
             {
-                if (Tabs.Count == 1)
-                {
-                    // Add a last empty slot to fill remaining space
-                    _lastFillingColumn = new ColumnDefinition { Width = GridLength.Star };
-                    _grid.ColumnDefinitions.Add(_lastFillingColumn);
-                }
-                else
-                {
-                    _grid.ColumnDefinitions.Remove(_lastFillingColumn);
-                    _grid.ColumnDefinitions.Add(_lastFillingColumn);
-                }
-            }
+                _grid.ColumnDefinitions.Insert(tabIndexInGrid, new ColumnDefinition { Width = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
 
-            Grid.SetRow(tabItem, 0);
+                if (TabType == TabType.Scrollable)
+                {
+                    if (Tabs.Count == 1)
+                    {
+                        // Add a last empty slot to fill remaining space
+                        _lastFillingColumn = new ColumnDefinition { Width = GridLength.Star };
+                        _grid.ColumnDefinitions.Add(_lastFillingColumn);
+                    }
+                    else
+                    {
+                        _grid.ColumnDefinitions.Remove(_lastFillingColumn);
+                        _grid.ColumnDefinitions.Add(_lastFillingColumn);
+                    }
+                }
+
+                Grid.SetRow(tabItem, 0);
+            }
+            else
+            {
+                _grid.RowDefinitions.Insert(tabIndexInGrid, new RowDefinition { Height = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
+
+                if (TabType == TabType.Scrollable)
+                {
+                    if (Tabs.Count == 1)
+                    {
+                        // Add a last empty slot to fill remaining space
+                        _lastFillingRow = new RowDefinition { Height = GridLength.Star };
+                        _grid.RowDefinitions.Add(_lastFillingRow);
+                    }
+                    else
+                    {
+                        _grid.RowDefinitions.Remove(_lastFillingRow);
+                        _grid.RowDefinitions.Add(_lastFillingRow);
+                    }
+                }
+
+                Grid.SetColumn(tabItem, 0);
+            }
 
             RaiseTabButtons();
 
@@ -710,7 +794,14 @@ namespace Sharpnado.Tabs
             int index = 0;
             foreach (var tabItem in Tabs)
             {
-                Grid.SetColumn(tabItem, index++);
+                if (Orientation == OrientationType.Horizontal)
+                {
+                    Grid.SetColumn(tabItem, index++);
+                }
+                else
+                {
+                    Grid.SetRow(tabItem, index++);
+                }
             }
         }
 
@@ -719,13 +810,27 @@ namespace Sharpnado.Tabs
             if (_grid.Children.FirstOrDefault() is BoxView)
             {
                 _grid.Children.RemoveAt(0);
-                _grid.ColumnDefinitions.RemoveAt(0);
+                if (Orientation == OrientationType.Horizontal)
+                {
+                    _grid.ColumnDefinitions.RemoveAt(0);
+                }
+                else
+                {
+                    _grid.RowDefinitions.RemoveAt(0);
+                }
             }
 
             if (_grid.Children.LastOrDefault() is BoxView)
             {
                 _grid.Children.RemoveAt(_grid.Children.Count - 1);
-                _grid.ColumnDefinitions.RemoveAt(_grid.Children.Count - 1);
+                if (Orientation == OrientationType.Horizontal)
+                {
+                    _grid.ColumnDefinitions.RemoveAt(_grid.Children.Count - 1);
+                }
+                else
+                {
+                    _grid.RowDefinitions.RemoveAt(_grid.Children.Count - 1);
+                }
             }
 
             int index = 0;
@@ -739,12 +844,27 @@ namespace Sharpnado.Tabs
                 if (previousItemIsTab && currentItemIsTab)
                 {
                     var separator = CreateSeparator();
+                    if (Orientation == OrientationType.Horizontal)
+                    {
+                        _grid.ColumnDefinitions.Insert(index, new ColumnDefinition { Width = separator.WidthRequest });
+                    }
+                    else
+                    {
+                        _grid.RowDefinitions.Insert(index, new RowDefinition { Height = separator.Height });
+                    }
 
-                    _grid.ColumnDefinitions.Insert(index, new ColumnDefinition { Width = separator.WidthRequest });
                     _grid.Children.Insert(index, separator);
 
-                    Grid.SetColumn(separator, index);
-                    Grid.SetRow(separator, 0);
+                    if (Orientation == OrientationType.Horizontal)
+                    {
+                        Grid.SetColumn(separator, index);
+                        Grid.SetRow(separator, 0);
+                    }
+                    else
+                    {
+                        Grid.SetRow(separator, index);
+                        Grid.SetColumn(separator, 0);
+                    }
 
                     index++;
 
@@ -757,12 +877,27 @@ namespace Sharpnado.Tabs
                 if (previousItemIsSeparator && currentItemIsSeparator)
                 {
                     _grid.Children.Remove(currentItem);
-                    _grid.ColumnDefinitions.RemoveAt(index);
+                    if (Orientation == OrientationType.Horizontal)
+                    {
+                        _grid.ColumnDefinitions.RemoveAt(index);
+                    }
+                    else
+                    {
+                        _grid.RowDefinitions.RemoveAt(index);
+                    }
 
                     continue;
                 }
 
-                Grid.SetColumn(currentItem, index);
+                if (Orientation == OrientationType.Horizontal)
+                {
+                    Grid.SetColumn(currentItem, index);
+                }
+                else
+                {
+                    Grid.SetRow(currentItem, index);
+                }
+
                 index++;
             }
         }
@@ -817,9 +952,18 @@ namespace Sharpnado.Tabs
 
         private void UpdateTabVisibility(TabItem tabItem)
         {
-            int columnIndex = Grid.GetColumn(tabItem);
-            var columnDefinition = _grid.ColumnDefinitions[columnIndex];
-            columnDefinition.Width = tabItem.IsVisible ? GridLength.Star : 0;
+            if (Orientation == OrientationType.Horizontal)
+            {
+                int columnIndex = Grid.GetColumn(tabItem);
+                var columnDefinition = _grid.ColumnDefinitions[columnIndex];
+                columnDefinition.Width = tabItem.IsVisible ? GridLength.Star : 0;
+            }
+            else
+            {
+                int rowIndex = Grid.GetRow(tabItem);
+                var rowDefinition = _grid.RowDefinitions[rowIndex];
+                rowDefinition.Height = tabItem.IsVisible ? GridLength.Star : 0;
+            }
         }
 
         private void RaiseSelectedTabIndexChanged(SelectedPositionChangedEventArgs e)
@@ -833,6 +977,102 @@ namespace Sharpnado.Tabs
             {
                 // We always want our TabButton with the highest Z-index
                 _grid.RaiseChild(tabButton);
+            }
+        }
+
+        private void UpdateTabOrientation()
+        {
+            InternalLogger.Debug(Tag, () => $"UpdateTabOrientation() => OrientationType: {Orientation}");
+
+            _grid.BatchBegin();
+            BatchBegin();
+            int index = 0;
+            foreach (var tabItem in Tabs)
+            {
+                int tabIndexInGrid = GetTabIndexInGrid(index);
+
+                if (Orientation == OrientationType.Horizontal)
+                {
+                    if (_grid.RowDefinitions.Count() != 0)
+                    {
+                        _grid.RowDefinitions.Clear();
+                    }
+
+                    _grid.ColumnDefinitions.Insert(tabIndexInGrid, new ColumnDefinition { Width = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
+
+                    if (TabType == TabType.Scrollable)
+                    {
+                        if (Tabs.Count == 1)
+                        {
+                            // Add a last empty slot to fill remaining space
+                            _lastFillingColumn = new ColumnDefinition { Width = GridLength.Star };
+                            _grid.ColumnDefinitions.Add(_lastFillingColumn);
+                        }
+                        else
+                        {
+                            _grid.ColumnDefinitions.Remove(_lastFillingColumn);
+                            _grid.ColumnDefinitions.Add(_lastFillingColumn);
+                        }
+                    }
+
+                    Grid.SetRow(tabItem, 0);
+                }
+                else
+                {
+                    if (_grid.ColumnDefinitions.Count() != 0)
+                    {
+                        _grid.ColumnDefinitions.Clear();
+                    }
+
+                    _grid.RowDefinitions.Insert(tabIndexInGrid, new RowDefinition { Height = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto });
+
+                    if (TabType == TabType.Scrollable)
+                    {
+                        if (Tabs.Count == 1)
+                        {
+                            // Add a last empty slot to fill remaining space
+                            _lastFillingRow = new RowDefinition { Height = GridLength.Star };
+                            _grid.RowDefinitions.Add(_lastFillingRow);
+                        }
+                        else
+                        {
+                            _grid.RowDefinitions.Remove(_lastFillingRow);
+                            _grid.RowDefinitions.Add(_lastFillingRow);
+                        }
+                    }
+
+                    Grid.SetColumn(tabItem, 0);
+                }
+
+                RaiseTabButtons();
+
+                if (tabItem.IsSelectable)
+                {
+                    AddTapCommand(tabItem);
+                }
+
+                if (TabType == TabType.Fixed)
+                {
+                    tabItem.PropertyChanged += OnTabItemPropertyChanged;
+                    UpdateTabVisibility(tabItem);
+                }
+
+                UpdateSelectableTabs();
+
+                if (IsSegmented && SegmentedHasSeparator)
+                {
+                    ConsolidateSeparatedColumnIndexes();
+                }
+                else
+                {
+                    ConsolidateColumnIndexes();
+                }
+
+                ConsolidateSelectedIndex();
+
+                BatchCommit();
+                _grid.BatchCommit();
+                index++;
             }
         }
     }
