@@ -850,7 +850,7 @@ namespace Sharpnado.Tabs
                     }
                     else
                     {
-                        _grid.RowDefinitions.Insert(index, new RowDefinition { Height = separator.Height });
+                        _grid.RowDefinitions.Insert(index, new RowDefinition { Height = separator.HeightRequest });
                     }
 
                     _grid.Children.Insert(index, separator);
@@ -862,8 +862,8 @@ namespace Sharpnado.Tabs
                     }
                     else
                     {
-                        Grid.SetRow(separator, index);
                         Grid.SetColumn(separator, 0);
+                        Grid.SetRow(separator, index);
                     }
 
                     index++;
