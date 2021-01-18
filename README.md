@@ -117,7 +117,7 @@ public App()
 {
     InitializeComponent();
 
-    Sharpnado.Tabs.Initializer.Initialize(loggerEnable: false);
+    Sharpnado.Tabs.Initializer.Initialize(false, false);
     Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
     ...
 }
