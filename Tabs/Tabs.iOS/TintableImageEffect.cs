@@ -71,6 +71,13 @@ namespace Sharpnado.Tabs.iOS
             {
                 return;
             }
+            
+            if (effect.TintColor.IsDefault)
+            {
+	            color = UIDevice.CurrentDevice.CheckSystemVersion(13, 0)
+		            ? UIColor.LabelColor
+		            : UIColor.Black;
+            }
 
             Control.TintColor = color;
 
