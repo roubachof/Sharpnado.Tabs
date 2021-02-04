@@ -29,6 +29,7 @@
             <BoxView x:Name="Underline"
                      HeightRequest="0"
                      Margin="0,0"
+                     HorizontalOptions="Center"
                      VerticalOptions="End"
                      BackgroundColor="Transparent">
                 <BoxView.Triggers>
@@ -36,11 +37,13 @@
                                  TargetType="BoxView"
                                  Value="true">
                         <Setter Property="BackgroundColor" Value="{Binding Source={x:Reference RootLayout}, Path=SelectedTabColor}" />
-                        <Setter Property="HeightRequest" Value="3" />
+                        <Setter Property="HeightRequest" Value="{Binding Source={x:Reference RootLayout}, Path=UnderlineHeight}" />
                     </DataTrigger>
                 </BoxView.Triggers>
             </BoxView>
-            <Label Style="{StaticResource TabTextHeader}"
+            <Label x:Name="InnerLabel"
+                   Style="{StaticResource TabTextHeader}"
+                   HorizontalOptions="Center"
                    FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
                    FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
                    Text="{Binding Source={x:Reference RootLayout}, Path=Label}"

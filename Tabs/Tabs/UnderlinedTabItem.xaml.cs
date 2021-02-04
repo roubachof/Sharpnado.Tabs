@@ -15,17 +15,30 @@ namespace Sharpnado.Tabs
             typeof(TabTextItem),
             true);
 
+        public static readonly BindableProperty UnderlineHeightProperty = BindableProperty.Create(
+            nameof(UnderlineHeight),
+            typeof(double),
+            typeof(TabTextItem),
+            3d);
+
         public UnderlinedTabItem()
         {
             InitializeComponent();
 
             LabelSize = 14;
+            InnerLabel.PropertyChanged += InnerLabelPropertyChanged;
         }
 
         public bool UnderlineAllTab
         {
             get => (bool)GetValue(UnderlineAllTabProperty);
             set => SetValue(UnderlineAllTabProperty, value);
+        }
+
+        public double UnderlineHeight
+        {
+            get => (double)GetValue(UnderlineHeightProperty);
+            set => SetValue(UnderlineHeightProperty, value);
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -57,6 +70,14 @@ namespace Sharpnado.Tabs
             }
 
             Grid.Children.Add(Badge);
+        }
+
+        private void InnerLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Width) && InnerLabel.Width > 1)
+            {
+                Underline.WidthRequest = !UnderlineAllTab ? InnerLabel.Width : Width;
+            }
         }
 
         private void UpdateUnderlineAllTab()
