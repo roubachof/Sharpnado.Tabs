@@ -96,6 +96,22 @@ Get it from NuGet:
   </tbody>
 </table>
 
+<table>
+  <thead>
+    <tr>      
+      <th>Vertical Tabs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="Docs/vertical_tabs.png" width="600" /></td>
+    </tr>
+    <tr>
+      <td>Orientation="Vertical"</td>
+    </tr>
+  </tbody>
+</table>
+
 ## Sample app
 
 The tabs components are presented in the Silly! app in the following repository:
@@ -384,6 +400,34 @@ public enum TabType
     Scrollable,
 }
 ```
+
+## Vertical tabs
+
+Contributor: @nor0x (Joachim Leonfellner)
+
+Since version 2.1, you can change the orientation of the tabs to achieve vertical tabs.
+It could be pretty convenient for landscape or tablet layout.
+
+```xml
+<sho:TabHostView x:Name="TabHostLogo"
+    Grid.Row="3"
+    WidthRequest="200"
+    HeightRequest="60"
+    Margin="15"
+    Padding="20,0"
+    HorizontalOptions="Center"
+    VerticalOptions="Start"
+    BackgroundColor="{DynamicResource DynamicBottomBarBackground}"
+    CornerRadius="30"
+    IsSegmented="True"
+    Orientation="Horizontal"
+    Shades="{DynamicResource DynamicBottomTabsShadow}"
+    TabType="Fixed">
+```
+
+You can find in the silly app (https://github.com/roubachof/Xamarin-Forms-Practices/blob/master/SillyCompany.Mobile.Practices/Presentation/Views/TabsLayout/SillyBottomTabsPage.xaml.cs) an example of dynamically adapting tabs orientation while switching from portrait to landscape:
+
+![vertical tabs gif](Docs/vertical_tabs.gif)
 
 ## Segmented control
 

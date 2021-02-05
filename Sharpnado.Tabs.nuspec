@@ -4,7 +4,7 @@
 
       <id>Sharpnado.Tabs</id>
       <version>$version$</version>
-      <copyright>Sharpnado 2020</copyright>
+      <copyright>Sharpnado 2021</copyright>
       <title>"Pure" Xamarin.Forms Tabs (no renderers)</title>
       <authors>Jean-Marie Alfonsi</authors>
       <owners></owners>
@@ -15,11 +15,12 @@
       <repository type="git" branch="master" url="https://github.com/roubachof/Sharpnado.Tabs" />
       <summary>Including fixed tabs, scrollable tabs, bottom tabs, badge, segmented control, custom tabs, button tabs, ...</summary>
       <tags>xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</tags>
-      <releaseNotes>Fix a spacing issue with segmented tabs.</releaseNotes>
+      <releaseNotes>Add Orientation property to support vertical tabs.</releaseNotes>
       <description>
 Pure Xamarin.Forms tabs:
   * Fixed tabs (android tabs style)  
   * Scrollable tabs
+  * Vertical tabs
   * Segmented tabs
   * Custom shadows (neumorphism ready)
   * Badges on tabs
