@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
+using Sharpnado.Tabs.Effects;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -41,6 +43,7 @@ namespace Sharpnado.Tabs
             LabelSize = 12;
 
             UpdateTextVisibility();
+            UpdateColors();
         }
 
         [TypeConverter(typeof(ImageSourceConverter))]
@@ -82,6 +85,13 @@ namespace Sharpnado.Tabs
                 case nameof(IsTextVisible):
                     UpdateTextVisibility();
                     break;
+
+                case nameof(UnselectedLabelColor):
+                case nameof(UnselectedIconColor):
+                case nameof(SelectedTabColor):
+                case nameof(IsSelected):
+                    UpdateColors();
+                    break;
             }
         }
 
@@ -109,6 +119,12 @@ namespace Sharpnado.Tabs
                 TextRowDefinition.Height = new GridLength(0);
                 Icon.VerticalOptions = LayoutOptions.Center;
             }
+        }
+
+        private void UpdateColors()
+        {
+            IconText.TextColor = IsSelected ? SelectedTabColor : UnselectedLabelColor;
+            ImageEffect.SetTintColor(Icon, IsSelected ? SelectedTabColor : UnselectedIconColor);
         }
     }
 }

@@ -58,6 +58,12 @@ namespace Sharpnado.Tabs
                 case nameof(UnderlineAllTab):
                     UpdateUnderlineAllTab();
                     break;
+
+                case nameof(UnselectedLabelColor):
+                case nameof(SelectedTabColor):
+                case nameof(IsSelected):
+                    UpdateColors();
+                    break;
             }
         }
 
@@ -99,6 +105,12 @@ namespace Sharpnado.Tabs
             Underline.Margin = UnderlineAllTab
                 ? new Thickness(Underline.Margin.Left - Margin.Left, 0, Underline.Margin.Right - Margin.Right, 0)
                 : new Thickness(0);
+        }
+
+        private void UpdateColors()
+        {
+            InnerLabel.TextColor = IsSelected ? SelectedTabColor : UnselectedLabelColor;
+            Underline.Color = SelectedTabColor;
         }
     }
 }
