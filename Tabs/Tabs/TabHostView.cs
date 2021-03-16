@@ -760,6 +760,7 @@ namespace Sharpnado.Tabs
             {
                 _grid.Children.RemoveAt(tabItemIndex - 1);
                 _grid.ColumnDefinitions.RemoveAt(tabItemIndex - 1);
+                tabItemIndex--;
             }
 
             _grid.Children.RemoveAt(tabItemIndex);
