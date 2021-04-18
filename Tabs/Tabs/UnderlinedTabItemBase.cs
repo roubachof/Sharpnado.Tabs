@@ -20,7 +20,6 @@ namespace Sharpnado.Tabs
         public UnderlinedTabItemBase()
         {
             LabelSize = 14;
-            InnerLabelImpl.PropertyChanged += InnerLabelPropertyChanged;
         }
 
         public bool UnderlineAllTab
@@ -78,7 +77,7 @@ namespace Sharpnado.Tabs
             GridImpl.Children.Add(Badge);
         }
 
-        private void InnerLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        protected void InnerLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Width) && InnerLabelImpl.Width > 1)
             {

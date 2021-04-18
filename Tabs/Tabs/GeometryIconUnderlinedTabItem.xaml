@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<tabs:UnderlinedTabItemBase 
+    x:Class="Sharpnado.Tabs.GeometryIconUnderlinedTabItem"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:tabs="clr-namespace:Sharpnado.Tabs"
+    x:Name="RootLayout">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Color x:Key="HeaderTextColor">#acacac</Color>
+
+            <Style x:Key="TabTextHeader" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource HeaderTextColor}" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Grid x:Name="Grid" BackgroundColor="Transparent">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Path x:Name="IconPath"
+                  HorizontalOptions="Center"
+                  Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}"
+                  Fill="Black" />
+
+            <BoxView
+                x:Name="Underline"
+                Grid.Row="1"
+                Margin="0,0"
+                BackgroundColor="Transparent"
+                HeightRequest="0"
+                HorizontalOptions="Center"
+                VerticalOptions="End">
+                <BoxView.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference RootLayout}, Path=IsSelected}"
+                        TargetType="BoxView"
+                        Value="true">
+                        <Setter Property="HeightRequest" Value="{Binding Source={x:Reference RootLayout}, Path=UnderlineHeight}" />
+                    </DataTrigger>
+                </BoxView.Triggers>
+            </BoxView>
+            <Label
+                x:Name="InnerLabel"
+                Grid.Row="1"
+                FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
+                FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
+                HorizontalOptions="Center"
+                Style="{StaticResource TabTextHeader}"
+                Text="{Binding Source={x:Reference RootLayout}, Path=Label}" />
+        </Grid>
+    </ContentView.Content>
+</tabs:UnderlinedTabItemBase>
