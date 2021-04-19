@@ -14,6 +14,18 @@ namespace Sharpnado.Tabs
            typeof(TabTextItem),
            null);
 
+        public static readonly BindableProperty FillProperty = BindableProperty.Create(
+           nameof(Fill),
+           typeof(bool),
+           typeof(TabTextItem),
+           false);
+
+        public static readonly BindableProperty StrokeThicknessProperty = BindableProperty.Create(
+           nameof(StrokeThickness),
+           typeof(double),
+           typeof(TabTextItem),
+           1.0);
+
         public GeometryIconUnderlinedTabItem()
         {
             InitializeComponent();
@@ -26,6 +38,18 @@ namespace Sharpnado.Tabs
         {
             get => (Geometry)GetValue(GeometryIconProperty);
             set => SetValue(GeometryIconProperty, value);
+        }
+
+        public bool Fill
+        {
+            get => (bool)GetValue(FillProperty);
+            set => SetValue(FillProperty, value);
+        }
+
+        public double StrokeThickness
+        {
+            get => (double)GetValue(StrokeThicknessProperty);
+            set => SetValue(StrokeThicknessProperty, value);
         }
 
         protected override Label InnerLabelImpl => InnerLabel;
@@ -43,6 +67,8 @@ namespace Sharpnado.Tabs
                 case nameof(UnselectedLabelColor):
                 case nameof(SelectedTabColor):
                 case nameof(IsSelected):
+                case nameof(StrokeThickness):
+                case nameof(Fill):
                 case nameof(GeometryIcon):
                     UpdateGeometryIcon();
                     break;
@@ -51,10 +77,17 @@ namespace Sharpnado.Tabs
 
         private void UpdateGeometryIcon()
         {
-            if (IconPath != null)
+            var brush = new SolidColorBrush(IsSelected ? SelectedTabColor : UnselectedLabelColor);
+            if (Fill)
             {
-                IconPath.Data = GeometryIcon;
-                IconPath.Fill = new SolidColorBrush(IsSelected ? SelectedTabColor : UnselectedLabelColor);
+                IconPath.Fill = brush;
+                IconPath.Stroke = null;
+            }
+            else
+            {
+                IconPath.Fill = null;
+                IconPath.Stroke = brush;
+                IconPath.StrokeThickness = StrokeThickness;
             }
         }
     }

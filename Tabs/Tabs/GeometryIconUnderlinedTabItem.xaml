@@ -21,7 +21,7 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Grid x:Name="Grid" BackgroundColor="Transparent">
+        <Grid x:Name="Grid" BackgroundColor="Transparent" RowSpacing="0">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -30,8 +30,7 @@
 
             <Path x:Name="IconPath"
                   HorizontalOptions="Center"
-                  Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}"
-                  Fill="Transparent" />
+                  Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}" />
 
             <BoxView
                 x:Name="Underline"
