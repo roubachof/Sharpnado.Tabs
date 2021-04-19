@@ -32,6 +32,9 @@
     <EmbeddedResource Update="BottomTabItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="ImageIconUnderlinedTabItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="GeometryIconUnderlinedTabItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -45,6 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ImageIconUnderlinedTabItem.xaml.cs">
+      <DependentUpon>ImageIconUnderlinedTabItem.xaml</DependentUpon>
+    </Compile>
     <Compile Update="GeometryIconUnderlinedTabItem.xaml.cs">
       <DependentUpon>GeometryIconUnderlinedTabItem.xaml</DependentUpon>
     </Compile>

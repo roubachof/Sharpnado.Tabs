@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 
 <tabs:UnderlinedTabItemBase 
-    x:Class="Sharpnado.Tabs.GeometryIconUnderlinedTabItem"
+    x:Class="Sharpnado.Tabs.ImageIconUnderlinedTabItem"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:tabs="clr-namespace:Sharpnado.Tabs"
@@ -10,6 +10,11 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <Color x:Key="HeaderTextColor">#acacac</Color>
+
+            <Style x:Key="TabIcon" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
 
             <Style x:Key="TabTextHeader" TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource HeaderTextColor}" />
@@ -21,17 +26,23 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Grid x:Name="Grid" BackgroundColor="Transparent">
+        <Grid
+            x:Name="Grid"
+            BackgroundColor="Transparent"
+            ColumnSpacing="0"
+            RowSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="8*" />
+                <RowDefinition x:Name="TextRowDefinition" Height="5*" />
             </Grid.RowDefinitions>
 
-            <Path x:Name="IconPath"
-                  HorizontalOptions="Center"
-                  Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}"
-                  Fill="Transparent" />
+            <Image
+                x:Name="Icon"
+                HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
+                Source="{Binding Source={x:Reference RootLayout}, Path=IconImageSource}"
+                Style="{StaticResource TabIcon}"
+                WidthRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}" />
 
             <BoxView
                 x:Name="Underline"
