@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 
-<tabs:UnderlinedTabItemBase 
+<tabs:UnderlinedTabItemBase
     x:Class="Sharpnado.Tabs.GeometryIconUnderlinedTabItem"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -21,20 +21,17 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Grid x:Name="Grid" BackgroundColor="Transparent" RowSpacing="0">
+        <Grid
+            x:Name="Grid"
+            BackgroundColor="Transparent"
+            RowSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Path x:Name="IconPath"
-                  HorizontalOptions="Center"
-                  Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}" />
-
             <BoxView
                 x:Name="Underline"
-                Grid.Row="1"
                 Margin="0,0"
                 BackgroundColor="Transparent"
                 HeightRequest="0"
@@ -49,14 +46,23 @@
                     </DataTrigger>
                 </BoxView.Triggers>
             </BoxView>
-            <Label
-                x:Name="InnerLabel"
-                Grid.Row="1"
-                FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
-                FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
-                HorizontalOptions="Center"
-                Style="{StaticResource TabTextHeader}"
-                Text="{Binding Source={x:Reference RootLayout}, Path=Label}" />
+            <StackLayout
+                x:Name="MainLayout"
+                Padding="0"
+                Spacing="5"
+                VerticalOptions="Center">
+                <Path
+                    x:Name="IconPath"
+                    Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}"
+                    HorizontalOptions="Center" />
+                <Label
+                    x:Name="InnerLabel"
+                    FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
+                    FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource TabTextHeader}"
+                    Text="{Binding Source={x:Reference RootLayout}, Path=Label}" />
+            </StackLayout>
         </Grid>
     </ContentView.Content>
 </tabs:UnderlinedTabItemBase>

@@ -11,20 +11,26 @@ namespace Sharpnado.Tabs
         public static readonly BindableProperty GeometryIconProperty = BindableProperty.Create(
            nameof(GeometryIcon),
            typeof(Geometry),
-           typeof(TabTextItem),
+           typeof(GeometryIconUnderlinedTabItem),
            null);
 
         public static readonly BindableProperty FillProperty = BindableProperty.Create(
            nameof(Fill),
            typeof(bool),
-           typeof(TabTextItem),
-           false);
+           typeof(GeometryIconUnderlinedTabItem),
+           true);
 
         public static readonly BindableProperty StrokeThicknessProperty = BindableProperty.Create(
            nameof(StrokeThickness),
            typeof(double),
-           typeof(TabTextItem),
-           1.0);
+           typeof(GeometryIconUnderlinedTabItem),
+           0.1);
+
+        public static readonly BindableProperty IconOrientationProperty = BindableProperty.Create(
+           nameof(Orientation),
+           typeof(IconOrientation),
+           typeof(GeometryIconUnderlinedTabItem),
+           IconOrientation.Top);
 
         public GeometryIconUnderlinedTabItem()
         {
@@ -38,6 +44,12 @@ namespace Sharpnado.Tabs
         {
             get => (Geometry)GetValue(GeometryIconProperty);
             set => SetValue(GeometryIconProperty, value);
+        }
+
+        public IconOrientation Orientation
+        {
+            get => (IconOrientation)GetValue(IconOrientationProperty);
+            set => SetValue(IconOrientationProperty, value);
         }
 
         public bool Fill
@@ -72,6 +84,33 @@ namespace Sharpnado.Tabs
                 case nameof(GeometryIcon):
                     UpdateGeometryIcon();
                     break;
+                case nameof(Orientation):
+                    UpdateIconAndTextLayout();
+                    break;
+            }
+        }
+
+        private void UpdateIconAndTextLayout()
+        {
+            if (Orientation == IconOrientation.None)
+            {
+                MainLayout.Spacing = 0;
+                IconPath.IsVisible = false;
+                InnerLabel.IsVisible = true;
+            }
+            else if (Orientation == IconOrientation.IconOnly)
+            {
+                MainLayout.Spacing = 0;
+                IconPath.IsVisible = true;
+                InnerLabel.IsVisible = false;
+            }
+            else
+            {
+                MainLayout.Spacing = 5;
+                IconPath.IsVisible = true;
+                InnerLabel.IsVisible = true;
+                MainLayout.Orientation = Orientation == IconOrientation.Top
+                    ? StackOrientation.Vertical : StackOrientation.Horizontal;
             }
         }
 
@@ -81,14 +120,10 @@ namespace Sharpnado.Tabs
             if (Fill)
             {
                 IconPath.Fill = brush;
-                IconPath.Stroke = null;
             }
-            else
-            {
-                IconPath.Fill = null;
-                IconPath.Stroke = brush;
-                IconPath.StrokeThickness = StrokeThickness;
-            }
+
+            IconPath.Stroke = brush;
+            IconPath.StrokeThickness = StrokeThickness;
         }
     }
 }
