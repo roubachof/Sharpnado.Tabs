@@ -97,18 +97,21 @@ namespace Sharpnado.Tabs
                 MainLayout.Spacing = 0;
                 IconPath.IsVisible = false;
                 InnerLabel.IsVisible = true;
+                BottomPadding.IsVisible = false;
             }
             else if (Orientation == IconOrientation.IconOnly)
             {
                 MainLayout.Spacing = 0;
                 IconPath.IsVisible = true;
                 InnerLabel.IsVisible = false;
+                BottomPadding.IsVisible = false;
             }
             else
             {
-                MainLayout.Spacing = 5;
+                MainLayout.Spacing = 9;
                 IconPath.IsVisible = true;
                 InnerLabel.IsVisible = true;
+                BottomPadding.IsVisible = true;
                 MainLayout.Orientation = Orientation == IconOrientation.Top
                     ? StackOrientation.Vertical : StackOrientation.Horizontal;
             }

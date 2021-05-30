@@ -16,6 +16,21 @@
                 <Setter Property="LineBreakMode" Value="WordWrap" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0" />
+            </Style>
+
+            <Style x:Key="TabIconPath" TargetType="Path">
+                <Setter Property="VerticalOptions" Value="Fill" />
+                <Setter Property="Aspect" Value="None" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="LayoutIconWithText" TargetType="StackLayout">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Spacing" Value="9" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
             </Style>
         </ResourceDictionary>
     </ContentView.Resources>
@@ -48,20 +63,18 @@
             </BoxView>
             <StackLayout
                 x:Name="MainLayout"
-                Padding="0"
-                Spacing="5"
-                VerticalOptions="Center">
+                Style="{StaticResource LayoutIconWithText}">
                 <Path
+                    Style="{StaticResource TabIconPath}"
                     x:Name="IconPath"
-                    Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}"
-                    HorizontalOptions="Center" />
+                    Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}" />
                 <Label
                     x:Name="InnerLabel"
                     FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
                     FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
-                    HorizontalOptions="Center"
                     Style="{StaticResource TabTextHeader}"
                     Text="{Binding Source={x:Reference RootLayout}, Path=Label}" />
+                <BoxView x:Name="BottomPadding" HeightRequest="10" WidthRequest="0" />
             </StackLayout>
         </Grid>
     </ContentView.Content>
