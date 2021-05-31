@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Sharpnado.Tabs.Effects;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;
 using Xamarin.Forms.Xaml;
@@ -8,11 +9,23 @@ namespace Sharpnado.Tabs
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MaterialUnderlinedTabItem : UnderlinedTabItemBase
     {
+        public static readonly BindableProperty IconImageSourceProperty = BindableProperty.Create(
+            nameof(IconImageSource),
+            typeof(ImageSource),
+            typeof(MaterialUnderlinedTabItem),
+            null);
+
         public static readonly BindableProperty GeometryIconProperty = BindableProperty.Create(
            nameof(GeometryIcon),
            typeof(Geometry),
            typeof(MaterialUnderlinedTabItem),
            null);
+
+        public static readonly BindableProperty IconSizeProperty = BindableProperty.Create(
+           nameof(IconSize),
+           typeof(double),
+           typeof(MaterialUnderlinedTabItem),
+           defaultValue: 30D);
 
         public static readonly BindableProperty FillProperty = BindableProperty.Create(
            nameof(Fill),
@@ -39,11 +52,24 @@ namespace Sharpnado.Tabs
             InnerLabelImpl.PropertyChanged += InnerLabelPropertyChanged;
         }
 
+        [TypeConverter(typeof(ImageSourceConverter))]
+        public ImageSource IconImageSource
+        {
+            get => (ImageSource)GetValue(IconImageSourceProperty);
+            set => SetValue(IconImageSourceProperty, value);
+        }
+
         [TypeConverter(typeof(PathGeometryConverter))]
         public Geometry GeometryIcon
         {
             get => (Geometry)GetValue(GeometryIconProperty);
             set => SetValue(GeometryIconProperty, value);
+        }
+
+        public double IconSize
+        {
+            get => (double)GetValue(IconSizeProperty);
+            set => SetValue(IconSizeProperty, value);
         }
 
         public IconOptions IconOptions
@@ -82,8 +108,7 @@ namespace Sharpnado.Tabs
                 case nameof(StrokeThickness):
                 case nameof(Fill):
                 case nameof(GeometryIcon):
-                    UpdateGeometryIcon();
-                    break;
+                case nameof(IconImageSource):
                 case nameof(IconOptions):
                     UpdateIconAndTextLayout();
                     break;
@@ -95,25 +120,39 @@ namespace Sharpnado.Tabs
             if (IconOptions == IconOptions.TextOnly)
             {
                 MainLayout.Spacing = 0;
-                IconPath.IsVisible = false;
                 InnerLabel.IsVisible = true;
-                BottomPadding.IsVisible = false;
+                ToggleIconVisibility(false);
             }
             else if (IconOptions == IconOptions.IconOnly)
             {
                 MainLayout.Spacing = 0;
-                IconPath.IsVisible = true;
                 InnerLabel.IsVisible = false;
-                BottomPadding.IsVisible = false;
+                ToggleIconVisibility(true);
             }
             else
             {
                 MainLayout.Spacing = 9;
-                IconPath.IsVisible = true;
+                ToggleIconVisibility(true);
                 InnerLabel.IsVisible = true;
-                BottomPadding.IsVisible = true;
                 MainLayout.Orientation = IconOptions == IconOptions.TopIcon
                     ? StackOrientation.Vertical : StackOrientation.Horizontal;
+            }
+        }
+
+        private bool IsGeometryPreferred() => IconPath != null && IconPath.Data != null;
+
+        private void ToggleIconVisibility(bool visible)
+        {
+            IconPath.IsVisible = IsGeometryPreferred() && visible;
+            IconImage.IsVisible = !IsGeometryPreferred() && visible;
+
+            if (IconPath.IsVisible)
+            {
+                UpdateGeometryIcon();
+            }
+            else if (IconImage.IsVisible)
+            {
+                UpdateImageIcon();
             }
         }
 
@@ -127,6 +166,12 @@ namespace Sharpnado.Tabs
 
             IconPath.Stroke = brush;
             IconPath.StrokeThickness = StrokeThickness;
+        }
+
+        private void UpdateImageIcon()
+        {
+            IconImage.Source = IconImageSource;
+            ImageEffect.SetTintColor(IconImage, IsSelected ? SelectedTabColor : UnselectedLabelColor);
         }
     }
 }

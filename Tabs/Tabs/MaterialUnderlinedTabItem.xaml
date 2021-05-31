@@ -26,9 +26,14 @@
                 <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
 
+            <Style x:Key="TabIconImage" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
             <Style x:Key="LayoutIconWithText" TargetType="StackLayout">
                 <Setter Property="Padding" Value="0" />
-                <Setter Property="Spacing" Value="9" />
+                <Setter Property="Spacing" Value="7" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="VerticalOptions" Value="Center" />
             </Style>
@@ -43,11 +48,33 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="7" />
             </Grid.RowDefinitions>
 
+            <StackLayout
+                x:Name="MainLayout"
+                Style="{StaticResource LayoutIconWithText}">
+                <Path
+                    Style="{StaticResource TabIconPath}"
+                    x:Name="IconPath"
+                    Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}" />
+                <Image
+                    x:Name="IconImage"
+                    HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
+                    Source="{Binding Source={x:Reference RootLayout}, Path=IconImageSource}"
+                    Style="{StaticResource TabIconImage}"
+                    WidthRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}" />
+                <Label
+                    x:Name="InnerLabel"
+                    FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
+                    FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
+                    Style="{StaticResource TabTextHeader}"
+                    Text="{Binding Source={x:Reference RootLayout}, Path=Label}" />
+            </StackLayout>
             <BoxView
                 x:Name="Underline"
-                Margin="0,0"
+                Grid.Row="1"
+                Margin="0,5,0,0"
                 BackgroundColor="Transparent"
                 HeightRequest="0"
                 HorizontalOptions="Center"
@@ -61,21 +88,6 @@
                     </DataTrigger>
                 </BoxView.Triggers>
             </BoxView>
-            <StackLayout
-                x:Name="MainLayout"
-                Style="{StaticResource LayoutIconWithText}">
-                <Path
-                    Style="{StaticResource TabIconPath}"
-                    x:Name="IconPath"
-                    Data="{Binding Source={x:Reference RootLayout}, Path=GeometryIcon}" />
-                <Label
-                    x:Name="InnerLabel"
-                    FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
-                    FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
-                    Style="{StaticResource TabTextHeader}"
-                    Text="{Binding Source={x:Reference RootLayout}, Path=Label}" />
-                <BoxView x:Name="BottomPadding" HeightRequest="10" WidthRequest="0" />
-            </StackLayout>
         </Grid>
     </ContentView.Content>
 </tabs:UnderlinedTabItemBase>
