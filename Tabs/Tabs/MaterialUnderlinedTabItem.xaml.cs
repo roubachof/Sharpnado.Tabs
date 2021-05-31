@@ -6,33 +6,33 @@ using Xamarin.Forms.Xaml;
 namespace Sharpnado.Tabs
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class GeometryIconUnderlinedTabItem : UnderlinedTabItemBase
+    public partial class MaterialUnderlinedTabItem : UnderlinedTabItemBase
     {
         public static readonly BindableProperty GeometryIconProperty = BindableProperty.Create(
            nameof(GeometryIcon),
            typeof(Geometry),
-           typeof(GeometryIconUnderlinedTabItem),
+           typeof(MaterialUnderlinedTabItem),
            null);
 
         public static readonly BindableProperty FillProperty = BindableProperty.Create(
            nameof(Fill),
            typeof(bool),
-           typeof(GeometryIconUnderlinedTabItem),
+           typeof(MaterialUnderlinedTabItem),
            true);
 
         public static readonly BindableProperty StrokeThicknessProperty = BindableProperty.Create(
            nameof(StrokeThickness),
            typeof(double),
-           typeof(GeometryIconUnderlinedTabItem),
+           typeof(MaterialUnderlinedTabItem),
            0.1);
 
-        public static readonly BindableProperty IconOrientationProperty = BindableProperty.Create(
-           nameof(Orientation),
-           typeof(IconOrientation),
-           typeof(GeometryIconUnderlinedTabItem),
-           IconOrientation.Top);
+        public static readonly BindableProperty IconOptionsProperty = BindableProperty.Create(
+           nameof(IconOptions),
+           typeof(IconOptions),
+           typeof(MaterialUnderlinedTabItem),
+           IconOptions.TopIcon);
 
-        public GeometryIconUnderlinedTabItem()
+        public MaterialUnderlinedTabItem()
         {
             InitializeComponent();
 
@@ -46,10 +46,10 @@ namespace Sharpnado.Tabs
             set => SetValue(GeometryIconProperty, value);
         }
 
-        public IconOrientation Orientation
+        public IconOptions IconOptions
         {
-            get => (IconOrientation)GetValue(IconOrientationProperty);
-            set => SetValue(IconOrientationProperty, value);
+            get => (IconOptions)GetValue(IconOptionsProperty);
+            set => SetValue(IconOptionsProperty, value);
         }
 
         public bool Fill
@@ -84,7 +84,7 @@ namespace Sharpnado.Tabs
                 case nameof(GeometryIcon):
                     UpdateGeometryIcon();
                     break;
-                case nameof(Orientation):
+                case nameof(IconOptions):
                     UpdateIconAndTextLayout();
                     break;
             }
@@ -92,14 +92,14 @@ namespace Sharpnado.Tabs
 
         private void UpdateIconAndTextLayout()
         {
-            if (Orientation == IconOrientation.None)
+            if (IconOptions == IconOptions.TextOnly)
             {
                 MainLayout.Spacing = 0;
                 IconPath.IsVisible = false;
                 InnerLabel.IsVisible = true;
                 BottomPadding.IsVisible = false;
             }
-            else if (Orientation == IconOrientation.IconOnly)
+            else if (IconOptions == IconOptions.IconOnly)
             {
                 MainLayout.Spacing = 0;
                 IconPath.IsVisible = true;
@@ -112,7 +112,7 @@ namespace Sharpnado.Tabs
                 IconPath.IsVisible = true;
                 InnerLabel.IsVisible = true;
                 BottomPadding.IsVisible = true;
-                MainLayout.Orientation = Orientation == IconOrientation.Top
+                MainLayout.Orientation = IconOptions == IconOptions.TopIcon
                     ? StackOrientation.Vertical : StackOrientation.Horizontal;
             }
         }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 
 <tabs:UnderlinedTabItemBase
-    x:Class="Sharpnado.Tabs.GeometryIconUnderlinedTabItem"
+    x:Class="Sharpnado.Tabs.MaterialUnderlinedTabItem"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:tabs="clr-namespace:Sharpnado.Tabs"
