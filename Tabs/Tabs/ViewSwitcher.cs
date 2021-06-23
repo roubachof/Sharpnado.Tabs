@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Sharpnado.Tasks;
 
 using Xamarin.Forms;
@@ -17,6 +17,18 @@ namespace Sharpnado.Tabs
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: SelectedIndexPropertyChanged);
 
+        public static readonly BindableProperty OnShowCommandProperty = BindableProperty.Create(
+            nameof(OnShowCommand),
+            typeof(ICommand),
+            typeof(ViewSwitcher),
+            null);
+
+        public static readonly BindableProperty OnHideCommandProperty = BindableProperty.Create(
+            nameof(OnHideCommand),
+            typeof(ICommand),
+            typeof(ViewSwitcher),
+            null);
+
         private View _activeView;
 
         public ViewSwitcher()
@@ -29,6 +41,18 @@ namespace Sharpnado.Tabs
         {
             get => (int)GetValue(SelectedIndexProperty);
             set => SetValue(SelectedIndexProperty, value);
+        }
+
+        public ICommand OnShowCommand
+        {
+            get { return (ICommand)GetValue(OnShowCommandProperty); }
+            set { SetValue(OnShowCommandProperty, value); }
+        }
+
+        public ICommand OnHideCommand
+        {
+            get { return (ICommand)GetValue(OnHideCommandProperty); }
+            set { SetValue(OnHideCommandProperty, value); }
         }
 
         public bool Animate { get; set; } = true;
@@ -124,6 +148,8 @@ namespace Sharpnado.Tabs
             {
                 _activeView = null;
             }
+
+            OnHideCommand?.Execute(viewIndex);
         }
 
         private void ShowView(View view, int viewIndex)
@@ -160,6 +186,8 @@ namespace Sharpnado.Tabs
             }
 
             _activeView = view;
+
+            OnShowCommand?.Execute(viewIndex);
         }
     }
 }
