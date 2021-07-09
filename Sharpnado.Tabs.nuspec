@@ -15,12 +15,13 @@
       <repository type="git" branch="master" url="https://github.com/roubachof/Sharpnado.Tabs" />
       <summary>Including fixed tabs, scrollable tabs, bottom tabs, badge, segmented control, custom tabs, button tabs, ...</summary>
       <tags>xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</tags>
-      <releaseNotes>Add Orientation property to support vertical tabs.</releaseNotes>
+      <releaseNotes>Add MaterialTabItem a complete implementation of the material design tabs, including top icon and leading icon..</releaseNotes>
       <description>
 Pure Xamarin.Forms tabs:
   * Fixed tabs (android tabs style)  
   * Scrollable tabs
   * Vertical tabs
+  * Material design tabs (top and leading icon)
   * Segmented tabs
   * Custom shadows (neumorphism ready)
   * Badges on tabs
@@ -62,25 +63,25 @@ Pure Xamarin.Forms tabs:
       <dependencies>
 
         <group targetFramework=".NETStandard2.0">
-          <dependency id="Xamarin.Forms" version="3.6.0.220655" exclude="Build,Analyzers"/>
+          <dependency id="Xamarin.Forms" version="4.7.0.968" exclude="Build,Analyzers"/>
           <dependency id="Sharpnado.TaskMonitor" version="1.0.1" />
           <dependency id="Sharpnado.Shadows" version="1.2.0" />
         </group>
 
         <group targetFramework="Xamarin.iOS10">
-          <dependency id="Xamarin.Forms" version="3.6.0.220655" exclude="Build,Analyzers"/>
+          <dependency id="Xamarin.Forms" version="4.7.0.968" exclude="Build,Analyzers"/>
           <dependency id="Sharpnado.TaskMonitor" version="1.0.1" />
           <dependency id="Sharpnado.Shadows" version="1.2.0" />
         </group>
 
         <group targetFramework="MonoAndroid10">
-          <dependency id="Xamarin.Forms" version="3.6.0.220655" exclude="Build,Analyzers"/>
+          <dependency id="Xamarin.Forms" version="4.7.0.968" exclude="Build,Analyzers"/>
           <dependency id="Sharpnado.TaskMonitor" version="1.0.1" />
           <dependency id="Sharpnado.Shadows" version="1.2.0" />
         </group>
 
         <group targetFramework="uap10.0.16299">
-          <dependency id="Xamarin.Forms" version="3.6.0.220655" exclude="Build,Analyzers"/>
+          <dependency id="Xamarin.Forms" version="4.7.0.968" exclude="Build,Analyzers"/>
           <dependency id="Sharpnado.TaskMonitor" version="1.0.1" />
           <dependency id="Sharpnado.Shadows" version="1.2.0" />
           <dependency id="CompositionProToolkit" version="1.0.1" />
