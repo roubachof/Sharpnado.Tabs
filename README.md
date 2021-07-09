@@ -14,6 +14,7 @@ Get it from NuGet:
 
 * Fully customizable
 * Underlined tabs, bottom tabs, Segmented control, scrollable tabs
+* Material tabs specs full implementation
 * Badge on tabs
 * Component oriented architecture
 * Layout your tabs and ViewSwitcher as you want
@@ -54,6 +55,25 @@ Get it from NuGet:
     <tr>
       <td>TabType.Scrollable</td>
       <td>inherit from TabItem</td>
+    </tr>   
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>      
+      <th>Material top icon</th>
+      <th>Material leading icon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="Docs/top_icon.png" width="300" /></td>
+      <td><img src="Docs/leading_icon.png" width="300" /></td>
+    </tr>
+    <tr>
+      <td>IconOptions="TopIcon"</td>
+      <td>IconOptions="LeadingIcon"</td>
     </tr>   
   </tbody>
 </table>
@@ -401,7 +421,36 @@ public enum TabType
 }
 ```
 
-## Vertical tabs
+## Version 2.2: Material tabs
+
+Contributor: @mkanyo (Miklos Kanyo)
+
+Since version 2.2, a new type of tab has been introduced: the `MaterialUnderlinedTabItem`.
+It's a full implementation of the material tabs specifications:
+
+https://material.io/components/tabs
+
+![material tabs](Docs/material_tabs.png)
+
+`IconOptions` values:
+
+1. TopIcon
+2. IconOnly
+3. LeadingIcon
+4. TextOnly
+
+You can also set precisely the gap between the icon and the text thanks to the `IconTextSpacing`.
+
+Instead of using a classic `Image` you can also set a svg `Geometry` icon thanks to the `GeometryIcon` property. 
+
+If you chose to go down this road you can also set the following properties:
+
+ * `public bool Fill`
+ * `public double StrokeThickness`
+ * `public double IconTextSpacing`
+
+
+## Version 2.1: Vertical tabs
 
 Contributor: @nor0x (Joachim Leonfellner)
 

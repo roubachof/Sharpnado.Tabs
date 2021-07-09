@@ -616,7 +616,7 @@ namespace Sharpnado.Tabs
 
         private void AddTapCommand(TabItem tabItem)
         {
-            if (Device.RuntimePlatform == Device.UWP || Device.RuntimePlatform == Device.iOS)
+            if (Device.RuntimePlatform == Device.UWP)
             {
                 tabItem.GestureRecognizers.Add(
                     new TapGestureRecognizer() { Command = TabItemTappedCommand, CommandParameter = tabItem });

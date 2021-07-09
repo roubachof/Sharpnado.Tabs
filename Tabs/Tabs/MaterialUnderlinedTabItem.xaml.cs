@@ -43,13 +43,19 @@ namespace Sharpnado.Tabs
            nameof(IconOptions),
            typeof(IconOptions),
            typeof(MaterialUnderlinedTabItem),
-           IconOptions.TopIcon);
+           IconOptions.TextOnly);
+
+        public static readonly BindableProperty IconTextSpacingProperty = BindableProperty.Create(
+            nameof(IconTextSpacing),
+            typeof(double),
+            typeof(MaterialUnderlinedTabItem),
+            2d);
 
         public MaterialUnderlinedTabItem()
         {
             InitializeComponent();
 
-            InnerLabelImpl.PropertyChanged += InnerLabelPropertyChanged;
+            MainLayout.PropertyChanged += ContentImplPropertyChanged;
         }
 
         [TypeConverter(typeof(ImageSourceConverter))]
@@ -90,11 +96,19 @@ namespace Sharpnado.Tabs
             set => SetValue(StrokeThicknessProperty, value);
         }
 
+        public double IconTextSpacing
+        {
+            get => (double)GetValue(IconTextSpacingProperty);
+            set => SetValue(IconTextSpacingProperty, value);
+        }
+
         protected override Label InnerLabelImpl => InnerLabel;
 
         protected override Grid GridImpl => Grid;
 
         protected override BoxView UnderlineImpl => Underline;
+
+        protected override View ContentImpl => MainLayout;
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -110,6 +124,7 @@ namespace Sharpnado.Tabs
                 case nameof(GeometryIcon):
                 case nameof(IconImageSource):
                 case nameof(IconOptions):
+                case nameof(IconTextSpacing):
                     UpdateIconAndTextLayout();
                     break;
             }
@@ -117,25 +132,28 @@ namespace Sharpnado.Tabs
 
         private void UpdateIconAndTextLayout()
         {
-            if (IconOptions == IconOptions.TextOnly)
+            switch (IconOptions)
             {
-                MainLayout.Spacing = 0;
-                InnerLabel.IsVisible = true;
-                ToggleIconVisibility(false);
-            }
-            else if (IconOptions == IconOptions.IconOnly)
-            {
-                MainLayout.Spacing = 0;
-                InnerLabel.IsVisible = false;
-                ToggleIconVisibility(true);
-            }
-            else
-            {
-                MainLayout.Spacing = 9;
-                ToggleIconVisibility(true);
-                InnerLabel.IsVisible = true;
-                MainLayout.Orientation = IconOptions == IconOptions.TopIcon
-                    ? StackOrientation.Vertical : StackOrientation.Horizontal;
+                case IconOptions.TextOnly:
+                    MainLayout.Spacing = 0;
+                    InnerLabel.IsVisible = true;
+                    ToggleIconVisibility(false);
+                    break;
+
+                case IconOptions.IconOnly:
+                    MainLayout.Spacing = 0;
+                    InnerLabel.IsVisible = false;
+                    ToggleIconVisibility(true);
+                    break;
+
+                default:
+                    ToggleIconVisibility(true);
+                    InnerLabel.IsVisible = true;
+                    MainLayout.Spacing = IconTextSpacing;
+                    MainLayout.Orientation = IconOptions == IconOptions.TopIcon
+                        ? StackOrientation.Vertical
+                        : StackOrientation.Horizontal;
+                    break;
             }
         }
 

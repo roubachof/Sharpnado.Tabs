@@ -40,6 +40,8 @@ namespace Sharpnado.Tabs
 
         protected abstract BoxView UnderlineImpl { get; }
 
+        protected abstract View ContentImpl { get; }
+
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -54,6 +56,7 @@ namespace Sharpnado.Tabs
                     UpdatePadding();
                     break;
 
+                case nameof(Width):
                 case nameof(UnderlineAllTab):
                     UpdateUnderlineAllTab();
                     break;
@@ -77,19 +80,20 @@ namespace Sharpnado.Tabs
             GridImpl.Children.Add(Badge);
         }
 
-        protected void InnerLabelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        protected void ContentImplPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(Width) && InnerLabelImpl.Width > 1)
+            if (e.PropertyName == nameof(Width) && ContentImpl.Width > 1)
             {
-                UnderlineImpl.WidthRequest = !UnderlineAllTab ? InnerLabelImpl.Width : Width;
+                UpdateUnderlineAllTab();
             }
         }
 
-        private void UpdateUnderlineAllTab()
+        protected void UpdateUnderlineAllTab()
         {
             UnderlineImpl.Margin = UnderlineAllTab
                 ? new Thickness(-Margin.Left - Padding.Left, 0, -Margin.Right - Padding.Right, 0)
                 : new Thickness(0);
+            UnderlineImpl.WidthRequest = UnderlineAllTab ? Width : ContentImpl.Width;
         }
 
         private void UpdatePadding()

@@ -10,7 +10,7 @@ namespace Sharpnado.Tabs
         {
             InitializeComponent();
 
-            InnerLabelImpl.PropertyChanged += InnerLabelPropertyChanged;
+            InnerLabel.PropertyChanged += ContentImplPropertyChanged;
         }
 
         protected override Label InnerLabelImpl => InnerLabel;
@@ -18,5 +18,7 @@ namespace Sharpnado.Tabs
         protected override Grid GridImpl => Grid;
 
         protected override BoxView UnderlineImpl => Underline;
+
+        protected override View ContentImpl => InnerLabel;
     }
 }

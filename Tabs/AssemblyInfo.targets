@@ -3,10 +3,10 @@
 
   <PropertyGroup>
     <Copyright>Copyright © Sharpnado 2021</Copyright>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <Company>Sharpnado</Company>
     <Product>Tabs</Product>
-    <Description>"Pure" Xamarin.Forms Tabs (no renderers). Segmented control, bottombar tabs, underlined tabs, scrollable tabs, badges...</Description>
+    <Description>"Pure" Xamarin.Forms Tabs (no renderers). Segmented control, bottombar tabs, material tabs, underlined tabs, scrollable tabs, badges...</Description>
   </PropertyGroup>
 
   <Target Name="GenerateCustomAssemblyInfo" BeforeTargets="BeforeBuild">
