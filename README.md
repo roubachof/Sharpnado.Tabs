@@ -449,7 +449,45 @@ If you chose to go down this road you can also set the following properties:
  * `public double StrokeThickness`
  * `public double IconTextSpacing`
 
-
+```xml
+<tabs:TabHostView x:Name="TabHost"
+                  Grid.Row="4"
+                  Style="{DynamicResource DynamicBottomShadow}"
+                  Margin="-16,0"
+                  BackgroundColor="{DynamicResource Elevation4dpColor}"
+                  ShowScrollbar="False"
+                  TabType="Scrollable"
+                  SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
+    <tabs:TabHostView.Tabs>
+        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
+                                        IconImageSource="list_96.png"
+                                        IconOptions="TopIcon"
+                                        IconSize="24"
+                                        IconTextSpacing="0"
+                                        Label="{localization:Translate Tabs_Quote}"
+                                        UnderlineHeight="2" />
+        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
+                                        IconImageSource="theme_96.png"
+                                        IconOptions="IconOnly"
+                                        IconSize="24"
+                                        IconTextSpacing="0"
+                                        Label="FILMO" />
+        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
+                                        IconImageSource="grid_view_96.png"
+                                        IconOptions="LeadingIcon"
+                                        IconSize="24"
+                                        IconTextSpacing="0"
+                                        Label="{localization:Translate Tabs_Meme}" />
+        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
+                                        Padding="10,0"
+                                        IconImageSource="house_96.png"
+                                        IconOptions="TextOnly"
+                                        IconSize="24"
+                                        IconTextSpacing="0"
+                                        Label="NONSENSE" />
+      </tabs:TabHostView.Tabs>
+</tabs:TabHostView> 
+                  
 ## Version 2.1: Vertical tabs
 
 Contributor: @nor0x (Joachim Leonfellner)
