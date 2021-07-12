@@ -487,6 +487,7 @@ If you chose to go down this road you can also set the following properties:
                                         Label="NONSENSE" />
       </tabs:TabHostView.Tabs>
 </tabs:TabHostView> 
+```
                   
 ## Version 2.1: Vertical tabs
 
