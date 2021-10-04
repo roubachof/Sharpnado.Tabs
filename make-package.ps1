@@ -1,4 +1,4 @@
-$formsVersion = "4.7.0.968"
+$formsVersion = "5.0.0.1874"
 
 $orgName = "Sharpnado"
 $projectName = "Tabs"

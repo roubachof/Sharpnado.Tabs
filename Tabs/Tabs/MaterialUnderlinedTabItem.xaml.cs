@@ -176,7 +176,7 @@ namespace Sharpnado.Tabs
 
         private void UpdateGeometryIcon()
         {
-            var brush = IsSelected ? SelectedTabColor : UnselectedLabelColor;
+            var brush = new SolidColorBrush(IsSelected ? SelectedTabColor : UnselectedLabelColor);
             if (Fill)
             {
                 IconPath.Fill = brush;
