@@ -15,6 +15,7 @@ Get it from NuGet:
 * Fully customizable
 * Underlined tabs, bottom tabs, Segmented control, scrollable tabs
 * Material tabs specs full implementation
+* SVG support thanks to GeometryIcon
 * Badge on tabs
 * Component oriented architecture
 * Layout your tabs and ViewSwitcher as you want
@@ -441,7 +442,9 @@ https://material.io/components/tabs
 
 You can also set precisely the gap between the icon and the text thanks to the `IconTextSpacing`.
 
-Instead of using a classic `Image` you can also set a svg `Geometry` icon thanks to the `GeometryIcon` property. 
+Instead of using a classic `Image` you can also set a svg `Geometry` (SVG image) icon thanks to the `GeometryIcon` property. 
+
+**Cool Hack**: you can use `MaterialUnderlinedTabItem` (and then use a SVG image) as a bottom bar item, just specify `UnderlineHeight = 0`.
 
 If you chose to go down this road you can also set the following properties:
 
