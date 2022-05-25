@@ -61,6 +61,7 @@ namespace Sharpnado.Tabs
                     UpdateUnderlineAllTab();
                     break;
 
+                case nameof(IsSelectable):
                 case nameof(UnselectedLabelColor):
                 case nameof(SelectedTabColor):
                 case nameof(IsSelected):
@@ -112,7 +113,7 @@ namespace Sharpnado.Tabs
 
         private void UpdateColors()
         {
-            InnerLabelImpl.TextColor = IsSelected ? SelectedTabColor : UnselectedLabelColor;
+            InnerLabelImpl.TextColor = IsSelectable ? IsSelected ? SelectedTabColor : UnselectedLabelColor : DisabledLabelColor;
             UnderlineImpl.Color = SelectedTabColor;
         }
     }

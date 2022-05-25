@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿
 using Xamarin.Forms;
 
 namespace Sharpnado.Tabs
@@ -29,6 +29,8 @@ namespace Sharpnado.Tabs
             typeof(Color),
             typeof(TabTextItem),
             Color.Default);
+        
+
 
         public string Label
         {

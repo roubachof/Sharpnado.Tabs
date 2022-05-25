@@ -17,13 +17,13 @@ namespace Sharpnado.Tabs
     public enum TabType
     {
         Fixed = 0,
-        Scrollable,
+        Scrollable
     }
 
     public enum OrientationType
     {
         Horizontal = 0,
-        Vertical,
+        Vertical
     }
 
     [ContentProperty("TabHostContent")]
@@ -33,7 +33,7 @@ namespace Sharpnado.Tabs
             nameof(ItemsSource),
             typeof(IEnumerable),
             typeof(TabHostView),
-            defaultValueCreator: _ => new TabItem[0]);
+            defaultValueCreator: _ => Array.Empty<TabItem>());
 
         public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
             nameof(ItemTemplate),
@@ -87,7 +87,7 @@ namespace Sharpnado.Tabs
             defaultValue: OrientationType.Horizontal,
             propertyChanged: OrientationPropertyChanged);
 
-        public static readonly new BindableProperty BackgroundColorProperty = BindableProperty.Create(
+        public new static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(
             nameof(BackgroundColor),
             typeof(Color),
             typeof(TabHostView),
@@ -97,7 +97,7 @@ namespace Sharpnado.Tabs
 
         private readonly Grid _grid;
         private readonly Frame _frame;
-        private List<TabItem> _selectableTabs = new List<TabItem>();
+        private List<TabItem> _selectableTabs = new();
 
         private INotifyCollectionChanged _currentNotifyCollection;
 
@@ -121,7 +121,7 @@ namespace Sharpnado.Tabs
                 ColumnSpacing = 0,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.Fill,
-                BackgroundColor = this.BackgroundColor,
+                BackgroundColor = BackgroundColor
             };
 
             _frame = new Frame
@@ -129,11 +129,11 @@ namespace Sharpnado.Tabs
                 Padding = 0,
                 HasShadow = false,
                 IsClippedToBounds = true,
-                CornerRadius = this.CornerRadius,
+                CornerRadius = CornerRadius,
                 BackgroundColor = Color.Transparent,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.Fill,
-                BorderColor = SegmentedOutlineColor,
+                BorderColor = SegmentedOutlineColor
             };
 
             UpdateTabType();
@@ -385,7 +385,7 @@ namespace Sharpnado.Tabs
                 result = (View)ItemTemplate.CreateContent();
             }
 
-            if (!(result is TabItem tabItem))
+            if (result is not TabItem tabItem)
             {
                 throw new InvalidOperationException("Your ItemTemplate DataTemplate should contain a view inheriting from TabItem");
             }
@@ -486,7 +486,7 @@ namespace Sharpnado.Tabs
                 selectedIndex = _selectableTabs.Count - 1;
             }
 
-            for (int index = 0; index < _selectableTabs.Count; index++)
+            for (var index = 0; index < _selectableTabs.Count; index++)
             {
                 _selectableTabs[index].IsSelected = selectedIndex == index;
             }
@@ -497,7 +497,12 @@ namespace Sharpnado.Tabs
 
         private void OnTabItemTapped(object tappedItem)
         {
-            int selectedIndex = _selectableTabs.IndexOf((TabItem)tappedItem);
+            var selectedIndex = _selectableTabs.IndexOf((TabItem)tappedItem);
+            
+            if (!_selectableTabs[selectedIndex].IsSelectable)
+            {
+                return;
+            }
 
             UpdateSelectedIndex(selectedIndex);
             RaiseSelectedTabIndexChanged(new SelectedPositionChangedEventArgs(selectedIndex));
@@ -619,7 +624,8 @@ namespace Sharpnado.Tabs
             if (Device.RuntimePlatform == Device.UWP)
             {
                 tabItem.GestureRecognizers.Add(
-                    new TapGestureRecognizer() { Command = TabItemTappedCommand, CommandParameter = tabItem });
+                    new TapGestureRecognizer { Command = TabItemTappedCommand, CommandParameter = tabItem }
+                    );
             }
             else
             {
@@ -639,7 +645,7 @@ namespace Sharpnado.Tabs
             _grid.BatchBegin();
             BatchBegin();
 
-            int tabIndexInGrid = GetTabIndexInGrid(index);
+            var tabIndexInGrid = GetTabIndexInGrid(index);
 
             _grid.Children.Insert(tabIndexInGrid, tabItem);
             if (Orientation == OrientationType.Horizontal)
@@ -686,11 +692,7 @@ namespace Sharpnado.Tabs
             }
 
             RaiseTabButtons();
-
-            if (tabItem.IsSelectable)
-            {
-                AddTapCommand(tabItem);
-            }
+            AddTapCommand(tabItem);
 
             if (TabType == TabType.Fixed)
             {
@@ -725,7 +727,7 @@ namespace Sharpnado.Tabs
                 }
 
                 var previousElementAt = _grid.Children.Where(v => v is TabItem).ElementAtOrDefault(index - 1);
-                int indexInGrid = _grid.Children.IndexOf(previousElementAt) + 1;
+                var indexInGrid = _grid.Children.IndexOf(previousElementAt) + 1;
 
                 InternalLogger.Debug(Tag, () => $"GetTabIndexInGrid() => indexInGrid: {indexInGrid}");
                 return indexInGrid;
@@ -752,7 +754,7 @@ namespace Sharpnado.Tabs
                 }
             }
 
-            int tabItemIndex = _grid.Children.IndexOf(tabItem);
+            var tabItemIndex = _grid.Children.IndexOf(tabItem);
 
             InternalLogger.Debug(Tag, () => $"OnChildRemoved( tabItem: {tabItem.GetType().Name}, index: {tabItemIndex} )");
 
@@ -791,7 +793,7 @@ namespace Sharpnado.Tabs
 
         private void ConsolidateColumnIndexes()
         {
-            int index = 0;
+            var index = 0;
             foreach (var tabItem in Tabs)
             {
                 if (Orientation == OrientationType.Horizontal)
@@ -833,13 +835,13 @@ namespace Sharpnado.Tabs
                 }
             }
 
-            int index = 0;
+            var index = 0;
             while (index < _grid.Children.Count)
             {
                 var currentItem = _grid.Children[index];
 
-                bool previousItemIsTab = index > 0 && _grid.Children[index - 1] is TabItem;
-                bool currentItemIsTab = currentItem is TabItem;
+                var previousItemIsTab = index > 0 && _grid.Children[index - 1] is TabItem;
+                var currentItemIsTab = currentItem is TabItem;
 
                 if (previousItemIsTab && currentItemIsTab)
                 {
@@ -871,8 +873,8 @@ namespace Sharpnado.Tabs
                     continue;
                 }
 
-                bool previousItemIsSeparator = index > 0 && _grid.Children[index - 1] is BoxView;
-                bool currentItemIsSeparator = currentItem is BoxView;
+                var previousItemIsSeparator = index > 0 && _grid.Children[index - 1] is BoxView;
+                var currentItemIsSeparator = currentItem is BoxView;
 
                 if (previousItemIsSeparator && currentItemIsSeparator)
                 {
@@ -987,12 +989,12 @@ namespace Sharpnado.Tabs
             _grid.BatchBegin();
             BatchBegin();
 
-            if (_grid.RowDefinitions.Count() != 0)
+            if (_grid.RowDefinitions.Count != 0)
             {
                 _grid.RowDefinitions.Clear();
             }
 
-            if (_grid.ColumnDefinitions.Count() != 0)
+            if (_grid.ColumnDefinitions.Count != 0)
             {
                 _grid.ColumnDefinitions.Clear();
             }
@@ -1046,11 +1048,7 @@ namespace Sharpnado.Tabs
                 }
 
                 RaiseTabButtons();
-
-                if (tabItem.IsSelectable)
-                {
-                    AddTapCommand(tabItem);
-                }
+                AddTapCommand(tabItem);
 
                 if (TabType == TabType.Fixed)
                 {
