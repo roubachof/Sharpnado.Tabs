@@ -86,6 +86,7 @@ namespace Sharpnado.Tabs
                     UpdateTextVisibility();
                     break;
 
+                case nameof(IsSelectable):
                 case nameof(UnselectedLabelColor):
                 case nameof(UnselectedIconColor):
                 case nameof(SelectedTabColor):
@@ -123,7 +124,7 @@ namespace Sharpnado.Tabs
 
         private void UpdateColors()
         {
-            IconText.TextColor = IsSelected ? SelectedTabColor : UnselectedLabelColor;
+            IconText.TextColor = IsSelectable ?  IsSelected ? SelectedTabColor : UnselectedLabelColor : DisabledLabelColor;
             ImageEffect.SetTintColor(Icon, IsSelected ? SelectedTabColor : UnselectedIconColor);
         }
     }

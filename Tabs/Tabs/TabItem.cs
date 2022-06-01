@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿
 using Xamarin.Forms;
 
 namespace Sharpnado.Tabs
@@ -23,7 +23,26 @@ namespace Sharpnado.Tabs
             typeof(TabItem),
             default(BadgeView),
             propertyChanged: OnBadgeChanged);
+        
+        public static readonly BindableProperty IsSelectableProperty = BindableProperty.Create(
+            nameof(IsSelectable),
+            typeof(bool),
+            typeof(TabItem),
+            true);
+        
+        public static readonly BindableProperty DisabledLabelColorProperty = BindableProperty.Create(
+            nameof(DisabledLabelColor),
+            typeof(Color),
+            typeof(TabTextItem),
+            Color.Default);
 
+                
+        public Color DisabledLabelColor
+        {
+            get => (Color)GetValue(DisabledLabelColorProperty);
+            set => SetValue(DisabledLabelColorProperty, value);
+        }
+        
         public bool IsSelected
         {
             get => (bool)GetValue(IsSelectedProperty);
@@ -42,7 +61,12 @@ namespace Sharpnado.Tabs
             set => SetValue(BadgeProperty, value);
         }
 
-        public bool IsSelectable { get; set; } = true;
+        public bool IsSelectable
+        {
+            get => (bool)GetValue(IsSelectableProperty);
+            set => SetValue(IsSelectableProperty, value);
+        }
+        
 
         protected abstract void OnBadgeChanged(BadgeView oldBadge);
 
