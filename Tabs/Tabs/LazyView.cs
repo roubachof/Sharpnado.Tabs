@@ -21,7 +21,11 @@ namespace Sharpnado.Tabs
             nameof(AccentColor),
             typeof(Color),
             typeof(ILazyView),
+#if NET6_0_OR_GREATER
+            Colors.DodgerBlue,
+#else
             Color.Accent,
+#endif
             propertyChanged: AccentColorChanged);
 
         public static readonly BindableProperty UseActivityIndicatorProperty = BindableProperty.Create(

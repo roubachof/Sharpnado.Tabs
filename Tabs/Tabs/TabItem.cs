@@ -15,7 +15,11 @@ namespace Sharpnado.Tabs
             nameof(SelectedTabColor),
             typeof(Color),
             typeof(TabTextItem),
+#if NET6_0_OR_GREATER
+            Colors.DodgerBlue);
+#else
             Color.Default);
+#endif
 
         public static readonly BindableProperty BadgeProperty = BindableProperty.Create(
             nameof(Badge),
@@ -23,26 +27,29 @@ namespace Sharpnado.Tabs
             typeof(TabItem),
             default(BadgeView),
             propertyChanged: OnBadgeChanged);
-        
+
         public static readonly BindableProperty IsSelectableProperty = BindableProperty.Create(
             nameof(IsSelectable),
             typeof(bool),
             typeof(TabItem),
             true);
-        
+
         public static readonly BindableProperty DisabledLabelColorProperty = BindableProperty.Create(
             nameof(DisabledLabelColor),
             typeof(Color),
             typeof(TabTextItem),
+#if NET6_0_OR_GREATER
+            Colors.DodgerBlue);
+#else
             Color.Default);
+#endif
 
-                
         public Color DisabledLabelColor
         {
             get => (Color)GetValue(DisabledLabelColorProperty);
             set => SetValue(DisabledLabelColorProperty, value);
         }
-        
+
         public bool IsSelected
         {
             get => (bool)GetValue(IsSelectedProperty);
@@ -66,7 +73,6 @@ namespace Sharpnado.Tabs
             get => (bool)GetValue(IsSelectableProperty);
             set => SetValue(IsSelectableProperty, value);
         }
-        
 
         protected abstract void OnBadgeChanged(BadgeView oldBadge);
 

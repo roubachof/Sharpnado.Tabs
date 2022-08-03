@@ -76,12 +76,24 @@ namespace Sharpnado.Tabs
         {
         }
 
+#if NET6_0_OR_GREATER
+        protected override void OnChildAdded(Element child)
+        {
+            base.OnChildAdded(child);
+
+            if (child is View view)
+            {
+                HideView(view, Children.Count - 1);
+            }
+        }
+#else
         protected override void OnAdded(View view)
         {
             base.OnAdded(view);
 
             HideView(view, Children.Count - 1);
         }
+#endif
 
         private static void SelectedIndexPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
@@ -103,7 +115,7 @@ namespace Sharpnado.Tabs
 
             for (int index = 0; index < Children.Count; index++)
             {
-                var view = Children[index];
+                var view = (View)Children[index];
                 if (view.IsVisible)
                 {
                     previousVisibleView = view;

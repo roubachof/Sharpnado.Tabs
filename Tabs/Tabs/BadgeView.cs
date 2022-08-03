@@ -31,7 +31,11 @@ namespace Sharpnado.Tabs
             nameof(TextColor),
             typeof(Color),
             typeof(TabTextItem),
+#if NET6_0_OR_GREATER
+            Colors.White);
+#else
             Color.White);
+#endif
 
         public static readonly BindableProperty BadgePaddingProperty = BindableProperty.Create(
             nameof(BadgePadding),
@@ -53,7 +57,11 @@ namespace Sharpnado.Tabs
             Padding = 0;
             Margin = 10;
             CornerRadius = (float)(Padding.VerticalThickness + TextSize) / 2;
+#if NET6_0_OR_GREATER
+            BackgroundColor = Colors.Red;
+#else
             BackgroundColor = Color.Red;
+#endif
             HorizontalOptions = LayoutOptions.End;
             VerticalOptions = LayoutOptions.Start;
 

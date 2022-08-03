@@ -1,4 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+#if NET6_0_OR_GREATER
+using Microsoft.Maui.Controls.Shapes;
+#endif
+
 using Sharpnado.Tabs.Effects;
 using Xamarin.Forms;
 using Xamarin.Forms.Shapes;

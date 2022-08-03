@@ -34,21 +34,67 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageProjectUrl>https://github.com/roubachof/MetroLog</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/roubachof/MetroLog</RepositoryUrl>
-		<PackageIconUrl></PackageIconUrl>
-		<PackageTags>maui, netmaui, Logging NLog log4net ios android xamarin dotnet netcore</PackageTags>
+		<PackageId>Sharpnado.Tabs.Maui</PackageId>
+		<PackageProjectUrl>https://github.com/roubachof/Sharpnado.Tabs</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/roubachof/Sharpnado.Tabs</RepositoryUrl>
+		<PackageIcon>images\logo_2_1.png</PackageIcon>
+		<PackageTags>maui dotnetmaui xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</PackageTags>
 
 		<PackageReleaseNotes>
-			First .Net 6 (MAUI) release \o/
+			First MAUI release \o/
 		</PackageReleaseNotes>
 
-		<Title>MetroLog Lightweight Logging for .net 6 (MAUI and beyond!)</Title>
-		<Summary />
+		<Title>"Pure" MAUI Tabs (no renderers)</Title>
+		<Summary>Including fixed tabs, scrollable tabs, bottom tabs, badge, segmented control, custom tabs, button tabs, ...</Summary>
 		<Description>
-			MetroLog is a lightweight logging framework designed for .net 6. Although the API is based on NLog and log4net, the intention is that it's a very basic logging system.
+			Pure MAUI Tabs:
+			* Fixed tabs (android tabs style)
+			* Scrollable tabs
+			* Vertical tabs
+			* Material design tabs (top and leading icon)
+			* Support for SVG images
+			* Segmented tabs
+			* Custom shadows (neumorphism ready)
+			* Badges on tabs
+			* Circle button in tab bar
+			* Bottom bar tabs (ios tabs style)
+			* Custom tabs (be creative just implement TabItem)
+			* Independent ViewSwitcher
+			* Bindable with ItemsSource
 
-			This version targets .net 6, which includes all platforms.
+			--------------
+			Installation
+			--------------
+
+			* In Core project, in `App.xaml.cs`:
+
+			```csharp
+			public App()
+			{
+				InitializeComponent();
+
+				Sharpnado.Tabs.Initializer.Initialize(loggerEnable: false);
+				...
+			}
+			```
+			
+			* In iOS project:
+
+			```csharp
+				Xamarin.Forms.Forms.Init();
+				Sharpnado.Tabs.iOS.Preserver.Preserve();
+			```
+
+			* In UWP project:
+			```csharp
+			var rendererAssemblies = new[]
+			{
+				typeof(UWPShadowsRenderer).GetTypeInfo().Assembly,
+				typeof(UwpTintableImageEffect).GetTypeInfo().Assembly,
+			};
+
+			Xamarin.Forms.Forms.Init(e, rendererAssemblies);
+			```
 		</Description>
 
 		<Owners>Jean-Marie Alfonsi</Owners>
@@ -63,6 +109,10 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<FileVersion>2.3.0.0</FileVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\Docs\logo_2_1.png" Pack="true" PackagePath="\images\" />
+	</ItemGroup>
 	
 	<ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.iOS')) != true AND $(TargetFramework.StartsWith('net6.0-ios')) != true AND $(TargetFramework.StartsWith('net6.0-maccatalyst')) != true ">
 		<Compile Remove="**\**\*.ios.cs" />
@@ -96,6 +146,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Sharpnado.TaskMonitor" Version="1.0.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -104,7 +155,6 @@
 	
 	<ItemGroup>
 	  <Compile Include="..\Tabs\Tabs\AssemblyConfiguration.cs" Link="AssemblyConfiguration.cs" />
-	  <Compile Include="..\Tabs\Tabs\AssemblyInfo.cs" Link="AssemblyInfo.cs" />
 	  <Compile Include="..\Tabs\Tabs\BadgeView.cs" Link="BadgeView.cs" />
 	  <Compile Include="..\Tabs\Tabs\BottomTabItem.xaml.cs" Link="BottomTabItem.xaml.cs" />
 	  <Compile Include="..\Tabs\Tabs\Effects\ImageEffect.cs" Link="Effects\ImageEffect.cs" />

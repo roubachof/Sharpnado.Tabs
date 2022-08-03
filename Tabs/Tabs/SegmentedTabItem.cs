@@ -11,7 +11,11 @@ namespace Sharpnado.Tabs
             nameof(SelectedLabelColor),
             typeof(Color),
             typeof(SegmentedTabItem),
+#if NET6_0_OR_GREATER
+            Colors.DodgerBlue);
+#else
             Color.Default);
+#endif
 
         private readonly Label _label;
 
@@ -68,21 +72,32 @@ namespace Sharpnado.Tabs
 
             if (IsSelected)
             {
+#if !NET6_0_OR_GREATER
                 if (SelectedTabColor != Color.Default)
+#endif
                 {
                     BackgroundColor = SelectedTabColor;
                 }
 
+#if !NET6_0_OR_GREATER
                 if (SelectedLabelColor != Color.Default)
+#endif
                 {
                     _label.TextColor = SelectedLabelColor;
                 }
             }
             else
             {
-                BackgroundColor = Color.Transparent;
 
+#if NET6_0_OR_GREATER
+                BackgroundColor = Colors.Transparent;
+#else
+                BackgroundColor = Color.Transparent;
+#endif
+
+#if !NET6_0_OR_GREATER
                 if (UnselectedLabelColor != Color.Default)
+#endif
                 {
                     _label.TextColor = UnselectedLabelColor;
                 }

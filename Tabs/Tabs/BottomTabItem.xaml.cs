@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 using Sharpnado.Tabs.Effects;
 
@@ -104,7 +105,7 @@ namespace Sharpnado.Tabs
                 return;
             }
 
-            Grid.SetRow(Badge, 0);
+            Grid.SetRow((BindableObject)Badge, 0);
             Grid.Children.Add(Badge);
         }
 
@@ -124,7 +125,7 @@ namespace Sharpnado.Tabs
 
         private void UpdateColors()
         {
-            IconText.TextColor = IsSelectable ?  IsSelected ? SelectedTabColor : UnselectedLabelColor : DisabledLabelColor;
+            IconText.TextColor = IsSelectable ? IsSelected ? SelectedTabColor : UnselectedLabelColor : DisabledLabelColor;
             ImageEffect.SetTintColor(Icon, IsSelected ? SelectedTabColor : UnselectedIconColor);
         }
     }

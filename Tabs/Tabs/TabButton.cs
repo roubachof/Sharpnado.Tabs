@@ -22,7 +22,11 @@ namespace Sharpnado.Tabs
             nameof(ButtonBackgroundColor),
             typeof(Color),
             typeof(TabButton),
+#if NET6_0_OR_GREATER
+            defaultValue: Colors.Transparent);
+#else
             defaultValue: Color.Transparent);
+#endif
 
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             nameof(CornerRadius),
@@ -213,7 +217,11 @@ namespace Sharpnado.Tabs
                 HorizontalOptions = LayoutOptions.Center,
                 Source = IconImageSource,
                 Aspect = Aspect.AspectFit,
+#if NET6_0_OR_GREATER
+                BackgroundColor = Colors.Transparent,
+#else
                 BackgroundColor = Color.Transparent,
+#endif
             };
 
             Content = _imageButton;

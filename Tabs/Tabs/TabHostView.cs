@@ -7,7 +7,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+
+#if !NET6_0_OR_GREATER
 using Sharpnado.Shades;
+#endif
+
 using Sharpnado.Tabs.Effects;
 
 using Xamarin.Forms;
@@ -26,8 +30,13 @@ namespace Sharpnado.Tabs
         Vertical
     }
 
-    [ContentProperty("TabHostContent")]
+    [ContentProperty("Tabs")]
+
+#if NET6_0_OR_GREATER
+    public class TabHostView : ContentView
+#else
     public class TabHostView : Shadows
+#endif
     {
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             nameof(ItemsSource),
@@ -57,7 +66,19 @@ namespace Sharpnado.Tabs
             nameof(SegmentedOutlineColor),
             typeof(Color),
             typeof(TabHostView),
-            defaultValue: Color.Default);
+#if NET6_0_OR_GREATER
+            Colors.DodgerBlue);
+#else
+            Color.Default);
+#endif
+
+#if NET6_0_OR_GREATER
+        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
+            nameof(CornerRadius),
+            typeof(float),
+            typeof(TabHostView),
+            defaultValue: 10);
+#endif
 
         public static readonly BindableProperty SegmentedHasSeparatorProperty = BindableProperty.Create(
             nameof(SegmentedHasSeparator),
@@ -91,7 +112,11 @@ namespace Sharpnado.Tabs
             nameof(BackgroundColor),
             typeof(Color),
             typeof(TabHostView),
+#if NET6_0_OR_GREATER
+            Colors.Transparent);
+#else
             Color.Transparent);
+#endif
 
         private const string Tag = nameof(TabHostView);
 
@@ -113,7 +138,11 @@ namespace Sharpnado.Tabs
 
             Tabs.CollectionChanged += OnTabsCollectionChanged;
 
+#if NET6_0_OR_GREATER
+            base.BackgroundColor = Colors.Transparent;
+#else
             base.BackgroundColor = Color.Transparent;
+#endif
 
             _grid = new Grid
             {
@@ -121,7 +150,7 @@ namespace Sharpnado.Tabs
                 ColumnSpacing = 0,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.Fill,
-                BackgroundColor = BackgroundColor
+                BackgroundColor = BackgroundColor,
             };
 
             _frame = new Frame
@@ -130,15 +159,21 @@ namespace Sharpnado.Tabs
                 HasShadow = false,
                 IsClippedToBounds = true,
                 CornerRadius = CornerRadius,
+#if NET6_0_OR_GREATER
+                BackgroundColor = Colors.Transparent,
+#else
                 BackgroundColor = Color.Transparent,
+#endif
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalOptions = LayoutOptions.Fill,
-                BorderColor = SegmentedOutlineColor
+                BorderColor = SegmentedOutlineColor,
             };
 
             UpdateTabType();
 
+#if !NET6_0_OR_GREATER
             Shades = new List<Shade>();
+#endif
         }
 
         public event EventHandler<SelectedPositionChangedEventArgs> SelectedTabIndexChanged;
@@ -189,6 +224,12 @@ namespace Sharpnado.Tabs
         {
             get => (TabType)GetValue(TabTypeProperty);
             set => SetValue(TabTypeProperty, value);
+        }
+
+        public float CornerRadius
+        {
+            get => (float)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
         }
 
         public int SelectedIndex
@@ -404,7 +445,12 @@ namespace Sharpnado.Tabs
             _frame.BorderColor = SegmentedOutlineColor;
             foreach (var separator in _grid.Children.Where(c => c is BoxView))
             {
-                separator.BackgroundColor = SegmentedOutlineColor;
+
+#if NET6_0_OR_GREATER
+                ((View)separator).BackgroundColor = Colors.Transparent;
+#else
+                separator.BackgroundColor = Color.Transparent;
+#endif
             }
         }
 
@@ -417,7 +463,11 @@ namespace Sharpnado.Tabs
                     return;
                 }
 
+#if NET6_0_OR_GREATER
+                _grid.BackgroundColor = Colors.Transparent;
+#else
                 _grid.BackgroundColor = Color.Transparent;
+#endif
                 _frame.BackgroundColor = BackgroundColor;
                 return;
             }
@@ -427,7 +477,11 @@ namespace Sharpnado.Tabs
                 return;
             }
 
+#if NET6_0_OR_GREATER
+            _frame.BackgroundColor = Colors.Transparent;
+#else
             _frame.BackgroundColor = Color.Transparent;
+#endif
             _grid.BackgroundColor = BackgroundColor;
         }
 
@@ -498,7 +552,7 @@ namespace Sharpnado.Tabs
         private void OnTabItemTapped(object tappedItem)
         {
             var selectedIndex = _selectableTabs.IndexOf((TabItem)tappedItem);
-            
+
             if (!_selectableTabs[selectedIndex].IsSelectable)
             {
                 return;
@@ -518,12 +572,22 @@ namespace Sharpnado.Tabs
             {
                 _frame.Content = _grid;
                 _frame.BackgroundColor = BackgroundColor;
+
+#if NET6_0_OR_GREATER
+                _grid.BackgroundColor = Colors.Transparent;
+#else
                 _grid.BackgroundColor = Color.Transparent;
+#endif
             }
             else
             {
                 _frame.Content = null;
+
+#if NET6_0_OR_GREATER
+                _frame.BackgroundColor = Colors.Transparent;
+#else
                 _frame.BackgroundColor = Color.Transparent;
+#endif
                 _grid.BackgroundColor = BackgroundColor;
             }
 
@@ -893,11 +957,11 @@ namespace Sharpnado.Tabs
 
                 if (Orientation == OrientationType.Horizontal)
                 {
-                    Grid.SetColumn(currentItem, index);
+                    Grid.SetColumn((BindableObject)currentItem, index);
                 }
                 else
                 {
-                    Grid.SetRow(currentItem, index);
+                    Grid.SetRow((BindableObject)currentItem, index);
                 }
 
                 index++;
@@ -978,7 +1042,11 @@ namespace Sharpnado.Tabs
             foreach (var tabButton in Tabs.Where(t => t is TabButton))
             {
                 // We always want our TabButton with the highest Z-index
+#if NET6_0_OR_GREATER
+                tabButton.ZIndex = 100;
+#else
                 _grid.RaiseChild(tabButton);
+#endif
             }
         }
 

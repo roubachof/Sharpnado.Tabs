@@ -28,9 +28,11 @@ namespace Sharpnado.Tabs
             nameof(UnselectedLabelColor),
             typeof(Color),
             typeof(TabTextItem),
+#if NET6_0_OR_GREATER
+            Colors.DodgerBlue);
+#else
             Color.Default);
-        
-
+#endif
 
         public string Label
         {
