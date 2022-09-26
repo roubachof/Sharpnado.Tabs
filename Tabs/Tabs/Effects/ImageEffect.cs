@@ -13,7 +13,11 @@ namespace Sharpnado.Tabs.Effects
                 "TintColor",
                 typeof(Color),
                 typeof(ImageEffect),
+#if NET6_0_OR_GREATER
+                Colors.DodgerBlue,
+#else
                 Color.Default,
+#endif
                 propertyChanged: OnTintColorPropertyPropertyChanged);
 #pragma warning restore SA1401 // Fields should be private
 

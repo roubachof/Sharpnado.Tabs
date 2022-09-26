@@ -693,12 +693,21 @@ namespace Sharpnado.Tabs
             }
             else
             {
+#if NET6_0_OR_GREATER
+                XamEffects.TouchEffect.SetColor(tabItem, tabItem.SelectedTabColor);
+                XamEffects.Commands.SetTap(tabItem, TabItemTappedCommand);
+                XamEffects.Commands.SetTapParameter(tabItem, tabItem);
+
+                tabItem.Effects.Add(new XamEffects.TouchRoutingEffect());
+                tabItem.Effects.Add(new XamEffects.CommandsRoutingEffect());
+#else
                 ViewEffect.SetTouchFeedbackColor(tabItem, tabItem.SelectedTabColor);
                 TapCommandEffect.SetTap(tabItem, TabItemTappedCommand);
                 TapCommandEffect.SetTapParameter(tabItem, tabItem);
 
                 tabItem.Effects.Add(new ViewStyleEffect());
                 tabItem.Effects.Add(new TapCommandRoutingEffect());
+#endif
             }
         }
 

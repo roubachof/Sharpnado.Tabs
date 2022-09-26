@@ -6,7 +6,6 @@ using Xamarin.Forms.Internals;
 
 namespace Sharpnado.Tabs.Effects
 {
-    [Preserve]
     public static class TapCommandEffect
     {
         public static readonly BindableProperty TapProperty = BindableProperty.CreateAttached(

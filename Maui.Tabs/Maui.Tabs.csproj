@@ -62,39 +62,20 @@
 			* Independent ViewSwitcher
 			* Bindable with ItemsSource
 
-			--------------
-			Installation
-			--------------
+			## Installation
 
 			* In Core project, in `App.xaml.cs`:
 
 			```csharp
-			public App()
+			public static MauiApp CreateMauiApp()
 			{
-				InitializeComponent();
-
-				Sharpnado.Tabs.Initializer.Initialize(loggerEnable: false);
-				...
+				var builder = MauiApp.CreateBuilder();
+				builder
+					.UseMauiApp()
+					.UseSharpnadoTabs();
 			}
 			```
 			
-			* In iOS project:
-
-			```csharp
-				Xamarin.Forms.Forms.Init();
-				Sharpnado.Tabs.iOS.Preserver.Preserve();
-			```
-
-			* In UWP project:
-			```csharp
-			var rendererAssemblies = new[]
-			{
-				typeof(UWPShadowsRenderer).GetTypeInfo().Assembly,
-				typeof(UwpTintableImageEffect).GetTypeInfo().Assembly,
-			};
-
-			Xamarin.Forms.Forms.Init(e, rendererAssemblies);
-			```
 		</Description>
 
 		<Owners>Jean-Marie Alfonsi</Owners>
@@ -158,8 +139,6 @@
 	  <Compile Include="..\Tabs\Tabs\BadgeView.cs" Link="BadgeView.cs" />
 	  <Compile Include="..\Tabs\Tabs\BottomTabItem.xaml.cs" Link="BottomTabItem.xaml.cs" />
 	  <Compile Include="..\Tabs\Tabs\Effects\ImageEffect.cs" Link="Effects\ImageEffect.cs" />
-	  <Compile Include="..\Tabs\Tabs\Effects\TapCommandEffect.cs" Link="Effects\TapCommandEffect.cs" />
-	  <Compile Include="..\Tabs\Tabs\Effects\ViewEffect.cs" Link="Effects\ViewEffect.cs" />
 	  <Compile Include="..\Tabs\Tabs\IAnimatableReveal.cs" Link="IAnimatableReveal.cs" />
 	  <Compile Include="..\Tabs\Tabs\IconOptions.cs" Link="IconOptions.cs" />
 	  <Compile Include="..\Tabs\Tabs\Initializer.cs" Link="Initializer.cs" />
@@ -177,9 +156,6 @@
 	  <Compile Include="..\Tabs\Tabs\ViewSwitcher.cs" Link="ViewSwitcher.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Effects\" />
-	  <Folder Include="Platforms\Android\" />
-	  <Folder Include="Platforms\iOS\" />
 	  <Folder Include="Platforms\MacCatalyst\" />
 	  <Folder Include="Platforms\Tizen\" />
 	  <Folder Include="Platforms\Windows\" />
