@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace XamEffects {
+namespace Sharpnado.Tabs.Effects {
     public static class EffectsConfig {
         [Obsolete("Not need with usual Linking")]
         public static void Init() {

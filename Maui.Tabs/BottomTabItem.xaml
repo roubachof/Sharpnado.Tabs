@@ -31,7 +31,7 @@
             RowSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="8*" />
+                <RowDefinition x:Name="IconRowDefinition" Height="8*" />
                 <RowDefinition x:Name="TextRowDefinition" Height="5*" />
             </Grid.RowDefinitions>
 

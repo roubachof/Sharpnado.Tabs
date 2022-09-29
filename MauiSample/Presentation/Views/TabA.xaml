@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView x:Class="MauiSample.Presentation.Views.TabA"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customViews="clr-namespace:MauiSample.Presentation.CustomViews"
+             xmlns:tabs="http://sharpnado.com">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="MaterialTabStyle" TargetType="tabs:MaterialUnderlinedTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+                <Setter Property="IconSize" Value="24" />
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="LabelSize" Value="14" />
+                <Setter Property="UnderlineAllTab" Value="True" />
+                <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
+            </Style>
+
+            <Style x:Key="BottomTabStyle"
+                   BasedOn="{StaticResource MaterialTabStyle}"
+                   TargetType="tabs:MaterialUnderlinedTabItem">
+                <Setter Property="LabelSize" Value="12" />
+            </Style>
+
+            <Style x:Key="LabelHeader" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansExtraBold" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="16,0" />
+            </Style>
+
+            <Style x:Key="LabelDescription" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="Card" TargetType="Border">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Stroke" Value="{StaticResource Gray975}" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+                <Setter Property="StrokeThickness" Value="2" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="0,120,0,95" Spacing="20">
+
+            <Border Style="{StaticResource Card}">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,50,60">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="BADGES" />
+
+                    <tabs:TabHostView x:Name="TabHostBadge"
+                                      Grid.Row="1"
+                                      Margin="0"
+                                      BackgroundColor="{StaticResource Gray900}">
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                        IconImageSource="list_96.png"
+                                                        IconOptions="TopIcon"
+                                                        IconTextSpacing="0"
+                                                        Label="Super">
+                            <tabs:TabItem.Badge>
+                                <tabs:BadgeView BackgroundColor="{StaticResource GreenSuccess}" Text="new" />
+                            </tabs:TabItem.Badge>
+                        </tabs:MaterialUnderlinedTabItem>
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                        IconImageSource="theme_96.png"
+                                                        IconOptions="IconOnly">
+                            <tabs:TabItem.Badge>
+                                <tabs:BadgeView BackgroundColor="{StaticResource OrangeWarning}" Text="warning" />
+                            </tabs:TabItem.Badge>
+                        </tabs:MaterialUnderlinedTabItem>
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                        IconImageSource="grid_view_96.png"
+                                                        IconOptions="LeadingIcon"
+                                                        IconTextSpacing="5"
+                                                        Label="MAUI">
+                            <tabs:TabItem.Badge>
+                                <tabs:BadgeView BackgroundColor="{StaticResource Tertiary}" ShowIndicator="True" />
+                            </tabs:TabItem.Badge>
+                        </tabs:MaterialUnderlinedTabItem>
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                        Padding="10,0"
+                                                        IconImageSource="house_96.png"
+                                                        IconOptions="TextOnly"
+                                                        Label="Sample">
+                            <tabs:TabItem.Badge>
+                                <tabs:BadgeView BackgroundColor="{StaticResource Tertiary}" Text="2" />
+                            </tabs:TabItem.Badge>
+                        </tabs:MaterialUnderlinedTabItem>
+                    </tabs:TabHostView>
+
+                    <tabs:ViewSwitcher Grid.Row="2"
+                                       Margin="16,0"
+                                       VerticalOptions="Center"
+                                       Animate="False"
+                                       SelectedIndex="{Binding Source={x:Reference TabHostBadge}, Path=SelectedIndex, Mode=OneWay}">
+                        <Label Style="{StaticResource LabelDescription}" Text="Text = &quot;new&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="Text = &quot;warning&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="ShowIndicator = &quot;True&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="Text = &quot;2&quot;" />
+                    </tabs:ViewSwitcher>
+
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,60,120,50">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="TAB BUTTON" />
+
+                    <Label Grid.Row="1"
+                           Grid.RowSpan="2"
+                           Style="{StaticResource LabelDescription}"
+                           Margin="16"
+                           VerticalOptions="Start"
+                           Text="You can add a TabButton wherever you want in your tabs." />
+
+                    <ContentView x:Name="ScreenshotContainer"
+                                 Grid.Row="0"
+                                 Grid.RowSpan="4">
+                        <Label Style="{StaticResource LabelDescription}"
+                               HorizontalOptions="Center"
+                               Text="No screenshot taken" />
+                    </ContentView>
+
+                    <tabs:TabHostView x:Name="TabHostButton"
+                                      Grid.Row="3"
+                                      Margin="0"
+                                      BackgroundColor="{StaticResource Gray900}">
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource BottomTabStyle}"
+                                                        IconImageSource="list_96.png"
+                                                        IconOptions="TopIcon"
+                                                        IconTextSpacing="0"
+                                                        Label="Super" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource BottomTabStyle}"
+                                                        IconImageSource="theme_96.png"
+                                                        IconOptions="TopIcon"
+                                                        IconTextSpacing="0"
+                                                        Label="Duper" />
+                        <tabs:TabButton x:Name="TabButton"
+                                        ButtonBackgroundColor="{StaticResource Primary}"
+                                        ButtonCircleSize="60"
+                                        ButtonPadding="12"
+                                        IconImageSource="camera_96.png"
+                                        TranslationY="-10" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource BottomTabStyle}"
+                                                        IconImageSource="grid_view_96.png"
+                                                        IconOptions="TopIcon"
+                                                        IconTextSpacing="0"
+                                                        Label="MAUI" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource BottomTabStyle}"
+                                                        IconImageSource="house_96.png"
+                                                        IconOptions="TopIcon"
+                                                        IconTextSpacing="0"
+                                                        Label="Sample" />
+                    </tabs:TabHostView>
+
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,50,Auto">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="CUSTOM TABS" />
+
+                    <tabs:TabHostView Grid.Row="1"
+                                      HeightRequest="50"
+                                      BackgroundColor="{StaticResource Gray900}"
+                                      SelectedIndex="1">
+                        <customViews:SpamTab SelectedTabColor="{StaticResource Primary}" SpamImage="spam_classic_home.png" />
+                        <customViews:SpamTab SelectedTabColor="{StaticResource Primary}" SpamImage="spam_classic_list.png" />
+                        <customViews:SpamTab SelectedTabColor="{StaticResource Primary}" SpamImage="spam_classic_tabs.png" />
+                    </tabs:TabHostView>
+
+                    <Label Grid.Row="2"
+                           Style="{StaticResource LabelDescription}"
+                           Margin="16"
+                           Text="Create fully custom tabs by simply inheriting from TabItem." />
+                </Grid>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

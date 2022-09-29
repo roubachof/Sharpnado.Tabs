@@ -8,20 +8,19 @@ using Android.Widget;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Controls.Platform;
 
-using XamEffects;
-using XamEffects.Droid;
-using XamEffects.Droid.GestureCollectors;
+using Sharpnado.Tabs.Effects;
+using Sharpnado.Tabs.Effects.Droid;
+using Sharpnado.Tabs.Effects.Droid.GestureCollectors;
+
 using Color = Android.Graphics.Color;
 using ListView = Android.Widget.ListView;
 using ScrollView = Android.Widget.ScrollView;
 using View = Android.Views.View;
 
-[assembly: ExportEffect(typeof(TouchEffectPlatform), nameof(TouchEffect))]
-
-namespace XamEffects.Droid {
+namespace Sharpnado.Tabs.Effects.Droid {
     public class TouchEffectPlatform : PlatformEffect {
         public bool EnableRipple => Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop;
-        public bool IsDisposed => (Container as IVisualElementRenderer)?.Element == null;
+        public bool IsDisposed => Container == null || Container.Handle == IntPtr.Zero;
         public View View => Control ?? Container;
 
         Color _color;
@@ -67,7 +66,7 @@ namespace XamEffects.Droid {
 
             if (Container is not ViewGroup group)
             {
-                throw new InvalidOperationException("Container must be a ViewGroup");
+                return;
             }
 
             group.RemoveView(_viewOverlay);

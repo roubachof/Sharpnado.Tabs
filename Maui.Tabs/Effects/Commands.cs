@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace XamEffects {
+namespace Sharpnado.Tabs.Effects {
     public static class Commands {
         [Obsolete("Not need with usual Linking")]
         public static void Init() {
@@ -103,8 +103,7 @@ namespace XamEffects {
         }
     }
 
-    public class CommandsRoutingEffect : RoutingEffect {
-        public CommandsRoutingEffect() : base("XamEffects." + nameof(Commands)) {
-        }
+    public class CommandsRoutingEffect : RoutingEffect
+    {
     }
 }

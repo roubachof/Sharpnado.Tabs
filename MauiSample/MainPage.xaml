@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiSample.MainPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tabs="http://sharpnado.com"
+             xmlns:viewModels="clr-namespace:MauiSample.Presentation.ViewModels"
+             xmlns:views="clr-namespace:MauiSample.Presentation.Views"
+             x:DataType="viewModels:BottomTabsPageViewModel"
+             BackgroundColor="{StaticResource Black}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BottomTab" TargetType="tabs:BottomTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+                <Setter Property="UnselectedLabelColor" Value="{StaticResource White}" />
+                <Setter Property="LabelSize" Value="36" />
+                <Setter Property="FontFamily" Value="OpenSansExtraBold" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <Grid Margin="16,0" RowDefinitions="120,*,95">
+
+        <ContentView ZIndex="100">
+            <ContentView.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0.2" Color="{StaticResource Black}" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </ContentView.Background>
+            <Image Margin="0,20" Source="logo.png">
+                <Image.Shadow>
+                    <Shadow Brush="{StaticResource Black}"
+                            Opacity="0.9"
+                            Radius="30"
+                            Offset="0,10" />
+                </Image.Shadow>
+            </Image>
+        </ContentView>
+
+        <tabs:ViewSwitcher x:Name="Switcher"
+                           Grid.RowSpan="3"
+                           Margin="0"
+                           Animate="True"
+                           SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
+            <tabs:DelayedView x:TypeArguments="views:TabM"
+                              AccentColor="{StaticResource Primary}"
+                              Animate="True"
+                              BindingContext="{Binding HomePageViewModel}"
+                              UseActivityIndicator="True" />
+            <tabs:DelayedView x:TypeArguments="views:TabA"
+                              AccentColor="{StaticResource Primary}"
+                              Animate="True"
+                              UseActivityIndicator="True" />
+            <tabs:LazyView x:TypeArguments="views:AnotherLazyView"
+                           BindingContext="{Binding GridPageViewModel}"
+                           UseActivityIndicator="True" />
+            <Label Margin="64,0"
+                   VerticalOptions="Center"
+                   Text="HERE WE ARE! BORN TO BE KINGS, WE'RE THE PRINCES OF THE UNIVERSEEEEEEE! Well I'm a fan of Queen didn't I tell you that?" />
+        </tabs:ViewSwitcher>
+
+        <ContentView Grid.Row="2">
+            <ContentView.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0.0" Color="Transparent" />
+                    <GradientStop Offset="0.5" Color="{StaticResource Black}" />
+                </LinearGradientBrush>
+            </ContentView.Background>
+            <tabs:TabHostView WidthRequest="250"
+                              HeightRequest="60"
+                              Padding="20,0"
+                              HorizontalOptions="Center"
+                              BackgroundColor="{StaticResource Gray900}"
+                              CornerRadius="30"
+                              IsSegmented="True"
+                              Orientation="Horizontal"
+                              SegmentedOutlineColor="{StaticResource Gray950}"
+                              SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}"
+                              TabType="Fixed">
+                <tabs:TabHostView.Shadow>
+                    <Shadow Brush="{StaticResource Primary}"
+                            Opacity="0.7"
+                            Radius="30"
+                            Offset="0,10" />
+                </tabs:TabHostView.Shadow>
+                <tabs:BottomTabItem Style="{StaticResource BottomTab}" Label="M" />
+                <tabs:BottomTabItem Style="{StaticResource BottomTab}" Label="A">
+                    <tabs:BottomTabItem.Badge>
+                        <tabs:BadgeView BackgroundColor="{StaticResource Tertiary}" Text="new" />
+                    </tabs:BottomTabItem.Badge>
+                </tabs:BottomTabItem>
+                <tabs:UnderlinedTabItem FontFamily="OpenSansExtraBold"
+                                        Label="U"
+                                        LabelSize="36"
+                                        SelectedTabColor="{StaticResource Tertiary}"
+                                        UnselectedLabelColor="{StaticResource White}" />
+                <tabs:BottomTabItem Style="{StaticResource BottomTab}"
+                                    Padding="0,0,10,0"
+                                    Label="I">
+                    <tabs:BottomTabItem.Badge>
+                        <tabs:BadgeView BackgroundColor="{StaticResource Tertiary}" Text="2" />
+                    </tabs:BottomTabItem.Badge>
+                </tabs:BottomTabItem>
+            </tabs:TabHostView>
+        </ContentView>
+    </Grid>
+
+</ContentPage>

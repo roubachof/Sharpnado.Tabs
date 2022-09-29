@@ -1,21 +1,15 @@
 ﻿using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
-using CoreGraphics;
 using UIKit;
-using XamEffects;
-using XamEffects.iOS;
-using XamEffects.iOS.GestureCollectors;
-using XamEffects.iOS.GestureRecognizers;
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
-using Sharpnado.Tabs.iOS;
-using System.Runtime.InteropServices;
 
 using Microsoft.Maui.Controls.Platform;
 
-[assembly: ExportEffect(typeof(TouchEffectPlatform), nameof(TouchEffect))]
+using Sharpnado.Tabs.Effects;
+using Sharpnado.Tabs.Effects.iOS;
+using Sharpnado.Tabs.Effects.iOS.GestureCollectors;
+using Sharpnado.Tabs.Effects.iOS.GestureRecognizers;
 
-namespace XamEffects.iOS {
+namespace Sharpnado.Tabs.Effects.iOS {
     public class TouchEffectPlatform : PlatformEffect {
         public bool IsDisposed => (Container as IVisualElementRenderer)?.Element == null;
         public UIView View => Control ?? Container;

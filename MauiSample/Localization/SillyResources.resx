@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Empty_Screen" xml:space="preserve">
+    <value>Nothing here folks.</value>
+    <comment>dougal.jpg</comment>
+  </data>
+  <data name="ErrorButton_Retry" xml:space="preserve">
+    <value>RETRY</value>
+  </data>
+  <data name="ErrorType_Network" xml:space="preserve">
+    <value>Network Error thrown</value>
+  </data>
+  <data name="ErrorType_NoData" xml:space="preserve">
+    <value>No Data returned</value>
+  </data>
+  <data name="ErrorType_None" xml:space="preserve">
+    <value>No Error</value>
+  </data>
+  <data name="ErrorType_Server" xml:space="preserve">
+    <value>Server Exception thrown</value>
+  </data>
+  <data name="ErrorType_Unknown" xml:space="preserve">
+    <value>Unknown Error thrown</value>
+  </data>
+  <data name="Error_Business" xml:space="preserve">
+    <value>"It's not me, it's the back office."</value>
+    <comment>server.png</comment>
+  </data>
+  <data name="Error_Network" xml:space="preserve">
+    <value>Couldn't reach the Internet.</value>
+    <comment>the_internet.png</comment>
+  </data>
+  <data name="Error_Unknown" xml:space="preserve">
+    <value>"An ill wind is blowing..."</value>
+    <comment>richmond.jpg</comment>
+  </data>
+  <data name="SillyDude_GoToSource" xml:space="preserve">
+    <value>WATCH ON YOUTUBE</value>
+  </data>
+  <data name="SillyInfiniteGridPeople_Title" xml:space="preserve">
+    <value>Infinite Grid</value>
+  </data>
+  <data name="SillyPeople_ErrorEmulation" xml:space="preserve">
+    <value>Error Emulation</value>
+  </data>
+  <data name="SillyPeople_GoToGrid" xml:space="preserve">
+    <value>GRID MODE</value>
+  </data>
+  <data name="SillyPeople_HorizontalListView" xml:space="preserve">
+    <value>HORIZONTAL LIST VIEW</value>
+  </data>
+  <data name="SillyPeople_InfiniteListView" xml:space="preserve">
+    <value>INFINITE LIST VIEW</value>
+  </data>
+  <data name="SillyPeople_SillyOfTheDay" xml:space="preserve">
+    <value>SILLY DUDE OF THE DAY</value>
+  </data>
+  <data name="SillyPeople_TaskLoaderView" xml:space="preserve">
+    <value>TASK LOADER VIEW</value>
+  </data>
+  <data name="SillyPeople_Title" xml:space="preserve">
+    <value>Sharpnado</value>
+  </data>
+  <data name="SortSillyPeople_Title" xml:space="preserve">
+    <value>Drag'N'Drop</value>
+  </data>
+  <data name="Tabs_Filmography" xml:space="preserve">
+    <value>FILMOGRAPHY</value>
+  </data>
+  <data name="Tabs_Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Tabs_Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Tabs_List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="Tabs_Meme" xml:space="preserve">
+    <value>MEME</value>
+  </data>
+  <data name="Tabs_Quote" xml:space="preserve">
+    <value>QUOTE</value>
+  </data>
+</root>

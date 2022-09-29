@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using Xamarin.Forms;
-
-namespace XamEffects {
+﻿namespace Sharpnado.Tabs.Effects {
     public static class TouchEffect {
 
         public static readonly BindableProperty ColorProperty =
@@ -48,8 +44,7 @@ namespace XamEffects {
         }
     }
 
-    public class TouchRoutingEffect : RoutingEffect {
-        public TouchRoutingEffect() : base("XamEffects." + nameof(TouchEffect)) {
-        }
+    public class TouchRoutingEffect : RoutingEffect
+    {
     }
 }

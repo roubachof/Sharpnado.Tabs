@@ -17,11 +17,6 @@ namespace Sharpnado.Tabs
             typeof(TabTextItem),
             3d);
 
-        public UnderlinedTabItemBase()
-        {
-            LabelSize = 14;
-        }
-
         public bool UnderlineAllTab
         {
             get => (bool)GetValue(UnderlineAllTabProperty);

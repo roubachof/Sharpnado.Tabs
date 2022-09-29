@@ -17,13 +17,11 @@ namespace Sharpnado.Tabs
             Color.Default);
 #endif
 
-        private readonly Label _label;
-
         public SegmentedTabItem()
         {
-            _label = new Label { VerticalOptions = LayoutOptions.Center, HorizontalOptions = LayoutOptions.Center };
-            Content = _label;
+#if !NET6_0_OR_GREATER
             UpdateLabel();
+#endif
         }
 
         public Color SelectedLabelColor
@@ -31,6 +29,14 @@ namespace Sharpnado.Tabs
             get => (Color)GetValue(SelectedLabelColorProperty);
             set => SetValue(SelectedLabelColorProperty, value);
         }
+
+#if NET6_0_OR_GREATER
+        protected override void OnHandlerChanged()
+        {
+            base.OnHandlerChanged();
+            UpdateLabel();
+        }
+#endif
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -57,18 +63,18 @@ namespace Sharpnado.Tabs
 
         private void UpdateLabel()
         {
-            if (_label == null)
-            {
-                return;
-            }
+            var label = new Label
+                {
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
+                    FontSize = LabelSize,
+                    Text = Label,
+                };
 
             if (FontFamily != null)
             {
-                _label.FontFamily = FontFamily;
+                label.FontFamily = FontFamily;
             }
-
-            _label.FontSize = LabelSize;
-            _label.Text = Label;
 
             if (IsSelected)
             {
@@ -83,12 +89,11 @@ namespace Sharpnado.Tabs
                 if (SelectedLabelColor != Color.Default)
 #endif
                 {
-                    _label.TextColor = SelectedLabelColor;
+                    label.TextColor = SelectedLabelColor;
                 }
             }
             else
             {
-
 #if NET6_0_OR_GREATER
                 BackgroundColor = Colors.Transparent;
 #else
@@ -99,9 +104,11 @@ namespace Sharpnado.Tabs
                 if (UnselectedLabelColor != Color.Default)
 #endif
                 {
-                    _label.TextColor = UnselectedLabelColor;
+                    label.TextColor = UnselectedLabelColor;
                 }
             }
+
+            Content = label;
         }
     }
 }

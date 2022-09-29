@@ -60,7 +60,9 @@ namespace Sharpnado.Tabs.Effects
         public static readonly string Name = $"Sharpnado.{nameof(TintableImageEffect)}";
 
         public TintableImageEffect(Color color)
+#if !NET6_0_OR_GREATER
             : base(Name)
+#endif
         {
             TintColor = color;
         }

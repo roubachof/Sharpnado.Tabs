@@ -1,18 +1,16 @@
-﻿using Sharpnado.Tabs.iOS;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Input;
 
 using Microsoft.Maui.Controls.Platform;
 
+using Sharpnado.Tabs.Effects;
+using Sharpnado.Tabs.Effects.iOS;
+using Sharpnado.Tabs.Effects.iOS.GestureCollectors;
+using Sharpnado.Tabs.Effects.iOS.GestureRecognizers;
+
 using UIKit;
-using XamEffects;
-using XamEffects.iOS;
-using XamEffects.iOS.GestureCollectors;
-using XamEffects.iOS.GestureRecognizers;
 
-[assembly: ExportEffect(typeof(CommandsPlatform), nameof(Commands))]
-
-namespace XamEffects.iOS {
+namespace Sharpnado.Tabs.Effects.iOS {
     public class CommandsPlatform : PlatformEffect {
         public UIView View => Control ?? Container;
 

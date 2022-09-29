@@ -136,8 +136,8 @@
 	
 	<ItemGroup>
 	  <Compile Include="..\Tabs\Tabs\AssemblyConfiguration.cs" Link="AssemblyConfiguration.cs" />
-	  <Compile Include="..\Tabs\Tabs\BadgeView.cs" Link="BadgeView.cs" />
 	  <Compile Include="..\Tabs\Tabs\BottomTabItem.xaml.cs" Link="BottomTabItem.xaml.cs" />
+	  <Compile Include="..\Tabs\Tabs\DelayedView.cs" Link="DelayedView.cs" />
 	  <Compile Include="..\Tabs\Tabs\Effects\ImageEffect.cs" Link="Effects\ImageEffect.cs" />
 	  <Compile Include="..\Tabs\Tabs\IAnimatableReveal.cs" Link="IAnimatableReveal.cs" />
 	  <Compile Include="..\Tabs\Tabs\IconOptions.cs" Link="IconOptions.cs" />

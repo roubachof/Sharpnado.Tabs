@@ -1,20 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Foundation;
 
-using Foundation;
-
-using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Platform;
 
 using Sharpnado.Tabs.Effects;
-using Sharpnado.Tabs.iOS;
 using Sharpnado.Tasks;
 
 using UIKit;
-
-[assembly: ResolutionGroupName("Sharpnado")]
-[assembly: ExportEffect(typeof(iOSTintableImageEffect), nameof(TintableImageEffect))]
 
 namespace Sharpnado.Tabs.iOS
 {
@@ -50,7 +42,7 @@ namespace Sharpnado.Tabs.iOS
         {
             _isAttached = false;
             _tintAttempts = 0;
-            if (Control is UIImageView imageView && imageView.Image != null)
+            if (Control is UIImageView { Image: { } } imageView)
             {
                 imageView.Image = imageView.Image.ImageWithRenderingMode(UIImageRenderingMode.Automatic);
             }
@@ -66,17 +58,15 @@ namespace Sharpnado.Tabs.iOS
             var imageView = (UIImageView)Control;
             var effect = (TintableImageEffect)Element.Effects.FirstOrDefault(x => x is TintableImageEffect);
 
-            var color = effect?.TintColor.ToUIColor();
+            var color = effect?.TintColor?.ToPlatform();
             if (color == null)
             {
                 return;
             }
-            
+
             if (effect.TintColor.IsDefault())
             {
-	            color = UIDevice.CurrentDevice.CheckSystemVersion(13, 0)
-		            ? UIColor.Label
-		            : UIColor.Black;
+                color = UIDevice.CurrentDevice.CheckSystemVersion(13, 0) ? UIColor.Label : UIColor.Black;
             }
 
             Control.TintColor = color;

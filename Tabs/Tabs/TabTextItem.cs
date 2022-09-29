@@ -9,8 +9,7 @@ namespace Sharpnado.Tabs
             nameof(FontFamily),
             typeof(string),
             typeof(TabTextItem),
-            null,
-            BindingMode.OneWay);
+            null);
 
         public static readonly BindableProperty LabelProperty = BindableProperty.Create(
             nameof(Label),

@@ -1,11 +1,8 @@
-﻿using Sharpnado.Tabs.iOS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UIKit;
-using XamEffects.iOS.GestureRecognizers;
+﻿using Sharpnado.Tabs.Effects.iOS.GestureRecognizers;
 
-namespace XamEffects.iOS.GestureCollectors {
+using UIKit;
+
+namespace Sharpnado.Tabs.Effects.iOS.GestureCollectors {
     internal static class TouchGestureCollector {
         static Dictionary<UIView, GestureActionsContainer> Collection { get; } =
             new Dictionary<UIView, GestureActionsContainer>();

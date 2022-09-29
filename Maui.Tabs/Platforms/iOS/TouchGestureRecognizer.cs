@@ -1,15 +1,8 @@
-﻿using System;
-using System.Linq;
-using Foundation;
+﻿using Foundation;
 using UIKit;
-using Xamarin.Forms;
-using System.Threading.Tasks;
-using CoreGraphics;
-using XamEffects.iOS.GestureCollectors;
-using System.Threading;
 using CoreFoundation;
 
-namespace XamEffects.iOS.GestureRecognizers {
+namespace Sharpnado.Tabs.Effects.iOS.GestureRecognizers {
     public class TouchGestureRecognizer : UIGestureRecognizer {
         public class TouchArgs : EventArgs {
             public TouchState State { get; }

@@ -21,13 +21,13 @@ namespace Sharpnado.Tabs
     public enum TabType
     {
         Fixed = 0,
-        Scrollable
+        Scrollable,
     }
 
     public enum OrientationType
     {
         Horizontal = 0,
-        Vertical
+        Vertical,
     }
 
     [ContentProperty("Tabs")]
@@ -77,7 +77,7 @@ namespace Sharpnado.Tabs
             nameof(CornerRadius),
             typeof(float),
             typeof(TabHostView),
-            defaultValue: 10);
+            defaultValue: 10f);
 #endif
 
         public static readonly BindableProperty SegmentedHasSeparatorProperty = BindableProperty.Create(
@@ -99,6 +99,7 @@ namespace Sharpnado.Tabs
             typeof(int),
             typeof(TabHostView),
             defaultValue: -1,
+            BindingMode.TwoWay,
             propertyChanged: SelectedIndexPropertyChanged);
 
         public static readonly BindableProperty OrientationProperty = BindableProperty.Create(
@@ -148,7 +149,7 @@ namespace Sharpnado.Tabs
             {
                 RowSpacing = 0,
                 ColumnSpacing = 0,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
+                HorizontalOptions = LayoutOptions.Fill,
                 VerticalOptions = LayoutOptions.Fill,
                 BackgroundColor = BackgroundColor,
             };
@@ -164,7 +165,7 @@ namespace Sharpnado.Tabs
 #else
                 BackgroundColor = Color.Transparent,
 #endif
-                HorizontalOptions = LayoutOptions.FillAndExpand,
+                HorizontalOptions = LayoutOptions.Fill,
                 VerticalOptions = LayoutOptions.Fill,
                 BorderColor = SegmentedOutlineColor,
             };
@@ -275,6 +276,14 @@ namespace Sharpnado.Tabs
 
             switch (propertyName)
             {
+                case nameof(HeightRequest):
+                    if (_scrollView != null)
+                    {
+                        _scrollView.HeightRequest = this.HeightRequest;
+                    }
+
+                    break;
+
                 case nameof(ItemsSource):
                     UpdateItemsSource();
                     break;
@@ -349,7 +358,7 @@ namespace Sharpnado.Tabs
             }
 
             int index = 0;
-            foreach (var model in ItemsSource ?? new object[0])
+            foreach (var model in ItemsSource ?? Array.Empty<object>())
             {
                 var tabItem = CreateTabItem(model);
                 Tabs.Insert(index++, tabItem);
@@ -389,7 +398,7 @@ namespace Sharpnado.Tabs
             {
                 case NotifyCollectionChangedAction.Add:
                     var addedIndex = e.NewStartingIndex;
-                    foreach (var model in e.NewItems)
+                    foreach (var model in e.NewItems!)
                     {
                         var tabItem = CreateTabItem(model);
                         Tabs.Insert(addedIndex++, tabItem);
@@ -520,11 +529,11 @@ namespace Sharpnado.Tabs
         {
             if (Orientation == OrientationType.Horizontal)
             {
-                return new BoxView { BackgroundColor = SegmentedOutlineColor, WidthRequest = 1 };
+                return new BoxView { Color = SegmentedOutlineColor, WidthRequest = 1 };
             }
             else
             {
-                return new BoxView { BackgroundColor = SegmentedOutlineColor, HeightRequest = 1 };
+                return new BoxView { Color = SegmentedOutlineColor, HeightRequest = 1 };
             }
         }
 
@@ -594,11 +603,15 @@ namespace Sharpnado.Tabs
             if (TabType == TabType.Scrollable)
             {
                 base.Content = _scrollView ??= new ScrollView
-                {
-                    Orientation = this.Orientation == OrientationType.Horizontal ? ScrollOrientation.Horizontal : ScrollOrientation.Vertical,
-                    HorizontalScrollBarVisibility =
-                        ShowScrollbar ? ScrollBarVisibility.Always : ScrollBarVisibility.Never,
-                };
+                    {
+                        HeightRequest = this.HeightRequest,
+                        Orientation =
+                            this.Orientation == OrientationType.Horizontal
+                                ? ScrollOrientation.Horizontal
+                                : ScrollOrientation.Vertical,
+                        HorizontalScrollBarVisibility =
+                            ShowScrollbar ? ScrollBarVisibility.Always : ScrollBarVisibility.Never,
+                    };
 
                 if (IsSegmented)
                 {
@@ -685,7 +698,7 @@ namespace Sharpnado.Tabs
 
         private void AddTapCommand(TabItem tabItem)
         {
-            if (Device.RuntimePlatform == Device.UWP)
+            if (DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.WinUI)
             {
                 tabItem.GestureRecognizers.Add(
                     new TapGestureRecognizer { Command = TabItemTappedCommand, CommandParameter = tabItem }
@@ -694,12 +707,12 @@ namespace Sharpnado.Tabs
             else
             {
 #if NET6_0_OR_GREATER
-                XamEffects.TouchEffect.SetColor(tabItem, tabItem.SelectedTabColor);
-                XamEffects.Commands.SetTap(tabItem, TabItemTappedCommand);
-                XamEffects.Commands.SetTapParameter(tabItem, tabItem);
+                Sharpnado.Tabs.Effects.TouchEffect.SetColor(tabItem, tabItem.SelectedTabColor);
+                Sharpnado.Tabs.Effects.Commands.SetTap(tabItem, TabItemTappedCommand);
+                Sharpnado.Tabs.Effects.Commands.SetTapParameter(tabItem, tabItem);
 
-                tabItem.Effects.Add(new XamEffects.TouchRoutingEffect());
-                tabItem.Effects.Add(new XamEffects.CommandsRoutingEffect());
+                tabItem.Effects.Add(new Sharpnado.Tabs.Effects.TouchRoutingEffect());
+                tabItem.Effects.Add(new Sharpnado.Tabs.Effects.CommandsRoutingEffect());
 #else
                 ViewEffect.SetTouchFeedbackColor(tabItem, tabItem.SelectedTabColor);
                 TapCommandEffect.SetTap(tabItem, TabItemTappedCommand);

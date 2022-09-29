@@ -41,9 +41,8 @@ namespace Sharpnado.Tabs
 
             _isInitialized = true;
 
-            LabelSize = 12;
-
             UpdateTextVisibility();
+            UpdateIconVisibility();
             UpdateColors();
         }
 
@@ -87,6 +86,10 @@ namespace Sharpnado.Tabs
                     UpdateTextVisibility();
                     break;
 
+                case nameof(IconImageSource):
+                    UpdateIconVisibility();
+                    break;
+
                 case nameof(IsSelectable):
                 case nameof(UnselectedLabelColor):
                 case nameof(UnselectedIconColor):
@@ -106,6 +109,7 @@ namespace Sharpnado.Tabs
             }
 
             Grid.SetRow((BindableObject)Badge, 0);
+            Grid.SetRowSpan((BindableObject)Badge, 2);
             Grid.Children.Add(Badge);
         }
 
@@ -120,6 +124,20 @@ namespace Sharpnado.Tabs
             {
                 TextRowDefinition.Height = new GridLength(0);
                 Icon.VerticalOptions = LayoutOptions.Center;
+            }
+        }
+
+        private void UpdateIconVisibility()
+        {
+            if (IconImageSource != null)
+            {
+                IconRowDefinition.Height = new GridLength(8, GridUnitType.Star);
+                IconText.VerticalOptions = LayoutOptions.End;
+            }
+            else
+            {
+                IconRowDefinition.Height = new GridLength(0);
+                IconText.VerticalOptions = LayoutOptions.Center;
             }
         }
 

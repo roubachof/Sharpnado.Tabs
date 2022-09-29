@@ -31,10 +31,16 @@ namespace Sharpnado.Tabs
 
         private View _activeView;
 
+        private bool _isAttached;
+
         public ViewSwitcher()
         {
             RowSpacing = 0;
             ColumnSpacing = 0;
+
+#if !NET6_0_OR_GREATER
+            _isAttached = true;
+#endif
         }
 
         public int SelectedIndex
@@ -77,6 +83,13 @@ namespace Sharpnado.Tabs
         }
 
 #if NET6_0_OR_GREATER
+        protected override void OnHandlerChanged()
+        {
+            base.OnHandlerChanged();
+
+            _isAttached = true;
+        }
+
         protected override void OnChildAdded(Element child)
         {
             base.OnChildAdded(child);
@@ -145,7 +158,7 @@ namespace Sharpnado.Tabs
         private void HideView(View view, int viewIndex)
         {
             view.IsVisible = false;
-            if (Animate && view is IAnimatableReveal animatable && animatable.Animate)
+            if (Animate && view is IAnimatableReveal animatable && animatable.Animate && _isAttached)
             {
                 view.TranslationY = -200;
                 view.Opacity = 0;
@@ -177,7 +190,7 @@ namespace Sharpnado.Tabs
 
             view.IsVisible = true;
 
-            if (Animate && view is IAnimatableReveal animatable && animatable.Animate && view.Opacity == 0)
+            if (Animate && view is IAnimatableReveal animatable && animatable.Animate && view.Opacity == 0 && _isAttached)
             {
                 var localView = view;
                 TaskMonitor.Create(

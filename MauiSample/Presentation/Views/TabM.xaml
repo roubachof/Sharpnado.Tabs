@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView x:Class="MauiSample.Presentation.Views.TabM"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tabs="http://sharpnado.com">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ScrollableTabStyle" TargetType="tabs:UnderlinedTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+                <Setter Property="FontFamily" Value="OpenSansSemibold" />
+                <Setter Property="LabelSize" Value="14" />
+                <Setter Property="Padding" Value="20, 0" />
+                <Setter Property="UnderlineAllTab" Value="True" />
+                <Setter Property="UnderlineHeight" Value="2" />
+                <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
+            </Style>
+
+            <Style x:Key="MaterialTabStyle" TargetType="tabs:MaterialUnderlinedTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+                <Setter Property="IconSize" Value="24" />
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="LabelSize" Value="14" />
+                <Setter Property="UnderlineAllTab" Value="True" />
+                <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
+            </Style>
+
+            <Style x:Key="SegmentedTabStyle" TargetType="tabs:SegmentedTabItem">
+                <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+                <Setter Property="FontFamily" Value="OpenSansSemibold" />
+                <Setter Property="LabelSize" Value="15" />
+                <Setter Property="SelectedLabelColor" Value="{StaticResource Secondary}" />
+                <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
+            </Style>
+
+            <Style x:Key="LabelHeader" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansExtraBold" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="16,0" />
+            </Style>
+
+            <Style x:Key="LabelDescription" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="Card" TargetType="Border">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Stroke" Value="{StaticResource Gray975}" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+                <Setter Property="StrokeThickness" Value="2" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="0,120,0,95" Spacing="20">
+
+            <Border Style="{StaticResource Card}">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,50,60">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="MATERIAL TABS" />
+
+                    <tabs:TabHostView x:Name="TabHost"
+                                      Grid.Row="1"
+                                      Margin="0"
+                                      BackgroundColor="{StaticResource Gray900}">
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                        IconImageSource="list_96.png"
+                                                        IconOptions="TopIcon"
+                                                        IconTextSpacing="0"
+                                                        Label="Super" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                        IconImageSource="theme_96.png"
+                                                        IconOptions="IconOnly" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                        IconImageSource="grid_view_96.png"
+                                                        IconOptions="LeadingIcon"
+                                                        IconTextSpacing="5"
+                                                        Label="MAUI" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                        Padding="10,0"
+                                                        IconImageSource="house_96.png"
+                                                        IconOptions="TextOnly"
+                                                        Label="Sample" />
+                    </tabs:TabHostView>
+
+                    <tabs:ViewSwitcher x:Name="Switcher"
+                                       Grid.Row="2"
+                                       Margin="16,0"
+                                       VerticalOptions="Center"
+                                       Animate="False"
+                                       SelectedIndex="{Binding Source={x:Reference TabHost}, Path=SelectedIndex, Mode=OneWay}">
+                        <Label Style="{StaticResource LabelDescription}" Text="IconOptions = &quot;IconTop&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="IconOptions = &quot;IconOnly&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="IconOptions = &quot;LeadingIcon&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="IconOptions = &quot;TextOnly&quot;" />
+                    </tabs:ViewSwitcher>
+
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,50,Auto">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="SEGMENTED TABS" />
+
+                    <tabs:TabHostView x:Name="TabHostSegmented"
+                                      Grid.Row="1"
+                                      WidthRequest="300"
+                                      HeightRequest="40"
+                                      Margin="16,0"
+                                      HorizontalOptions="Center"
+                                      VerticalOptions="Center"
+                                      BackgroundColor="{StaticResource Gray900}"
+                                      CornerRadius="20"
+                                      IsSegmented="True"
+                                      SegmentedHasSeparator="True"
+                                      SegmentedOutlineColor="{StaticResource Primary}"
+                                      SelectedIndex="1">
+                        <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Super" />
+                        <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="MAUI" />
+                        <tabs:SegmentedTabItem Style="{StaticResource SegmentedTabStyle}" Label="Sample" />
+                    </tabs:TabHostView>
+
+                    <VerticalStackLayout Grid.Row="2" Padding="16">
+                        <Label Style="{StaticResource LabelDescription}" Text="IsSegmented = &quot;True&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="SegmentedHasSeparator = &quot;True&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="SegmentedOutlineColor = &quot;{StaticResource Primary}&quot;" />
+                        <Label Style="{StaticResource LabelDescription}" Text="CornerRadius = &quot;25&quot;" />
+                    </VerticalStackLayout>
+
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,50,60">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="SCROLLABLE TABS" />
+
+                    <tabs:TabHostView Grid.Row="1"
+                                      HeightRequest="50"
+                                      BackgroundColor="{StaticResource Gray900}"
+                                      SelectedIndex="1"
+                                      ShowScrollbar="False"
+                                      TabType="Scrollable">
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
+                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
+                    </tabs:TabHostView>
+
+                    <Label Grid.Row="2"
+                           Style="{StaticResource LabelDescription}"
+                           Margin="16,0"
+                           Text="TabType = &quot;Scrollable&quot;" />
+                </Grid>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

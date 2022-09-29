@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="MauiSample.Presentation.CustomViews.Toolbar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sho="http://sharpnado.com"
+    x:Name="RootLayout">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style
+                x:Key="TextTitleStyle"
+                BasedOn="{StaticResource TextHeadline}"
+                TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Margin" Value="30,30,30,10" />
+                <Setter Property="VerticalOptions" Value="End" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid
+            x:Name="Grid"
+            ColumnSpacing="0"
+            RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition x:Name="SubtitleRowDefinition" Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="SafeLeftColumnDefinition" Width="0" />
+                <ColumnDefinition x:Name="ButtonColumnDefinition" Width="0" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+
+            <ContentView
+                x:Name="BackButton"
+                Grid.Row="0"
+                Grid.Column="1"
+                sho:TouchEffect.Color="{StaticResource Accent}"
+                IsVisible="{Binding Source={x:Reference RootLayout}, Path=ShowBackButton}">
+                <Image
+                    sho:ImageEffect.TintColor="{Binding Source={x:Reference RootLayout}, Path=ForegroundColor}"
+                    Aspect="AspectFit"
+                    HeightRequest="24"
+                    HorizontalOptions="Center"
+                    Source="back_96.png"
+                    VerticalOptions="Center"
+                    WidthRequest="24" />
+            </ContentView>
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="2"
+                Style="{StaticResource TextTitleStyle}"
+                Text="{Binding Source={x:Reference RootLayout}, Path=Title}"
+                TextColor="{Binding Source={x:Reference RootLayout}, Path=ForegroundColor}" />
+
+            <Label
+                x:Name="InnerSubtitle"
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="30,0,30,30"
+                Style="{StaticResource TextBody}"
+                Text="{Binding Source={x:Reference RootLayout}, Path=Subtitle}"
+                TextColor="{Binding Source={x:Reference RootLayout}, Path=ForegroundColor}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>
