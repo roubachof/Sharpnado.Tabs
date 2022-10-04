@@ -9,7 +9,7 @@ Get it from NuGet:
 
 [![Nuget](https://img.shields.io/nuget/v/Sharpnado.Tabs.svg)](https://www.nuget.org/packages/Sharpnado.Tabs)
 
-[![Nuget](https://img.shields.io/nuget/v/Sharpnado.Maui.Tabs.svg)](https://www.nuget.org/packages/Sharpnado.Maui.Tabs)
+[![Nuget](https://img.shields.io/nuget/v/Sharpnado.Tabs.Maui.svg)](https://www.nuget.org/packages/Sharpnado.Tabs.Maui)
 
 | Supported MAUI platforms   | Supported XF platforms   |
 |----------------------------|----------------------------|
