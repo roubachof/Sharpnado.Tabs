@@ -53,12 +53,11 @@
                               AccentColor="{StaticResource Primary}"
                               Animate="True"
                               UseActivityIndicator="True" />
-            <tabs:LazyView x:TypeArguments="views:AnotherLazyView"
-                           BindingContext="{Binding GridPageViewModel}"
-                           UseActivityIndicator="True" />
-            <Label Margin="64,0"
-                   VerticalOptions="Center"
-                   Text="HERE WE ARE! BORN TO BE KINGS, WE'RE THE PRINCES OF THE UNIVERSEEEEEEE! Well I'm a fan of Queen didn't I tell you that?" />
+            <tabs:DelayedView x:TypeArguments="views:TabU"
+                              AccentColor="{StaticResource Primary}"
+                              Animate="True"
+                              UseActivityIndicator="True" />
+            <tabs:LazyView x:TypeArguments="views:TabI" Animate="True" />
         </tabs:ViewSwitcher>
 
         <ContentView Grid.Row="2">
@@ -94,7 +93,7 @@
                 <tabs:UnderlinedTabItem FontFamily="OpenSansExtraBold"
                                         Label="U"
                                         LabelSize="36"
-                                        SelectedTabColor="{StaticResource Tertiary}"
+                                        SelectedTabColor="{StaticResource Primary}"
                                         UnselectedLabelColor="{StaticResource White}" />
                 <tabs:BottomTabItem Style="{StaticResource BottomTab}"
                                     Padding="0,0,10,0"

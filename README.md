@@ -1,19 +1,26 @@
-# Sharpnado.Tabs
+# Sharpnado.Tabs for MAUI and Xamarin.Forms
 
-<p align="left"><img src="Docs/logo.png" height="180"/>
+<p align="left"><img src="Docs/logo.png" width="400"/>
+
+<p align="left"><img src="Docs/logo_maui.png" width="400"/>
+
 
 Get it from NuGet:
 
 [![Nuget](https://img.shields.io/nuget/v/Sharpnado.Tabs.svg)](https://www.nuget.org/packages/Sharpnado.Tabs)
 
-| Supported platforms        |
-|----------------------------|
-| :heavy_check_mark: Android |
-| :heavy_check_mark: iOS     |
-| :heavy_check_mark: UWP     |
+[![Nuget](https://img.shields.io/nuget/v/Sharpnado.Maui.Tabs.svg)](https://www.nuget.org/packages/Sharpnado.Maui.Tabs)
 
+| Supported MAUI platforms   | Supported XF platforms   |
+|----------------------------|----------------------------|
+| :heavy_check_mark: Android |:heavy_check_mark: Android  |
+| :heavy_check_mark: iOS     |:heavy_check_mark: iOS      |
+| :question: Windows     |:heavy_check_mark: UWP      |
+| :question: Mac |
+* MAUI version
 * Fully customizable
 * Underlined tabs, bottom tabs, Segmented control, scrollable tabs
+* Lazy and Delayed views
 * Material tabs specs full implementation
 * SVG support thanks to GeometryIcon
 * Badge on tabs
@@ -21,6 +28,20 @@ Get it from NuGet:
 * Layout your tabs and ViewSwitcher as you want
 * Shadows included in TabHost
 * Bindable
+
+<table>
+  <thead>
+    <tr>
+      <th>MAUI sample</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="Docs/maui/banner.png" width="600" /></td>
+    </tr>
+  </tbody>
+</table>
+
 
 <table>
   <thead>
@@ -135,13 +156,32 @@ Get it from NuGet:
 
 ## Sample app
 
-The tabs components are presented in the Silly! app in the following repository:
+For dotnet MAUI, you can just have a look at the `MauiSample` solution.
+
+For Xamarin.Forms the tabs components are presented in the Silly! app in the following repository:
 
 https://github.com/roubachof/Xamarin-Forms-Practices
 
-If you want to know how to use them, it's the best place to start.
-
 ## Installation
+
+### MAUI
+
+```csharp
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .UseSharpnadoTabs(loggerEnable: false);
+
+        return builder.Build();
+    }
+}
+```
+
+### Xamarin.Forms
 
 Because Tabs uses platform-specific effects like tinted images and tap feedback color, you must install the nuget package in all your targeted platforms projects (netstandard, ios, android, uwp).
 
@@ -178,7 +218,49 @@ public App()
     Xamarin.Forms.Forms.Init(e, rendererAssemblies);
 ```
 
-## Shadows
+## Version 3.0 (MAUI only)
+
+### Attached Properties
+
+You can use `Commands.Tap` to add a tap gesture to any view. 
+
+The `TouchEffect.Color` property will set a native touch feedback with the desired color.
+
+### DelayedView 
+
+You probably know the `LazyView` by now, the `DelayedView` is an evolution of it enabling full control of your UI building times.
+
+Using a `DelayedView` will reduce application startup time by deferring the UI building of your components by some milliseconds (the value can be configured).
+
+All you have is wrap your view in a `DelayedView` inside your `ViewSwitcher`, or even anywhere in your app.
+
+```xml
+<tabs:ViewSwitcher x:Name="Switcher"
+                           Grid.RowSpan="3"
+                           Margin="0"
+                           Animate="True"
+                           SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
+    <tabs:DelayedView x:TypeArguments="views:TabM"
+                        AccentColor="{StaticResource Primary}"
+                        Animate="True"
+                        BindingContext="{Binding HomePageViewModel}"
+                        UseActivityIndicator="True" />
+    <tabs:DelayedView x:TypeArguments="views:TabA"
+                        AccentColor="{StaticResource Primary}"
+                        Animate="True"
+                        UseActivityIndicator="True" />
+    <tabs:DelayedView x:TypeArguments="views:TabU"
+                        AccentColor="{StaticResource Primary}"
+                        Animate="True"
+                        UseActivityIndicator="True" />
+    <tabs:LazyView x:TypeArguments="views:TabI" Animate="True" />
+</tabs:ViewSwitcher>
+```
+
+It can totally work outside of the `Tabs` context.
+
+
+## Shadows (Xamarin.Forms only)
 
 The `TabHostView` inherits directly from `Shadows`. It means you can add as many shades as you like to your tab bar.
 It behaves exactly the same as the `Shadows` component.

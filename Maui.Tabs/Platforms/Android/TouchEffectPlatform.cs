@@ -39,7 +39,7 @@ namespace Sharpnado.Tabs.Effects.Droid {
 
             if (Container is not ViewGroup group)
             {
-                throw new InvalidOperationException("Container must be a ViewGroup");
+                throw new InvalidOperationException("Touch color effect requires to be attached to a container like a ContentView or a layout (Grid, StackLayout, etc...)");
             }
 
             View.Clickable = true;

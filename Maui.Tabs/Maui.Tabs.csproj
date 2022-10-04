@@ -22,9 +22,9 @@
 
 	<PropertyGroup>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<AssemblyVersion>2.3.0.0</AssemblyVersion>
-		<AssemblyFileVersion>2.3.0.0</AssemblyFileVersion>
-		<Version>2.3.0</Version>
+		<AssemblyVersion>3.0.0</AssemblyVersion>
+		<AssemblyFileVersion>3.0.0</AssemblyFileVersion>
+		<Version>3.0.0</Version>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 
@@ -37,15 +37,15 @@
 		<PackageId>Sharpnado.Tabs.Maui</PackageId>
 		<PackageProjectUrl>https://github.com/roubachof/Sharpnado.Tabs</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/roubachof/Sharpnado.Tabs</RepositoryUrl>
-		<PackageIcon>images\logo_2_1.png</PackageIcon>
+		<PackageIcon>images\logo_maui.png</PackageIcon>
+		<PackageReadmeFile>docs\ReadMe.md</PackageReadmeFile>
 		<PackageTags>maui dotnetmaui xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</PackageTags>
-
 		<PackageReleaseNotes>
 			First MAUI release \o/
 		</PackageReleaseNotes>
 
 		<Title>"Pure" MAUI Tabs (no renderers)</Title>
-		<Summary>Including fixed tabs, scrollable tabs, bottom tabs, badge, segmented control, custom tabs, button tabs, ...</Summary>
+		<Summary>The Ultimate Tabs customization solution for .net MAUI, including fixed tabs, scrollable tabs, bottom tabs, badge, segmented control, custom tabs, button tabs, ...</Summary>
 		<Description>
 			Pure MAUI Tabs:
 			* Fixed tabs (android tabs style)
@@ -64,7 +64,7 @@
 
 			## Installation
 
-			* In Core project, in `App.xaml.cs`:
+			* In Core project, in `MauiProgram.cs`:
 
 			```csharp
 			public static MauiApp CreateMauiApp()
@@ -72,7 +72,7 @@
 				var builder = MauiApp.CreateBuilder();
 				builder
 					.UseMauiApp()
-					.UseSharpnadoTabs();
+					.UseSharpnadoTabs(loggerEnabled: false);
 			}
 			```
 			
@@ -88,11 +88,12 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>2.3.0.0</FileVersion>
+		<FileVersion>3.0.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\Docs\logo_2_1.png" Pack="true" PackagePath="\images\" />
+		<None Include="..\Docs\logo_maui.png" Pack="true" PackagePath="\images\" />
+		<None Include="ReadMe.md" Pack="true" PackagePath="\docs\" />
 	</ItemGroup>
 	
 	<ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.iOS')) != true AND $(TargetFramework.StartsWith('net6.0-ios')) != true AND $(TargetFramework.StartsWith('net6.0-maccatalyst')) != true ">

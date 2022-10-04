@@ -1,17 +1,15 @@
 ﻿using System.ComponentModel;
-using UIKit;
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
-
 using Microsoft.Maui.Controls.Platform;
-
-using Sharpnado.Tabs.Effects;
-using Sharpnado.Tabs.Effects.iOS;
+using ObjCRuntime;
 using Sharpnado.Tabs.Effects.iOS.GestureCollectors;
 using Sharpnado.Tabs.Effects.iOS.GestureRecognizers;
+using UIKit;
 
 namespace Sharpnado.Tabs.Effects.iOS {
-    public class TouchEffectPlatform : PlatformEffect {
-        public bool IsDisposed => (Container as IVisualElementRenderer)?.Element == null;
+    public class TouchEffectPlatform : PlatformEffect
+    {
+        public bool IsDisposed => Container == null || Container.Handle == NativeHandle.Zero;
         public UIView View => Control ?? Container;
 
         UIView _layer;
@@ -46,14 +44,17 @@ namespace Sharpnado.Tabs.Effects.iOS {
         void OnTouch(TouchGestureRecognizer.TouchArgs e) {
             switch (e.State) {
                 case TouchGestureRecognizer.TouchState.Started:
+                    InternalLogger.Debug($"OnTouch Started");
                     BringLayer();
                     break;
 
                 case TouchGestureRecognizer.TouchState.Ended:
+                    InternalLogger.Debug($"OnTouch Ended");
                     EndAnimation();
                     break;
 
                 case TouchGestureRecognizer.TouchState.Cancelled:
+                    InternalLogger.Debug($"OnTouch Cancelled");
                     if (!IsDisposed && _layer != null) {
                         _layer.Layer.RemoveAllAnimations();
                         _layer.Alpha = 0;
@@ -77,11 +78,13 @@ namespace Sharpnado.Tabs.Effects.iOS {
                 return;
             }
 
+            InternalLogger.Debug($"UpdateEffectColor");
             _alpha = color.Alpha < 1.0 ? 1 : (float)0.3;
             _layer.BackgroundColor = color.ToUIColor();
         }
 
         void BringLayer() {
+            InternalLogger.Debug($"BringLayer");
             _layer.Layer.RemoveAllAnimations();
             _layer.Alpha = _alpha;
             View.BringSubviewToFront(_layer);
@@ -89,6 +92,7 @@ namespace Sharpnado.Tabs.Effects.iOS {
 
         void EndAnimation() {
             if (!IsDisposed && _layer != null) {
+                InternalLogger.Debug($"EndAnimation");
                 _layer.Layer.RemoveAllAnimations();
                 UIView.Animate(0.225,
                 () => {

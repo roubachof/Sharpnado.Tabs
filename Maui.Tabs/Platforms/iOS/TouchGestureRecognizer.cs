@@ -119,7 +119,7 @@ namespace Sharpnado.Tabs.Effects.iOS.GestureRecognizers {
                 return false;
             }
 
-            return touch.View == _view;
+            return touch.View.IsDescendantOfView(_view);
         }
     }
 }

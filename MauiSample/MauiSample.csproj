@@ -12,10 +12,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>MauiSample</ApplicationTitle>
+		<ApplicationTitle>MauiTabs</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.mauisample</ApplicationId>
+		<ApplicationId>com.sharpnado.mauitabs</ApplicationId>
 		<ApplicationIdGuid>bfb0a3c7-45b0-46b3-a051-a1b4be1af7f9</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -70,10 +70,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo.png" Color="#d81b60" BaseSize="256,128" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\logo.png" Color="#d81b60" BaseSize="256,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -91,6 +91,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\AppIcon\logo.png" />
 	  <None Remove="Resources\Fonts\OpenSans-Bold.ttf" />
 	  <None Remove="Resources\Images\back_96.png" />
 	  <None Remove="Resources\Images\camera_96.png" />
@@ -112,6 +113,12 @@
 	  <None Remove="Resources\Images\theme_96.png" />
 	  <None Remove="Resources\Images\the_internet.png" />
 	  <None Remove="Resources\Images\will_ferrell.jpg" />
+	  <None Remove="Resources\Splash\logo.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\AppIcon\logo.png" />
+	  <MauiImage Include="Resources\Splash\logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -126,6 +133,12 @@
 	<ItemGroup>
 	  <Compile Update="Presentation\Views\AnotherLazyView.xaml.cs">
 	    <DependentUpon>AnotherLazyView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Presentation\Views\TabI.xaml.cs">
+	    <DependentUpon>TabI.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Presentation\Views\TabU.xaml.cs">
+	    <DependentUpon>TabU.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Presentation\Views\TabA.xaml.cs">
 	    <DependentUpon>TabA.xaml</DependentUpon>
@@ -142,6 +155,12 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Presentation\Views\AnotherLazyView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Presentation\Views\TabI.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Presentation\Views\TabU.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Presentation\Views\TabA.xaml">

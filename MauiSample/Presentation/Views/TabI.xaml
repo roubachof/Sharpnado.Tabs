@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView x:Class="MauiSample.Presentation.Views.TabI"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customViews="clr-namespace:MauiSample.Presentation.CustomViews"
+             xmlns:tabs="http://sharpnado.com"
+             x:Name="Root">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="LabelHeader" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansExtraBold" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="16,0" />
+            </Style>
+
+            <Style x:Key="LabelDescription" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource White}" />
+            </Style>
+
+            <Style x:Key="Card" TargetType="Border">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Stroke" Value="{StaticResource Gray975}" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+                <Setter Property="StrokeThickness" Value="2" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+
+    <Grid>
+
+        <VerticalStackLayout Margin="16"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center">
+            <customViews:RichLabel x:Name="Version"
+                                   Style="{StaticResource LabelDescription}"
+                                   BoldColor="{StaticResource Primary}"
+                                   BoldFontFamily="OpenSansBold"
+                                   Markdown="**Sharpnado.Maui.Tabs** " />
+            <Label Style="{StaticResource LabelDescription}" Text="MIT License" />
+            <Label Style="{StaticResource LabelDescription}" Text="Copyright 2022 Sharpnado" />
+            <Label Style="{StaticResource LabelDescription}" Text="TouchEffect by Vladislav Zhukov" />
+
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentView>

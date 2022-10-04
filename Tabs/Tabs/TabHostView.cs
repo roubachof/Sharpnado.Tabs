@@ -332,7 +332,7 @@ namespace Sharpnado.Tabs
             var tabHostView = (TabHostView)bindable;
 
             int selectedIndex = (int)newvalue;
-            if (selectedIndex < 0)
+            if (selectedIndex < 0 || tabHostView._fromTabItemTapped)
             {
                 return;
             }
@@ -558,17 +558,21 @@ namespace Sharpnado.Tabs
             InternalLogger.Debug(Tag, () => $"SelectedIndex: {SelectedIndex}");
         }
 
+        private bool _fromTabItemTapped;
+
         private void OnTabItemTapped(object tappedItem)
         {
             var selectedIndex = _selectableTabs.IndexOf((TabItem)tappedItem);
 
-            if (!_selectableTabs[selectedIndex].IsSelectable)
+            if (selectedIndex == -1 || !_selectableTabs[selectedIndex].IsSelectable)
             {
                 return;
             }
 
+            _fromTabItemTapped = true;
             UpdateSelectedIndex(selectedIndex);
             RaiseSelectedTabIndexChanged(new SelectedPositionChangedEventArgs(selectedIndex));
+            _fromTabItemTapped = false;
         }
 
         private void UpdateTabType()
@@ -698,11 +702,15 @@ namespace Sharpnado.Tabs
 
         private void AddTapCommand(TabItem tabItem)
         {
-            if (DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.WinUI)
+            if (tabItem is TabButton)
+            {
+                return;
+            }
+
+            if (Device.RuntimePlatform == Device.UWP)
             {
                 tabItem.GestureRecognizers.Add(
-                    new TapGestureRecognizer { Command = TabItemTappedCommand, CommandParameter = tabItem }
-                    );
+                    new TapGestureRecognizer { Command = TabItemTappedCommand, CommandParameter = tabItem });
             }
             else
             {
@@ -710,16 +718,10 @@ namespace Sharpnado.Tabs
                 Sharpnado.Tabs.Effects.TouchEffect.SetColor(tabItem, tabItem.SelectedTabColor);
                 Sharpnado.Tabs.Effects.Commands.SetTap(tabItem, TabItemTappedCommand);
                 Sharpnado.Tabs.Effects.Commands.SetTapParameter(tabItem, tabItem);
-
-                tabItem.Effects.Add(new Sharpnado.Tabs.Effects.TouchRoutingEffect());
-                tabItem.Effects.Add(new Sharpnado.Tabs.Effects.CommandsRoutingEffect());
 #else
                 ViewEffect.SetTouchFeedbackColor(tabItem, tabItem.SelectedTabColor);
                 TapCommandEffect.SetTap(tabItem, TabItemTappedCommand);
                 TapCommandEffect.SetTapParameter(tabItem, tabItem);
-
-                tabItem.Effects.Add(new ViewStyleEffect());
-                tabItem.Effects.Add(new TapCommandRoutingEffect());
 #endif
             }
         }
@@ -1065,7 +1067,7 @@ namespace Sharpnado.Tabs
             {
                 // We always want our TabButton with the highest Z-index
 #if NET6_0_OR_GREATER
-                tabButton.ZIndex = 100;
+                tabButton.ZIndex = 1000;
 #else
                 _grid.RaiseChild(tabButton);
 #endif

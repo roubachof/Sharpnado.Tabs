@@ -36,7 +36,12 @@ namespace Sharpnado.Tabs
             nameof(BadgePadding),
             typeof(Thickness),
             typeof(BadgeView),
-            defaultValueCreator: (b) => new Thickness(6, 2));
+            defaultValueCreator:
+#if __ANDROID__
+            (b) => new Thickness(5, 2));
+#else
+            (b) => new Thickness(4, 2));
+#endif
 
         public static readonly BindableProperty ShowIndicatorProperty = BindableProperty.Create(
             nameof(ShowIndicator),
@@ -48,8 +53,6 @@ namespace Sharpnado.Tabs
 
         public BadgeView()
         {
-            _paddingInternalChange = true;
-            Padding = new Thickness(6, 2);
             Margin = new Thickness(0, 4, 0, 0);
 
             BackgroundColor = Colors.Red;
@@ -60,7 +63,11 @@ namespace Sharpnado.Tabs
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
+#if __ANDROID__
                 Margin = new Thickness(0, -1.5, 0, 0),
+#else
+                Margin = new Thickness(0, -1, 0, 0),
+#endif
                 BindingContext = this,
             };
 
@@ -169,35 +176,15 @@ namespace Sharpnado.Tabs
 
             if (ShowIndicator)
             {
-                double margin = (TextSize + BadgePadding.VerticalThickness) / 2;
-
-                TranslationX = HorizontalOptions.Alignment switch
-                    {
-                        LayoutAlignment.Start => margin,
-                        LayoutAlignment.End => -margin,
-                        _ => 0,
-                    };
-
-                TranslationY = VerticalOptions.Alignment switch
-                    {
-                        LayoutAlignment.Start => margin,
-                        LayoutAlignment.End => -margin,
-                        _ => 0,
-                    };
-
                 HeightRequest = 10;
                 WidthRequest = 10;
                 StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(5) };
                 return;
             }
-            else
-            {
-                TranslationX = 0;
-                TranslationY = 0;
-                WidthRequest = -1;
-                HeightRequest = -1;
-                UpdateCornerRadius();
-            }
+
+            WidthRequest = -1;
+            HeightRequest = -1;
+            UpdateCornerRadius();
 
             _paddingInternalChange = true;
             Padding = BadgePadding;

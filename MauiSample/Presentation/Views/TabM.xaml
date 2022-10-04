@@ -151,7 +151,7 @@
                 </Grid>
             </Border>
 
-            <Border Style="{StaticResource Card}">
+            <Border Style="{StaticResource Card}" Margin="0,0,0,10">
                 <Border.Shadow>
                     <Shadow Brush="{StaticResource Gray950}"
                             Opacity="1"

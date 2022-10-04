@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView x:Class="MauiSample.Presentation.Views.TabU"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customViews="clr-namespace:MauiSample.Presentation.CustomViews"
+             xmlns:tabs="http://sharpnado.com"
+             x:Name="Root">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="LabelHeader" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansExtraBold" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="Margin" Value="16,0" />
+            </Style>
+
+            <Style x:Key="LabelDescription" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource White}" />
+            </Style>
+
+            <Style x:Key="Card" TargetType="Border">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Stroke" Value="{StaticResource Gray975}" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+                <Setter Property="StrokeThickness" Value="2" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="0,120,0,95" Spacing="20">
+
+            <Border Style="{StaticResource Card}">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,Auto,165">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="DelayedView" />
+
+                    <customViews:RichLabel Grid.Row="1"
+                                           Style="{StaticResource LabelDescription}"
+                                           Margin="16"
+                                           VerticalOptions="Start"
+                                           BoldColor="{StaticResource Primary}"
+                                           BoldFontFamily="OpenSansBold"
+                                           Markdown="Use **DelayedView** to improve your startup time, or achieve a better user experience by reducing lags when switching tabs." />
+
+                    <Image Grid.Row="2" Source="delayed_view.png" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,Auto,100">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="Touch/Commands attached properties" />
+
+                    <customViews:RichLabel Grid.Row="1"
+                                           Style="{StaticResource LabelDescription}"
+                                           Margin="16"
+                                           VerticalOptions="Start"
+                                           BoldColor="{StaticResource Primary}"
+                                           BoldFontFamily="OpenSansBold"
+                                           Markdown="Adds tap commands and color feedback effect like ripple to any of your view thanks to **Commands.Tap** and **TouchEffect.Color**" />
+
+                    <HorizontalStackLayout Grid.Row="2"
+                                           HorizontalOptions="Center"
+                                           Spacing="16">
+                        <ContentView Padding="8" tabs:TouchEffect.Color="{StaticResource Primary}">
+                            <Label x:Name="TapMeLabel"
+                                   Style="{StaticResource LabelDescription}"
+                                   tabs:Commands.Tap="{Binding Source={x:Reference Root}, Path=TapMeCommand}"
+                                   Text="Tap Me" />
+                        </ContentView>
+                        <VerticalStackLayout Padding="8" tabs:TouchEffect.Color="{StaticResource GreenSuccess}">
+                            <Image HeightRequest="60" Source="house_96.png" />
+                            <Label Style="{StaticResource LabelDescription}"
+                                   HorizontalOptions="Center"
+                                   Text="A House" />
+                        </VerticalStackLayout>
+                        <Grid Padding="8" tabs:TouchEffect.Color="{StaticResource OrangeWarning}">
+                            <Label Style="{StaticResource LabelDescription}" Text="Tap Me Also" />
+                        </Grid>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

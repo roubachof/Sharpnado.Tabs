@@ -7,6 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiSample", "MauiSample.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maui.Tabs", "..\Maui.Tabs\Maui.Tabs.csproj", "{528FB5B5-CBFA-4820-B915-937F2578807C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{BED4D695-52B4-4682-BECC-780F39FF50FA}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE = ..\LICENSE
+		..\make-package.ps1 = ..\make-package.ps1
+		..\README.md = ..\README.md
+		..\Sharpnado.Tabs.nuspec = ..\Sharpnado.Tabs.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

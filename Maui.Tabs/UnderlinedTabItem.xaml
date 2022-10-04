@@ -25,8 +25,6 @@
 
             <BoxView
                 x:Name="Underline"
-                Margin="0,0"
-                BackgroundColor="Transparent"
                 HeightRequest="0"
                 HorizontalOptions="Center"
                 VerticalOptions="End">

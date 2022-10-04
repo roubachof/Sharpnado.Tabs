@@ -14,7 +14,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-            .UseSharpnadoTabs(true, debugLogEnable: true)
+            .UseSharpnadoTabs(loggerEnable: true, debugLogEnable: true)
 			.ConfigureFonts(fonts =>
 			{
                 fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");
