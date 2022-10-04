@@ -37,7 +37,7 @@ Get it from NuGet:
   </thead>
   <tbody>
     <tr>
-      <td><img src="Docs/maui/banner.png" width="600" /></td>
+      <td><img src="Docs/MAUI/banner.png" width="600" /></td>
     </tr>
   </tbody>
 </table>
@@ -231,6 +231,12 @@ The `TouchEffect.Color` property will set a native touch feedback with the desir
 You probably know the `LazyView` by now, the `DelayedView` is an evolution of it enabling full control of your UI building times.
 
 Using a `DelayedView` will reduce application startup time by deferring the UI building of your components by some milliseconds (the value can be configured).
+
+
+
+https://user-images.githubusercontent.com/596903/193819937-eecca609-b0c0-4705-92d2-e52a24803f8d.mp4
+
+
 
 All you have is wrap your view in a `DelayedView` inside your `ViewSwitcher`, or even anywhere in your app.
 
