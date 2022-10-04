@@ -20,6 +20,7 @@ Get it from NuGet:
 * MAUI version
 * Fully customizable
 * Underlined tabs, bottom tabs, Segmented control, scrollable tabs
+* Vertical tabs
 * Lazy and Delayed views
 * Material tabs specs full implementation
 * SVG support thanks to GeometryIcon
