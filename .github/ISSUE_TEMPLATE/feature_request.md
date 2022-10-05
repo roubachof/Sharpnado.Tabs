@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
+title: '[MAUI/Xamarin.Forms/Both]'
 labels: ''
 assignees: ''
 

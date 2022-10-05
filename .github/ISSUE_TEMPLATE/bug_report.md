@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: '[MAUI/Xamarin.Forms/Both]'
 labels: ''
 assignees: ''
 
@@ -12,6 +12,7 @@ assignees: ''
  - Device: [iPhone6/iPhoneSimulator/Pixel/AndroidEmulator/...]
  - Sdk vervion: [iOS 11/Android SDK 21]
  - Xamarin.Forms: [3.4.0.1029999]
+ - MAUI: [6.0.540]
 
 **Describe the bug**
 A clear and concise description of what the bug is.
