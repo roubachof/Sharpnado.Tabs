@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Sharpnado.Tabs
 {
-    public class ViewSwitcher : Grid, IDisposable
+    public class ViewSwitcher : Grid, IDisposable, IAnimatableReveal
     {
         public static readonly BindableProperty SelectedIndexProperty = BindableProperty.Create(
             nameof(SelectedIndex),
