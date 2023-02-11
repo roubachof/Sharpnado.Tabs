@@ -33,6 +33,12 @@ namespace Sharpnado.Tabs
             typeof(BottomTabItem),
             defaultValue: true);
 
+        public static readonly BindableProperty SelectedTabTextColorProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedTabTextColor),
+            returnType: typeof(Color),
+            declaringType: typeof(TabTextItem),
+            defaultValue: null);
+
         private readonly bool _isInitialized = false;
 
         public BottomTabItem()
@@ -69,6 +75,12 @@ namespace Sharpnado.Tabs
         {
             get => (bool)GetValue(IsTextVisibleProperty);
             set => SetValue(IsTextVisibleProperty, value);
+        }
+
+        public Color SelectedTabTextColor
+        {
+            get => (Color)GetValue(SelectedTabTextColorProperty);
+            set => SetValue(SelectedTabTextColorProperty, value);
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -143,7 +155,9 @@ namespace Sharpnado.Tabs
 
         private void UpdateColors()
         {
-            IconText.TextColor = IsSelectable ? IsSelected ? SelectedTabColor : UnselectedLabelColor : DisabledLabelColor;
+            IconText.TextColor = IsSelectable
+                ? IsSelected ? SelectedTabTextColor ?? SelectedTabColor : UnselectedLabelColor
+                : DisabledLabelColor;
             ImageEffect.SetTintColor(Icon, IsSelected ? SelectedTabColor : UnselectedIconColor);
         }
     }
