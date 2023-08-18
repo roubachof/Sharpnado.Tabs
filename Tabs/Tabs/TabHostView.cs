@@ -555,7 +555,41 @@ namespace Sharpnado.Tabs
             }
 
             SelectedIndex = selectedIndex;
+
+            // If the scroll type is animated, then ensure the tab is brought into focus
+            if (TabType == TabType.Scrollable && selectedIndex > 0 && selectedIndex < _selectableTabs.Count)
+            {
+                AnimateScrollTo(_scrollView, _selectableTabs[selectedIndex].X);
+            }
+
             InternalLogger.Debug(Tag, () => $"SelectedIndex: {SelectedIndex}");
+        }
+
+        private async Task AnimateScrollTo(ScrollView scrollView, double position)
+        {
+            // Define the duration of the animation
+            const int duration = 150; // milliseconds
+
+            // Current position
+            double startPosition = scrollView.ScrollX;
+
+            // The easing function you want to use
+            Easing customEasing = Easing.CubicInOut;
+
+            await Task.Run(() =>
+            {
+                new Animation(
+                    callback: d =>
+                    {
+                            // The interpolated position between start and target position
+                            double newX = startPosition + (position - startPosition) * d;
+                            scrollView.ScrollToAsync(newX, 0, false);
+                        },
+                    start: 0,
+                    end: 1,
+                    easing: customEasing)
+                    .Commit(scrollView, "CustomScroll", length: duration);
+            });
         }
 
         private bool _fromTabItemTapped;
