@@ -474,6 +474,10 @@ If you like your bottom bar items without text:
   <img src="Docs/tab_bottom_notext.png" width="250" />
 </p>
 
+### SelectedTabColor and SelectedTabTextColor
+
+You can set a color for the selected tab via `SelectedTabColor`. 
+If you want to have a *different* color for the text, you can specify `SelectedTabTextColor`.
 
 ### Styling
 
