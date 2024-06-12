@@ -512,7 +512,9 @@ namespace Sharpnado.Tabs
                 var nextItem = _grid.Children[i + 1];
                 if (currentItem is TabItem && nextItem is TabItem)
                 {
-                    _grid.Children.Insert(i + 1, CreateSeparator());
+                    var separator = CreateSeparator();
+                    separator.SetBinding(BoxView.IsVisibleProperty, new Binding(nameof(TabItem.IsVisible), source: currentItem));
+                    _grid.Children.Insert(i + 1, separator);
                 }
             }
         }
@@ -607,15 +609,15 @@ namespace Sharpnado.Tabs
             if (TabType == TabType.Scrollable)
             {
                 base.Content = _scrollView ??= new ScrollView
-                    {
-                        HeightRequest = this.HeightRequest,
-                        Orientation =
+                {
+                    HeightRequest = this.HeightRequest,
+                    Orientation =
                             this.Orientation == OrientationType.Horizontal
                                 ? ScrollOrientation.Horizontal
                                 : ScrollOrientation.Vertical,
-                        HorizontalScrollBarVisibility =
+                    HorizontalScrollBarVisibility =
                             ShowScrollbar ? ScrollBarVisibility.Always : ScrollBarVisibility.Never,
-                    };
+                };
 
                 if (IsSegmented)
                 {
@@ -934,6 +936,8 @@ namespace Sharpnado.Tabs
                 if (previousItemIsTab && currentItemIsTab)
                 {
                     var separator = CreateSeparator();
+                    separator.SetBinding(BoxView.IsVisibleProperty, new Binding(nameof(TabItem.IsVisible), source: currentItem));
+
                     if (Orientation == OrientationType.Horizontal)
                     {
                         _grid.ColumnDefinitions.Insert(index, new ColumnDefinition { Width = separator.WidthRequest });
