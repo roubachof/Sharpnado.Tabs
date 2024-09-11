@@ -713,23 +713,8 @@ namespace Sharpnado.Tabs
                 return;
             }
 
-            if (DeviceInfo.Platform == DevicePlatform.WinUI)
-            {
-                tabItem.GestureRecognizers.Add(
-                    new TapGestureRecognizer { Command = TabItemTappedCommand, CommandParameter = tabItem });
-            }
-            else
-            {
-#if NET6_0_OR_GREATER
-                Sharpnado.Tabs.Effects.TouchEffect.SetColor(tabItem, tabItem.SelectedTabColor);
-                Sharpnado.Tabs.Effects.Commands.SetTap(tabItem, TabItemTappedCommand);
-                Sharpnado.Tabs.Effects.Commands.SetTapParameter(tabItem, tabItem);
-#else
-                ViewEffect.SetTouchFeedbackColor(tabItem, tabItem.SelectedTabColor);
-                TapCommandEffect.SetTap(tabItem, TabItemTappedCommand);
-                TapCommandEffect.SetTapParameter(tabItem, tabItem);
-#endif
-            }
+            tabItem.GestureRecognizers.Add(
+                new TapGestureRecognizer { Command = TabItemTappedCommand, CommandParameter = tabItem });
         }
 
         private void OnChildAdded(TabItem tabItem, int index)
