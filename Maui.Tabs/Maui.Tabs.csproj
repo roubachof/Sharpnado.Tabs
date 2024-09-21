@@ -92,8 +92,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\Docs\logo_maui.png" Pack="true" PackagePath="\images\" />
-		<None Include="ReadMe.md" Pack="true" PackagePath="\docs\" />
+		<None Include="..\Docs\logo_maui.png" Pack="true" PackagePath="\images" />
+		<None Include="ReadMe.md" Pack="true" PackagePath="\docs" />
 	</ItemGroup>
 	
 	<ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.iOS')) != true AND $(TargetFramework.StartsWith('net8.0-ios')) != true AND $(TargetFramework.StartsWith('net8.0-maccatalyst')) != true ">
