@@ -39,7 +39,7 @@ namespace MauiSample.Infrastructure
         {
             get
             {
-                if (Device.RuntimePlatform == Device.iOS)
+                if (DeviceInfo.Platform == DevicePlatform.iOS)
                 {
                     if (MainSize.Width <= 320)
                     {
@@ -100,7 +100,7 @@ namespace MauiSample.Infrastructure
             // I tested it, and in fact, in the most cases, you DO need all
             // those calls for the GC to REALLY reclaim resources (especially
             // with Android RecyclerView).
-            Device.BeginInvokeOnMainThread(async () =>
+            MainThread.BeginInvokeOnMainThread(async () =>
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();

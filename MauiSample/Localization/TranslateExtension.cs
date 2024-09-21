@@ -15,7 +15,7 @@ namespace MauiSample.Localization
 
         public TranslateExtension()
         {
-            if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
+            if (DeviceInfo.Platform == DevicePlatform.iOS || DeviceInfo.Platform == DevicePlatform.Android)
             {
                 _cultureInfo = CultureInfo.CurrentUICulture;
             }
