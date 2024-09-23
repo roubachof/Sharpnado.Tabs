@@ -1,0 +1,38 @@
+name: ci/github-actions
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+
+  winBuild:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+    - name: Restore dependencies
+      run: dotnet restore MauiSample/MauiSample.sln
+    - name: Build Maui Lib
+      run: dotnet build Maui.Tabs/Maui.Tabs.csproj --no-restore -c Release
+    - name: Upload package
+      uses: actions/upload-artifact@v4
+      with:
+        name: nupkg
+        path: ./Maui.Tabs/bin/Release/*.nupkg
+    - name: Build Test
+      run: dotnet build MauiSample/MauiSample.csproj --no-restore -c Debug
