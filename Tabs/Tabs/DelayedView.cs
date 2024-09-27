@@ -1,5 +1,4 @@
 ﻿using Sharpnado.Tasks;
-using Xamarin.Forms;
 
 namespace Sharpnado.Tabs;
 
@@ -14,7 +13,7 @@ public class DelayedView<TView> : LazyView<TView>
             async () =>
                 {
                     View? view = null;
-                    if (Device.RuntimePlatform == Device.Android)
+                    if (DeviceInfo.Platform == DevicePlatform.Android)
                     {
                         await Task.Run(
                             () =>
