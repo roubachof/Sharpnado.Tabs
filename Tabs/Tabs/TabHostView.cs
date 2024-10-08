@@ -709,7 +709,7 @@ namespace Sharpnado.Tabs
                 return;
             }
 
-            if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            if (DeviceInfo.Platform == DevicePlatform.WinUI || DeviceInfo.Platform == DevicePlatform.Android)
             {
                 tabItem.GestureRecognizers.Add(
                     new TapGestureRecognizer { Command = TabItemTappedCommand, CommandParameter = tabItem });
