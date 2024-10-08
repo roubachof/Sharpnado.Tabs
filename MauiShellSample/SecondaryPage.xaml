@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tabs="http://sharpnado.com"
+             x:Class="MauiShellSample.SecondaryPage"
+             Title="SecondaryPage">
+    <Grid RowDefinitions="Auto,*">
+        <tabs:TabHostView Grid.Row="0" TabType="Fixed" IsSegmented="True"
+                          HorizontalOptions="Center" VerticalOptions="Start"
+                          HeightRequest="40" WidthRequest="370" CornerRadius="10" Margin="0,2"
+                          SegmentedHasSeparator="True"
+                          SelectedIndex="{Binding Source={x:Reference switcher}, Path=SelectedIndex, Mode=TwoWay}">
+            <tabs:TabHostView.Tabs>
+                <tabs:SegmentedTabItem Label="Uno" />
+                <tabs:SegmentedTabItem Label="Due" />
+            </tabs:TabHostView.Tabs>
+        </tabs:TabHostView>
+        <tabs:ViewSwitcher x:Name="switcher" Grid.Row="1">
+        </tabs:ViewSwitcher>
+    </Grid>
+</ContentPage>
