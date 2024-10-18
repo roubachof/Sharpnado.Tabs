@@ -88,7 +88,7 @@ namespace Sharpnado.Tabs.iOS
         private async Task DelayedPost(int milliseconds, Action action)
         {
             await Task.Delay(milliseconds);
-            Device.BeginInvokeOnMainThread(action);
+            MainThread.BeginInvokeOnMainThread(action);
         }
     }
 }

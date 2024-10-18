@@ -55,7 +55,7 @@ namespace Sharpnado.Tabs.Effects.Droid {
                 _viewOverlay.Background = CreateRipple(_color);
 
             SetEffectColor();
-            TouchCollector.Add(View, OnTouch);
+            TouchCollector.Add(View, OnTouch, ActionType.Ripple);
 
             group.AddView(_viewOverlay);
             _viewOverlay.BringToFront();
@@ -78,7 +78,7 @@ namespace Sharpnado.Tabs.Effects.Droid {
             if (EnableRipple)
                 _ripple?.Dispose();
 
-            TouchCollector.Delete(View, OnTouch);
+            TouchCollector.Delete(View, OnTouch, ActionType.Ripple);
         }
 
         protected override void OnElementPropertyChanged(PropertyChangedEventArgs e) {

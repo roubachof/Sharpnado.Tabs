@@ -13,18 +13,18 @@ public class DelayedView<TView> : LazyView<TView>
             async () =>
                 {
                     View? view = null;
-                    if (DeviceInfo.Platform == DevicePlatform.Android)
-                    {
-                        await Task.Run(
-                            () =>
-                                {
-                                    view = new TView
-                                        {
-                                            BindingContext = BindingContext,
-                                        };
-                                });
-                    }
-                    else
+                    //if (DeviceInfo.Platform == DevicePlatform.Android)
+                    //{
+                    //    await Task.Run(
+                    //        () =>
+                    //            {
+                    //                view = new TView
+                    //                    {
+                    //                        BindingContext = BindingContext,
+                    //                    };
+                    //            });
+                    //}
+                    //else
                     {
                         view = new TView
                             {

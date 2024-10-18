@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage x:Class="MauiSample.Playground"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mauiSample="clr-namespace:MauiSample"
+             xmlns:tabs="http://sharpnado.com"
+             BackgroundColor="#717272">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+
+            <tabs:TabHostView AbsoluteLayout.LayoutFlags="HeightProportional"
+                              AbsoluteLayout.LayoutBounds="0, 0, 50, 1"
+                              Margin="0"
+                              Padding="0"
+                              BackgroundColor="#002DB3"
+                              Orientation="Vertical"
+                              TabType="Fixed">
+                <tabs:TabHostView.Tabs>
+                    <mauiSample:VerticalTabItem IsSelected="True"
+                                                Label="S1"
+                                                LabelSize="24"
+                                                SelectedTabColor="White"
+                                                SelectorColor="#0040FF"
+                                                UnselectedLabelColor="Gray" />
+                    <mauiSample:VerticalTabItem Label="S2"
+                                                LabelSize="24"
+                                                SelectedTabColor="White"
+                                                SelectorColor="#0040FF"
+                                                UnselectedLabelColor="Gray" />
+                    <mauiSample:VerticalTabItem Label="M1"
+                                                LabelSize="24"
+                                                SelectedTabColor="White"
+                                                SelectorColor="#0040FF"
+                                                UnselectedLabelColor="Gray">
+                        <tabs:TabItem.Badge>
+                            <tabs:BadgeView Margin="0,0,3,35"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center"
+                                            BackgroundColor="Red"
+                                            ShowIndicator="True" />
+                        </tabs:TabItem.Badge>
+                    </mauiSample:VerticalTabItem>
+                </tabs:TabHostView.Tabs>
+            </tabs:TabHostView>
+
+            <!--  SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}"  -->
+            <tabs:ViewSwitcher x:Name="ViewSwitcher"
+                               AbsoluteLayout.LayoutFlags="SizeProportional"
+                               AbsoluteLayout.LayoutBounds="160, 0, 1, 1"
+                               Animate="True" />
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

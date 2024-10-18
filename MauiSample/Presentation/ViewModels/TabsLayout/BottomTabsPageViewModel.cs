@@ -6,7 +6,7 @@ namespace MauiSample.Presentation.ViewModels
 {
     public class BottomTabsPageViewModel : ANavigableViewModel
     {
-        private int _selectedViewModelIndex = 0;
+        private int _selectedViewModelIndex;
 
         public BottomTabsPageViewModel(
             INavigationService navigationService,
@@ -16,6 +16,9 @@ namespace MauiSample.Presentation.ViewModels
         {
             HomePageViewModel = new HomePageViewModel(navigationService, sillyDudeService);
             GridPageViewModel = new GridPageViewModel(navigationService, sillyDudeService);
+
+            // If you want to start at the 3rd page
+            // SelectedViewModelIndex = 2;
         }
 
         public int SelectedViewModelIndex

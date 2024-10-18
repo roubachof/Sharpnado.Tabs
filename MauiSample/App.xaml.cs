@@ -11,5 +11,6 @@ public partial class App : Application
         Current!.UserAppTheme = AppTheme.Dark;
 
 		MainPage = new MainPage(mainViewModel);
+        // MainPage = new Playground();
 	}
 }

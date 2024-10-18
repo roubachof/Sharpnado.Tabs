@@ -29,9 +29,9 @@
                     <GradientStop Offset="1" Color="Transparent" />
                 </LinearGradientBrush>
             </ContentView.Background>
-            <Image Margin="0,20" Source="logo.png">
+            <Image Margin="0,20" Source="sharpnado.png">
                 <Image.Shadow>
-                    <Shadow Brush="{StaticResource Black}"
+                    <Shadow Brush="{StaticResource Primary}"
                             Opacity="0.9"
                             Radius="30"
                             Offset="0,10" />
@@ -77,7 +77,8 @@
                               Orientation="Horizontal"
                               SegmentedOutlineColor="{StaticResource Gray950}"
                               SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}"
-                              TabType="Fixed">
+                              TabType="Fixed"
+                              UseMauiTapGesture="True">
                 <tabs:TabHostView.Shadow>
                     <Shadow Brush="{StaticResource Primary}"
                             Opacity="0.7"

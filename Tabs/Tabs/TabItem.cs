@@ -16,7 +16,7 @@ namespace Sharpnado.Tabs
             typeof(Color),
             typeof(TabTextItem),
 #if NET6_0_OR_GREATER
-            Colors.DodgerBlue);
+            Colors.Magenta);
 #else
             Color.Default);
 #endif
@@ -39,7 +39,7 @@ namespace Sharpnado.Tabs
             typeof(Color),
             typeof(TabTextItem),
 #if NET6_0_OR_GREATER
-            Colors.DodgerBlue);
+            Colors.Grey);
 #else
             Color.Default);
 #endif

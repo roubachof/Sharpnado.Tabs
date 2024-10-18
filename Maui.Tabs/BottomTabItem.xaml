@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 
-<tabs:TabTextItem
-    x:Class="Sharpnado.Tabs.BottomTabItem"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:effects="clr-namespace:Sharpnado.Tabs.Effects"
-    xmlns:tabs="clr-namespace:Sharpnado.Tabs"
-    x:Name="RootLayout">
+<tabs:TabTextItem x:Class="Sharpnado.Tabs.BottomTabItem"
+                  xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:effects="clr-namespace:Sharpnado.Tabs.Effects"
+                  xmlns:tabs="clr-namespace:Sharpnado.Tabs"
+                  x:Name="RootLayout">
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -24,32 +23,29 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <Grid
-            x:Name="Grid"
-            BackgroundColor="Transparent"
-            ColumnSpacing="0"
-            RowSpacing="0">
+        <Grid x:Name="Grid"
+              BackgroundColor="Transparent"
+              ColumnSpacing="0"
+              RowSpacing="0">
 
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="IconRowDefinition" Height="8*" />
                 <RowDefinition x:Name="TextRowDefinition" Height="5*" />
             </Grid.RowDefinitions>
 
-            <Image
-                x:Name="Icon"
-                Grid.Row="0"
-                HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
-                Source="{Binding Source={x:Reference RootLayout}, Path=IconImageSource}"
-                Style="{StaticResource TabIcon}"
-                WidthRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}" />
+            <Image x:Name="Icon"
+                   Grid.Row="0"
+                   Style="{StaticResource TabIcon}"
+                   WidthRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
+                   HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
+                   Source="{Binding Source={x:Reference RootLayout}, Path=IconImageSource}" />
 
-            <Label
-                x:Name="IconText"
-                Grid.Row="1"
-                FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
-                FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
-                Style="{StaticResource TabIconLabel}"
-                Text="{Binding Source={x:Reference RootLayout}, Path=Label}" />
+            <Label x:Name="IconText"
+                   Grid.Row="1"
+                   Style="{StaticResource TabIconLabel}"
+                   FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"
+                   FontSize="{Binding Source={x:Reference RootLayout}, Path=LabelSize}"
+                   Text="{Binding Source={x:Reference RootLayout}, Path=Label}" />
         </Grid>
     </ContentView.Content>
 </tabs:TabTextItem>

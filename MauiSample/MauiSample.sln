@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 		..\Sharpnado.Tabs.nuspec = ..\Sharpnado.Tabs.nuspec
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiShellSample", "..\MauiShellSample\MauiShellSample.csproj", "{75F26D59-6560-4B75-94ED-7A1947BEBF9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiShellSample", "..\MauiShellSample\MauiShellSample.csproj", "{75F26D59-6560-4B75-94ED-7A1947BEBF9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +35,7 @@ Global
 		{528FB5B5-CBFA-4820-B915-937F2578807C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75F26D59-6560-4B75-94ED-7A1947BEBF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75F26D59-6560-4B75-94ED-7A1947BEBF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75F26D59-6560-4B75-94ED-7A1947BEBF9A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{75F26D59-6560-4B75-94ED-7A1947BEBF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75F26D59-6560-4B75-94ED-7A1947BEBF9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

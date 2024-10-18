@@ -1,24 +1,21 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="MauiShellSample.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MauiShellSample"
-    Shell.FlyoutBehavior="Disabled"
-    Title="MauiShellSample">
+<Shell x:Class="MauiShellSample.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:MauiShellSample"
+       Title="MauiShellSample"
+       Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
         <Tab Title="One">
-            <ShellContent
-                Title="One"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Route="OnePage" /> 
+            <ShellContent Title="One"
+                          ContentTemplate="{DataTemplate local:MainPage}"
+                          Route="OnePage" />
         </Tab>
         <Tab Title="Two">
-            <ShellContent
-                Title="Two"
-                ContentTemplate="{DataTemplate local:MainPage}"
-                Route="TwoPage" /> 
+            <ShellContent Title="Two"
+                          ContentTemplate="{DataTemplate local:MainPage}"
+                          Route="TwoPage" />
         </Tab>
     </TabBar>
 

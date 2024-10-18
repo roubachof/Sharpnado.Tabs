@@ -53,7 +53,6 @@ namespace MauiSample.Presentation.CustomViews
 
         private static void OnBoldFontFamilyPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            throw new System.NotImplementedException();
         }
 
         private void ProcessMarkdown(string markdown)

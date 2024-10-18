@@ -7,7 +7,7 @@
 
     <ContentView.Resources>
         <ResourceDictionary>
-            <Style x:Key="ScrollableTabStyle" TargetType="tabs:UnderlinedTabItem">
+            <Style x:Key="ScrollableTabStyle" TargetType="tabs:MaterialUnderlinedTabItem">
                 <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
                 <Setter Property="FontFamily" Value="OpenSansSemibold" />
                 <Setter Property="LabelSize" Value="14" />
@@ -168,16 +168,17 @@
                                       BackgroundColor="{StaticResource Gray900}"
                                       SelectedIndex="1"
                                       ShowScrollbar="False"
-                                      TabType="Scrollable">
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
-                        <tabs:UnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
+                                      TabType="Scrollable"
+                                      UseMauiTapGesture="true">
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
+                        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />
                     </tabs:TabHostView>
 
                     <Label Grid.Row="2"

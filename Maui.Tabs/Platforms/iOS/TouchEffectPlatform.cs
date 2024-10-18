@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Platform;
 using ObjCRuntime;
 using Sharpnado.Tabs.Effects.iOS.GestureCollectors;
 using Sharpnado.Tabs.Effects.iOS.GestureRecognizers;
@@ -80,7 +80,7 @@ namespace Sharpnado.Tabs.Effects.iOS {
 
             InternalLogger.Debug($"UpdateEffectColor");
             _alpha = color.Alpha < 1.0 ? 1 : (float)0.3;
-            _layer.BackgroundColor = color.ToUIColor();
+            _layer.BackgroundColor = color.ToPlatform();
         }
 
         void BringLayer() {

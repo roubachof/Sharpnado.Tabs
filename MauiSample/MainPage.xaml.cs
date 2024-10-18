@@ -1,4 +1,5 @@
-﻿using MauiSample.Presentation.ViewModels;
+﻿using Android.Widget;
+using MauiSample.Presentation.ViewModels;
 
 namespace MauiSample;
 
@@ -9,6 +10,7 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 
         BindingContext = viewModel;
+        // Switcher.SelectedIndex = 3;
     }
 
     private BottomTabsPageViewModel ViewModel => (BottomTabsPageViewModel)BindingContext;

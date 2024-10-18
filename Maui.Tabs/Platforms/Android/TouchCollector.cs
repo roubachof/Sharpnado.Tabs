@@ -11,36 +11,51 @@ using Android.Views;
 using View = Android.Views.View;
 
 namespace Sharpnado.Tabs.Effects.Droid.GestureCollectors {
+    enum ActionType
+    {
+        Ripple = 0,
+        Tap = 1,
+    }
+
+    record ActionSource(ActionType ActionType, Action<View.TouchEventArgs> Action);
+
     internal static class TouchCollector {
-        static Dictionary<View, List<Action<View.TouchEventArgs>>> Collection { get; } =
-            new Dictionary<View, List<Action<View.TouchEventArgs>>>();
+        static Dictionary<View, List<ActionSource>> Collection { get; } =
+            new ();
 
         static View _activeView;
 
-        public static void Add(View view, Action<View.TouchEventArgs> action) {
+        public static void Add(View view, Action<View.TouchEventArgs> action, ActionType actionType) {
             if (Collection.ContainsKey(view)) {
-                Collection[view].Add(action);
+                Collection[view].Add(new ActionSource(actionType, action));
             }
             else {
                 view.Touch += ActionActivator;
-                Collection.Add(view, new List<Action<View.TouchEventArgs>> { action });
+                Collection.Add(view, [ new(actionType, action) ] );
             }
         }
 
-        public static void Delete(View view, Action<View.TouchEventArgs> action) {
+        public static void Delete(View view, Action<View.TouchEventArgs> action, ActionType actionType) {
             if (!Collection.ContainsKey(view)) return;
 
             var actions = Collection[view];
-            actions.Remove(action);
+            actions.Remove(new ActionSource(actionType, action));
 
             if (actions.Count != 0) return;
             view.Touch -= ActionActivator;
             Collection.Remove(view);
         }
 
-        static void ActionActivator(object sender, View.TouchEventArgs e) {
+        static async void ActionActivator(object sender, View.TouchEventArgs e) {
             var view = (View)sender;
             if (!Collection.ContainsKey(view) || (_activeView != null && _activeView != view)) return;
+
+            var actions = Collection[view].ToArray();
+            bool rippleRan = false;
+            foreach (var valueAction in actions.Where(source => source.ActionType == ActionType.Ripple)) {
+                valueAction?.Action.Invoke(e);
+                rippleRan = true;
+            }
 
             switch (e.Event.Action) {
                 case MotionEventActions.Down:
@@ -55,9 +70,13 @@ namespace Sharpnado.Tabs.Effects.Droid.GestureCollectors {
                     break;
             }
 
-            var actions = Collection[view].ToArray();
-            foreach (var valueAction in actions) {
-                valueAction?.Invoke(e);
+            if (rippleRan) 
+            {
+                await Task.Delay(200);
+            }
+
+            foreach (var valueAction in actions.Where(source => source.ActionType == ActionType.Tap)) {
+                valueAction?.Action.Invoke(e);
             }
         }
     }

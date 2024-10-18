@@ -12,7 +12,7 @@ namespace Sharpnado.Tabs
             typeof(Color),
             typeof(SegmentedTabItem),
 #if NET6_0_OR_GREATER
-            Colors.DodgerBlue);
+            Colors.White);
 #else
             Color.Default);
 #endif
@@ -31,9 +31,11 @@ namespace Sharpnado.Tabs
         }
 
 #if NET6_0_OR_GREATER
-        protected override void OnHandlerChanged()
+        protected override async void OnHandlerChanged()
         {
             base.OnHandlerChanged();
+            Background = Colors.Transparent;
+            await Task.Delay(100);
             UpdateLabel();
         }
 #endif
@@ -78,35 +80,14 @@ namespace Sharpnado.Tabs
 
             if (IsSelected)
             {
-#if !NET6_0_OR_GREATER
-                if (SelectedTabColor != Color.Default)
-#endif
-                {
-                    BackgroundColor = SelectedTabColor;
-                }
-
-#if !NET6_0_OR_GREATER
-                if (SelectedLabelColor != Color.Default)
-#endif
-                {
-                    label.TextColor = SelectedLabelColor;
-                }
+                label.TextColor = SelectedLabelColor;
             }
             else
             {
-#if NET6_0_OR_GREATER
-                BackgroundColor = Colors.Transparent;
-#else
-                BackgroundColor = Color.Transparent;
-#endif
-
-#if !NET6_0_OR_GREATER
-                if (UnselectedLabelColor != Color.Default)
-#endif
-                {
-                    label.TextColor = UnselectedLabelColor;
-                }
+                label.TextColor = UnselectedLabelColor;
             }
+
+            Background = IsSelected ? SelectedTabColor : Colors.Transparent;
 
             Content = label;
         }

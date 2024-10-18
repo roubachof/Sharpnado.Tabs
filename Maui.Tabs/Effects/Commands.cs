@@ -76,6 +76,17 @@ namespace Sharpnado.Tabs.Effects {
             return view.GetValue(LongTapParameterProperty);
         }
 
+        public static void UnregisterEffect(BindableObject bindable)
+        {
+            if (!(bindable is View view))
+                return;
+
+            var eff = view.Effects.FirstOrDefault(e => e is CommandsRoutingEffect);
+
+            if (eff == null) return;
+            view.Effects.Remove(eff);
+        }
+
         static void PropertyChanged(BindableObject bindable, object oldValue, object newValue) {
             if (!(bindable is View view))
                 return;
@@ -93,7 +104,7 @@ namespace Sharpnado.Tabs.Effects {
                 }
             }
             else {
-                if (eff == null || view.BindingContext == null) return;
+                if (eff == null) return;
                 view.Effects.Remove(eff);
                 if (EffectsConfig.AutoChildrenInputTransparent && bindable is Layout &&
                     EffectsConfig.GetChildrenInputTransparent(view)) {

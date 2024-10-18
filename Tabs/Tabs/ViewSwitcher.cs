@@ -96,7 +96,15 @@ namespace Sharpnado.Tabs
 
             if (child is View view)
             {
-                HideView(view, Children.Count - 1);
+                int childIndex = Children.Count - 1;
+                if (childIndex == SelectedIndex)
+                {
+                    ShowView(view, childIndex);
+                }
+                else
+                {
+                    HideView(view, childIndex);
+                }
             }
         }
 #else

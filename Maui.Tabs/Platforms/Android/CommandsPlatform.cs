@@ -20,7 +20,8 @@ using Rect = Android.Graphics.Rect;
 namespace Sharpnado.Tabs.Effects.Droid {
     public class CommandsPlatform : PlatformEffect {
         public View View => Control ?? Container;
-        public bool IsDisposed => (Container as IVisualElementRenderer)?.Element == null;
+        public bool IsDisposed => Container is null 
+            || (Container is Java.Lang.Object javaContainer) && javaContainer.Handle == IntPtr.Zero;
 
         DateTime _tapTime;
         readonly Rect _rect = new Rect();
@@ -33,7 +34,7 @@ namespace Sharpnado.Tabs.Effects.Droid {
             View.Clickable = true;
             View.LongClickable = true;
             View.SoundEffectsEnabled = true;
-            TouchCollector.Add(View, OnTouch);
+            TouchCollector.Add(View, OnTouch, ActionType.Tap);
         }
 
         void OnTouch(View.TouchEventArgs args) {
@@ -83,7 +84,7 @@ namespace Sharpnado.Tabs.Effects.Droid {
 
         protected override void OnDetached() {
             if (IsDisposed) return;
-            TouchCollector.Delete(View, OnTouch);
+            TouchCollector.Delete(View, OnTouch, ActionType.Tap);
         }
     }
 }

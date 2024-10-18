@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Microsoft.Maui.Controls.Shapes;
+
 
 #if !NET6_0_OR_GREATER
 using Sharpnado.Shades;
@@ -80,6 +82,12 @@ namespace Sharpnado.Tabs
             defaultValue: 10f);
 #endif
 
+        public static readonly BindableProperty UseMauiTapGestureProperty = BindableProperty.Create(
+            nameof(UseMauiTapGesture),
+            typeof(bool),
+            typeof(TabHostView),
+            defaultValue: false);
+
         public static readonly BindableProperty SegmentedHasSeparatorProperty = BindableProperty.Create(
             nameof(SegmentedHasSeparator),
             typeof(bool),
@@ -122,7 +130,7 @@ namespace Sharpnado.Tabs
         private const string Tag = nameof(TabHostView);
 
         private readonly Grid _grid;
-        private readonly Frame _frame;
+        private readonly Border _frame;
         private List<TabItem> _selectableTabs = new();
 
         private INotifyCollectionChanged _currentNotifyCollection;
@@ -132,6 +140,30 @@ namespace Sharpnado.Tabs
         private ColumnDefinition _lastFillingColumn;
 
         private RowDefinition _lastFillingRow;
+
+        private bool _hasBeenUnloaded = false;
+
+        private void TabHostView_HandlerChanged(object sender, EventArgs e)
+        {
+            InternalLogger.Debug(Tag, () => $"HandlerChanged");
+        }
+
+        private void TabHostView_Loaded(object sender, EventArgs e)
+        {
+            InternalLogger.Debug(Tag, () => $"Loaded");
+            if (_hasBeenUnloaded)
+            {
+                RegisterAllTabs();
+                _hasBeenUnloaded = false;
+            }
+        }
+
+        private void TabHostView_Unloaded(object sender, EventArgs e)
+        {
+            InternalLogger.Debug(Tag, () => $"Unloaded");
+            _hasBeenUnloaded = true;
+            UnregisterAllTabs();
+        }
 
         public TabHostView()
         {
@@ -158,12 +190,9 @@ namespace Sharpnado.Tabs
                 BackgroundColor = BackgroundColor,
             };
 
-            _frame = new Frame
+            _frame = new Border
             {
                 Padding = 0,
-                HasShadow = false,
-                IsClippedToBounds = true,
-                CornerRadius = CornerRadius,
 #if NET6_0_OR_GREATER
                 BackgroundColor = Colors.Transparent,
 #else
@@ -171,7 +200,8 @@ namespace Sharpnado.Tabs
 #endif
                 HorizontalOptions = LayoutOptions.Fill,
                 VerticalOptions = LayoutOptions.Fill,
-                BorderColor = SegmentedOutlineColor,
+                StrokeShape = new RoundRectangle { CornerRadius = CornerRadius },
+                Stroke = SegmentedOutlineColor,
             };
 
             UpdateTabType();
@@ -181,22 +211,9 @@ namespace Sharpnado.Tabs
 #endif
         }
 
-        private void TabHostView_HandlerChanged(object sender, EventArgs e)
-        {
-            InternalLogger.Debug(Tag, () => $"HandlerChanged!");
-        }
-
-        private void TabHostView_Loaded(object sender, EventArgs e)
-        {
-            InternalLogger.Debug(Tag, () => $"Loaded!");
-        }
-
-        private void TabHostView_Unloaded(object sender, EventArgs e)
-        {
-            InternalLogger.Debug(Tag, () => $"Unloaded!");
-        }
-
         public event EventHandler<SelectedPositionChangedEventArgs> SelectedTabIndexChanged;
+
+        public Border Border => _frame;
 
         public IEnumerable ItemsSource
         {
@@ -214,6 +231,12 @@ namespace Sharpnado.Tabs
         {
             get => (ObservableCollection<TabItem>)GetValue(TabsProperty);
             set => SetValue(TabsProperty, value);
+        }
+
+        public bool UseMauiTapGesture
+        {
+            get => (bool)GetValue(UseMauiTapGestureProperty);
+            set => SetValue(UseMauiTapGestureProperty, value);
         }
 
         public bool IsSegmented
@@ -470,7 +493,7 @@ namespace Sharpnado.Tabs
                 return;
             }
 
-            _frame.BorderColor = SegmentedOutlineColor;
+            _frame.Stroke = SegmentedOutlineColor;
             foreach (var separator in _grid.Children.Where(c => c is BoxView))
             {
 
@@ -520,7 +543,7 @@ namespace Sharpnado.Tabs
                 return;
             }
 
-            _frame.CornerRadius = CornerRadius;
+            _frame.StrokeShape = new RoundRectangle { CornerRadius = CornerRadius };
         }
 
         private void AddSeparators()
@@ -723,12 +746,62 @@ namespace Sharpnado.Tabs
 
         private void AddTapCommand(TabItem tabItem)
         {
+            RegisterEffects(tabItem);
+        }
+
+        private void UnregisterAllTabs()
+        {
+            InternalLogger.Info(Tag, "UnregisterAllTabs()");
+            foreach (var tab in Tabs)
+            {
+                UnregisterEffects(tab);
+            }
+        }
+
+        private void RegisterAllTabs()
+        {
+            InternalLogger.Info(Tag, "RegisterAllTabs()");
+            foreach (var tab in Tabs)
+            {
+                RegisterEffects(tab);
+            }
+        }
+
+        private void UnregisterEffects(TabItem tabItem)
+        {
             if (tabItem is TabButton)
             {
                 return;
             }
 
-            if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            InternalLogger.Info(Tag, () => $"UnregisterEffects( tabItem: {tabItem.GetType().Name} )");
+
+            if (UseMauiTapGesture || DeviceInfo.Platform == DevicePlatform.WinUI)
+            {
+                tabItem.GestureRecognizers.Remove(
+                    tabItem.GestureRecognizers.FirstOrDefault(
+                        g => g is TapGestureRecognizer tapGestureRecognizer && ReferenceEquals(tapGestureRecognizer.Command, TabItemTappedCommand)));
+            }
+            else
+            {
+#if NET6_0_OR_GREATER
+                Sharpnado.Tabs.Effects.TouchEffect.SetColor(tabItem, Colors.Transparent);
+                Sharpnado.Tabs.Effects.Commands.SetTap(tabItem, null);
+                Sharpnado.Tabs.Effects.Commands.SetTapParameter(tabItem, null);
+#endif
+            }
+        }
+
+        private void RegisterEffects(TabItem tabItem)
+        {
+            if (tabItem is TabButton)
+            {
+                return;
+            }
+
+            InternalLogger.Info(Tag, () => $"RegisterEffects( tabItem: {tabItem.GetType().Name} )");
+
+            if (UseMauiTapGesture || DeviceInfo.Platform == DevicePlatform.WinUI)
             {
                 tabItem.GestureRecognizers.Add(
                     new TapGestureRecognizer { Command = TabItemTappedCommand, CommandParameter = tabItem });

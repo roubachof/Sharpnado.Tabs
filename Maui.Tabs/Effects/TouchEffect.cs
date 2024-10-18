@@ -1,4 +1,6 @@
-﻿namespace Sharpnado.Tabs.Effects {
+﻿using Microsoft.Maui.Controls;
+
+namespace Sharpnado.Tabs.Effects {
     public static class TouchEffect {
 
         public static readonly BindableProperty ColorProperty =
@@ -6,7 +8,7 @@
                 "Color",
                 typeof(Color),
                 typeof(TouchEffect),
-                Colors.Transparent,
+                KnownColor.Accent,
                 propertyChanged: PropertyChanged
             );
 
@@ -16,6 +18,17 @@
 
         public static Color GetColor(BindableObject view) {
             return (Color)view.GetValue(ColorProperty);
+        }
+
+        public static void UnregisterEffect(BindableObject bindable)
+        {
+            if (!(bindable is View view))
+                return;
+
+            var eff = view.Effects.FirstOrDefault(e => e is TouchRoutingEffect);
+
+            if (eff == null) return;
+            view.Effects.Remove(eff);
         }
 
         static void PropertyChanged(BindableObject bindable, object oldValue, object newValue) {
@@ -34,7 +47,7 @@
                 }
             }
             else {
-                if (eff == null || view.BindingContext == null) return;
+                if (eff == null) return;
                 view.Effects.Remove(eff);
                 if (EffectsConfig.AutoChildrenInputTransparent && bindable is Layout &&
                     EffectsConfig.GetChildrenInputTransparent(view)) {
