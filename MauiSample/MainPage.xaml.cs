@@ -1,5 +1,4 @@
-﻿using Android.Widget;
-using MauiSample.Presentation.ViewModels;
+﻿using MauiSample.Presentation.ViewModels;
 
 namespace MauiSample;
 

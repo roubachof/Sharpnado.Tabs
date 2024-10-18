@@ -12,25 +12,10 @@ public class DelayedView<TView> : LazyView<TView>
         TaskMonitor.Create(
             async () =>
                 {
-                    View? view = null;
-                    //if (DeviceInfo.Platform == DevicePlatform.Android)
-                    //{
-                    //    await Task.Run(
-                    //        () =>
-                    //            {
-                    //                view = new TView
-                    //                    {
-                    //                        BindingContext = BindingContext,
-                    //                    };
-                    //            });
-                    //}
-                    //else
+                    View? view = new TView
                     {
-                        view = new TView
-                            {
-                                BindingContext = BindingContext,
-                            };
-                    }
+                        BindingContext = BindingContext,
+                    };
 
                     await Task.Delay(DelayInMilliseconds);
 
