@@ -139,6 +139,10 @@ namespace Sharpnado.Tabs
 
             Tabs.CollectionChanged += OnTabsCollectionChanged;
 
+            HandlerChanged += TabHostView_HandlerChanged;
+            Loaded += TabHostView_Loaded;
+            Unloaded += TabHostView_Unloaded;
+
 #if NET6_0_OR_GREATER
             base.BackgroundColor = Colors.Transparent;
 #else
@@ -175,6 +179,21 @@ namespace Sharpnado.Tabs
 #if !NET6_0_OR_GREATER
             Shades = new List<Shade>();
 #endif
+        }
+
+        private void TabHostView_HandlerChanged(object sender, EventArgs e)
+        {
+            InternalLogger.Debug(Tag, () => $"HandlerChanged!");
+        }
+
+        private void TabHostView_Loaded(object sender, EventArgs e)
+        {
+            InternalLogger.Debug(Tag, () => $"Loaded!");
+        }
+
+        private void TabHostView_Unloaded(object sender, EventArgs e)
+        {
+            InternalLogger.Debug(Tag, () => $"Unloaded!");
         }
 
         public event EventHandler<SelectedPositionChangedEventArgs> SelectedTabIndexChanged;
