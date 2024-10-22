@@ -22,9 +22,9 @@
 
 	<PropertyGroup>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<AssemblyVersion>3.1.0</AssemblyVersion>
-		<AssemblyFileVersion>3.1.0</AssemblyFileVersion>
-		<Version>3.1.0</Version>
+		<AssemblyVersion>3.1.1</AssemblyVersion>
+		<AssemblyFileVersion>3.1.1</AssemblyFileVersion>
+		<Version>3.1.1</Version>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 

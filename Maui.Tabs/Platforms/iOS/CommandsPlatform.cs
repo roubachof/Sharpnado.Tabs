@@ -3,8 +3,6 @@ using System.Windows.Input;
 
 using Microsoft.Maui.Controls.Platform;
 
-using Sharpnado.Tabs.Effects;
-using Sharpnado.Tabs.Effects.iOS;
 using Sharpnado.Tabs.Effects.iOS.GestureCollectors;
 using Sharpnado.Tabs.Effects.iOS.GestureRecognizers;
 
@@ -28,7 +26,7 @@ namespace Sharpnado.Tabs.Effects.iOS {
             UpdateLongTap();
             UpdateLongTapParameter();
 
-            TouchGestureCollector.Add(View, OnTouch);
+            TouchGestureCollector.Add(View, OnTouch, ActionType.Tap);
         }
 
         protected override void OnDetached() {

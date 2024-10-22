@@ -1,9 +1,8 @@
 ﻿using Android.Widget;
 
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Platform;
 
-using Sharpnado.Tabs.Droid;
 using Sharpnado.Tabs.Effects;
 
 namespace Sharpnado.Tabs.Droid
@@ -33,7 +32,7 @@ namespace Sharpnado.Tabs.Droid
         {
             var effect =
                 (TintableImageEffect)Element.Effects.FirstOrDefault(x => x is TintableImageEffect);
-            var color = effect?.TintColor?.ToAndroid();
+            var color = effect?.TintColor?.ToPlatform();
 
             if (Control is ImageView imageView && imageView.Handle != IntPtr.Zero && color.HasValue)
             {

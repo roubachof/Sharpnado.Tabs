@@ -78,7 +78,7 @@
                               SegmentedOutlineColor="{StaticResource Gray950}"
                               SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}"
                               TabType="Fixed"
-                              UseMauiTapGesture="True">
+                              UseMauiTapGesture="False">
                 <tabs:TabHostView.Shadow>
                     <Shadow Brush="{StaticResource Primary}"
                             Opacity="0.7"

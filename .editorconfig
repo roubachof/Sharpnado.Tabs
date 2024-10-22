@@ -1,0 +1,109 @@
+# NOTE: Requires **VS2019 16.3** or later
+
+# StyleCopRules
+# Description: StyleCopRules custom ruleset
+
+# Code files
+[*.{cs,vb}]
+
+
+# Default severity for analyzer diagnostics - Requires **VS2019 16.5** or later
+dotnet_analyzer_diagnostic.severity = warning
+
+dotnet_diagnostic.SA1101.severity = none
+
+dotnet_diagnostic.SA1200.severity = none
+
+dotnet_diagnostic.SA1305.severity = warning
+
+dotnet_diagnostic.SA1309.severity = none
+
+dotnet_diagnostic.SA1402.severity = none
+
+dotnet_diagnostic.SA1407.severity = none
+
+dotnet_diagnostic.SA1412.severity = warning
+
+dotnet_diagnostic.SA1600.severity = none
+
+dotnet_diagnostic.SA1601.severity = none
+
+dotnet_diagnostic.SA1602.severity = none
+
+dotnet_diagnostic.SA1604.severity = none
+
+dotnet_diagnostic.SA1605.severity = none
+
+dotnet_diagnostic.SA1606.severity = none
+
+dotnet_diagnostic.SA1607.severity = none
+
+dotnet_diagnostic.SA1608.severity = none
+
+dotnet_diagnostic.SA1610.severity = none
+
+dotnet_diagnostic.SA1611.severity = none
+
+dotnet_diagnostic.SA1612.severity = none
+
+dotnet_diagnostic.SA1613.severity = none
+
+dotnet_diagnostic.SA1614.severity = none
+
+dotnet_diagnostic.SA1615.severity = none
+
+dotnet_diagnostic.SA1616.severity = none
+
+dotnet_diagnostic.SA1617.severity = none
+
+dotnet_diagnostic.SA1618.severity = none
+
+dotnet_diagnostic.SA1619.severity = none
+
+dotnet_diagnostic.SA1620.severity = none
+
+dotnet_diagnostic.SA1621.severity = none
+
+dotnet_diagnostic.SA1622.severity = none
+
+dotnet_diagnostic.SA1623.severity = none
+
+dotnet_diagnostic.SA1624.severity = none
+
+dotnet_diagnostic.SA1625.severity = none
+
+dotnet_diagnostic.SA1626.severity = none
+
+dotnet_diagnostic.SA1627.severity = none
+
+dotnet_diagnostic.SA1633.severity = none
+
+dotnet_diagnostic.SA1634.severity = none
+
+dotnet_diagnostic.SA1635.severity = none
+
+dotnet_diagnostic.SA1636.severity = none
+
+dotnet_diagnostic.SA1637.severity = none
+
+dotnet_diagnostic.SA1638.severity = none
+
+dotnet_diagnostic.SA1640.severity = none
+
+dotnet_diagnostic.SA1641.severity = none
+
+dotnet_diagnostic.SA1642.severity = none
+
+dotnet_diagnostic.SA1643.severity = none
+
+dotnet_diagnostic.SA1648.severity = none
+
+dotnet_diagnostic.SA1649.severity = none
+
+dotnet_diagnostic.SA1651.severity = none
+
+dotnet_diagnostic.SA1652.severity = none
+
+dotnet_diagnostic.SX1101.severity = warning
+
+dotnet_diagnostic.SX1309.severity = warning

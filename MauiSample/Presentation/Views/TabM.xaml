@@ -168,8 +168,7 @@
                                       BackgroundColor="{StaticResource Gray900}"
                                       SelectedIndex="1"
                                       ShowScrollbar="False"
-                                      TabType="Scrollable"
-                                      UseMauiTapGesture="true">
+                                      TabType="Scrollable">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />

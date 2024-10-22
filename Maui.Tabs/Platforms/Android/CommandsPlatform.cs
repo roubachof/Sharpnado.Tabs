@@ -8,83 +8,115 @@
 
 using Android.Views;
 
-using View = Android.Views.View;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
-
 using Microsoft.Maui.Controls.Platform;
 
 using Sharpnado.Tabs.Effects.Droid.GestureCollectors;
 
+using Object = Java.Lang.Object;
+using View = Android.Views.View;
 using Rect = Android.Graphics.Rect;
 
-namespace Sharpnado.Tabs.Effects.Droid {
-    public class CommandsPlatform : PlatformEffect {
-        public View View => Control ?? Container;
-        public bool IsDisposed => Container is null 
-            || (Container is Java.Lang.Object javaContainer) && javaContainer.Handle == IntPtr.Zero;
+namespace Sharpnado.Tabs.Effects.Droid;
 
-        DateTime _tapTime;
-        readonly Rect _rect = new Rect();
-        readonly int[] _location = new int[2];
+public class CommandsPlatform : PlatformEffect
+{
+    private const string Tag = "CommandEffectAndroid";
 
-        public static void Init() {
-        }
+    private readonly int[] _location = new int[2];
 
-        protected override void OnAttached() {
-            View.Clickable = true;
-            View.LongClickable = true;
-            View.SoundEffectsEnabled = true;
-            TouchCollector.Add(View, OnTouch, ActionType.Tap);
-        }
+    private readonly Rect _rect = new();
 
-        void OnTouch(View.TouchEventArgs args) {
-            switch (args.Event.Action) {
-                case MotionEventActions.Down:
-                    _tapTime = DateTime.Now;
-                    break;
+    private DateTime _tapTime;
 
-                case MotionEventActions.Up:
-                    if (IsViewInBounds((int)args.Event.RawX, (int)args.Event.RawY)) {
-                        var range = (DateTime.Now - _tapTime).TotalMilliseconds;
-                        if (range > 800)
-                            LongClickHandler();
-                        else
-                            ClickHandler();
+    public View View => Control ?? Container;
+
+    public bool IsDisposed => Container is null
+        || (Container is Object javaContainer && javaContainer.Handle == IntPtr.Zero);
+
+    public static void Init()
+    {
+    }
+
+    protected override void OnAttached()
+    {
+        InternalLogger.Debug(Tag, () => "OnAttached");
+
+        View.Clickable = true;
+        View.LongClickable = true;
+        View.SoundEffectsEnabled = true;
+        TouchCollector.Add(View, OnTouch, ActionType.Tap);
+    }
+
+    private void OnTouch(View.TouchEventArgs args)
+    {
+        switch (args.Event.Action)
+        {
+            case MotionEventActions.Down:
+                _tapTime = DateTime.Now;
+                break;
+
+            case MotionEventActions.Up:
+                if (IsViewInBounds((int)args.Event.RawX, (int)args.Event.RawY))
+                {
+                    double range = (DateTime.Now - _tapTime).TotalMilliseconds;
+                    if (range > 800)
+                    {
+                        LongClickHandler();
                     }
-                    break;
-            }
+                    else
+                    {
+                        ClickHandler();
+                    }
+                }
+
+                break;
+        }
+    }
+
+    private bool IsViewInBounds(int x, int y)
+    {
+        View.GetDrawingRect(_rect);
+        View.GetLocationOnScreen(_location);
+        _rect.Offset(_location[0], _location[1]);
+        return _rect.Contains(x, y);
+    }
+
+    private void ClickHandler()
+    {
+        var cmd = Commands.GetTap(Element);
+        object param = Commands.GetTapParameter(Element);
+        if (cmd?.CanExecute(param) ?? false)
+        {
+            cmd.Execute(param);
+        }
+    }
+
+    private void LongClickHandler()
+    {
+        var cmd = Commands.GetLongTap(Element);
+
+        if (cmd == null)
+        {
+            ClickHandler();
+            return;
         }
 
-        bool IsViewInBounds(int x, int y) {
-            View.GetDrawingRect(_rect);
-            View.GetLocationOnScreen(_location);
-            _rect.Offset(_location[0], _location[1]);
-            return _rect.Contains(x, y);
+        object param = Commands.GetLongTapParameter(Element);
+        if (cmd.CanExecute(param))
+        {
+            cmd.Execute(param);
+        }
+    }
+
+    protected override void OnDetached()
+    {
+        InternalLogger.Debug(Tag, () => "OnDetached");
+
+        if (IsDisposed)
+        {
+            return;
         }
 
-        void ClickHandler() {
-            var cmd = Commands.GetTap(Element);
-            var param = Commands.GetTapParameter(Element);
-            if (cmd?.CanExecute(param) ?? false)
-                cmd.Execute(param);
-        }
-
-        void LongClickHandler() {
-            var cmd = Commands.GetLongTap(Element);
-
-            if (cmd == null) {
-                ClickHandler();
-                return;
-            }
-
-            var param = Commands.GetLongTapParameter(Element);
-            if (cmd.CanExecute(param))
-                cmd.Execute(param);
-        }
-
-        protected override void OnDetached() {
-            if (IsDisposed) return;
-            TouchCollector.Delete(View, OnTouch, ActionType.Tap);
-        }
+        TouchCollector.Delete(View, OnTouch, ActionType.Tap);
     }
 }
