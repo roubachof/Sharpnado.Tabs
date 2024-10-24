@@ -5,6 +5,8 @@ using MauiSample.Presentation.Navigables.Impl;
 using MauiSample.Presentation.ViewModels;
 using Sharpnado.Tabs;
 
+using SkiaSharp.Views.Maui.Controls.Hosting;
+
 namespace MauiSample;
 
 public static class MauiProgram
@@ -15,6 +17,7 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
             .UseSharpnadoTabs(loggerEnable: true, debugLogEnable: true)
+			.UseSkiaSharp()
 			.ConfigureFonts(fonts =>
 			{
                 fonts.AddFont("OpenSans-Bold.ttf", "OpenSansBold");

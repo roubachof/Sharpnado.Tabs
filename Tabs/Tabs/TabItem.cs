@@ -1,25 +1,18 @@
-﻿
-using Xamarin.Forms;
-
-namespace Sharpnado.Tabs
+﻿namespace Sharpnado.Tabs
 {
     public abstract class TabItem : ContentView
     {
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             nameof(IsSelected),
             typeof(bool),
-            typeof(TabTextItem),
+            typeof(TabItem),
             false);
 
         public static readonly BindableProperty SelectedTabColorProperty = BindableProperty.Create(
             nameof(SelectedTabColor),
             typeof(Color),
-            typeof(TabTextItem),
-#if NET6_0_OR_GREATER
+            typeof(TabItem),
             Colors.Magenta);
-#else
-            Color.Default);
-#endif
 
         public static readonly BindableProperty BadgeProperty = BindableProperty.Create(
             nameof(Badge),
@@ -37,12 +30,8 @@ namespace Sharpnado.Tabs
         public static readonly BindableProperty DisabledLabelColorProperty = BindableProperty.Create(
             nameof(DisabledLabelColor),
             typeof(Color),
-            typeof(TabTextItem),
-#if NET6_0_OR_GREATER
+            typeof(TabItem),
             Colors.Grey);
-#else
-            Color.Default);
-#endif
 
         public Color DisabledLabelColor
         {

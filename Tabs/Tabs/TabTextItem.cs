@@ -1,7 +1,4 @@
-﻿
-using Xamarin.Forms;
-
-namespace Sharpnado.Tabs
+﻿namespace Sharpnado.Tabs
 {
     public abstract class TabTextItem : TabItem
     {
@@ -27,11 +24,7 @@ namespace Sharpnado.Tabs
             nameof(UnselectedLabelColor),
             typeof(Color),
             typeof(TabTextItem),
-#if NET6_0_OR_GREATER
-            Colors.DodgerBlue);
-#else
-            Color.Default);
-#endif
+            Colors.Grey);
 
         public string Label
         {

@@ -113,6 +113,7 @@
 	  <None Remove="Resources\Images\theme_96.png" />
 	  <None Remove="Resources\Images\the_internet.png" />
 	  <None Remove="Resources\Images\will_ferrell.jpg" />
+	  <None Remove="Resources\Raw\dino.json" />
 	  <None Remove="Resources\Splash\logo.png" />
 	</ItemGroup>
 
@@ -120,6 +121,7 @@
 	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 	  <PackageReference Include="Sharpnado.Maui.TaskLoaderView" Version="2.5.1" />
 	  <PackageReference Include="SimpleInjector" Version="5.4.0" />
+	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

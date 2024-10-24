@@ -2,6 +2,7 @@
 <ContentPage x:Class="MauiSample.MainPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              xmlns:tabs="http://sharpnado.com"
              xmlns:viewModels="clr-namespace:MauiSample.Presentation.ViewModels"
              xmlns:views="clr-namespace:MauiSample.Presentation.Views"
@@ -48,7 +49,17 @@
                               AccentColor="{StaticResource Primary}"
                               Animate="True"
                               BindingContext="{Binding HomePageViewModel}"
-                              UseActivityIndicator="True" />
+                              DelayInMilliseconds="5000"
+                              UseActivityIndicator="True">
+                <tabs:DelayedView.LoadingView>
+                    <controls:SKLottieView WidthRequest="200"
+                                           HeightRequest="200"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           RepeatCount="-1"
+                                           Source="dino_pink.json" />
+                </tabs:DelayedView.LoadingView>
+            </tabs:DelayedView>
             <tabs:DelayedView x:TypeArguments="views:TabA"
                               AccentColor="{StaticResource Primary}"
                               Animate="True"

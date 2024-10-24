@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-
-using Xamarin.Forms;
+﻿using System.Runtime.CompilerServices;
 
 namespace Sharpnado.Tabs
 {
@@ -11,18 +8,7 @@ namespace Sharpnado.Tabs
             nameof(SelectedLabelColor),
             typeof(Color),
             typeof(SegmentedTabItem),
-#if NET6_0_OR_GREATER
             Colors.White);
-#else
-            Color.Default);
-#endif
-
-        public SegmentedTabItem()
-        {
-#if !NET6_0_OR_GREATER
-            UpdateLabel();
-#endif
-        }
 
         public Color SelectedLabelColor
         {
@@ -30,7 +16,6 @@ namespace Sharpnado.Tabs
             set => SetValue(SelectedLabelColorProperty, value);
         }
 
-#if NET6_0_OR_GREATER
         protected override async void OnHandlerChanged()
         {
             base.OnHandlerChanged();
@@ -38,7 +23,6 @@ namespace Sharpnado.Tabs
             await Task.Delay(100);
             UpdateLabel();
         }
-#endif
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -78,14 +62,7 @@ namespace Sharpnado.Tabs
                 label.FontFamily = FontFamily;
             }
 
-            if (IsSelected)
-            {
-                label.TextColor = SelectedLabelColor;
-            }
-            else
-            {
-                label.TextColor = UnselectedLabelColor;
-            }
+            label.TextColor = IsSelected ? SelectedLabelColor : UnselectedLabelColor;
 
             Background = IsSelected ? SelectedTabColor : Colors.Transparent;
 

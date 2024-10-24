@@ -1,8 +1,4 @@
-﻿using System;
-
-using Xamarin.Forms;
-
-namespace Sharpnado.Tabs
+﻿namespace Sharpnado.Tabs
 {
     public class TapCommand : Command
     {

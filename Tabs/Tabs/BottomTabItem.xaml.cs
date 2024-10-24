@@ -3,9 +3,6 @@ using System.Runtime.CompilerServices;
 
 using Sharpnado.Tabs.Effects;
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
 namespace Sharpnado.Tabs
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -39,7 +36,7 @@ namespace Sharpnado.Tabs
             declaringType: typeof(TabTextItem),
             defaultValue: null);
 
-        private readonly bool _isInitialized = false;
+        private readonly bool _isInitialized;
 
         public BottomTabItem()
         {

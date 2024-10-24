@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using Xamarin.Forms;
 
 namespace Sharpnado.Tabs
 {
@@ -8,13 +7,13 @@ namespace Sharpnado.Tabs
         public static readonly BindableProperty UnderlineAllTabProperty = BindableProperty.Create(
             nameof(UnderlineAllTab),
             typeof(bool),
-            typeof(TabTextItem),
+            typeof(UnderlinedTabItemBase),
             true);
 
         public static readonly BindableProperty UnderlineHeightProperty = BindableProperty.Create(
             nameof(UnderlineHeight),
             typeof(double),
-            typeof(TabTextItem),
+            typeof(UnderlinedTabItemBase),
             3d);
 
         public bool UnderlineAllTab

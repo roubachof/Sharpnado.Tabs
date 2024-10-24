@@ -7,12 +7,24 @@ public class DelayedView<TView> : LazyView<TView>
 {
     public int DelayInMilliseconds { get; set; } = 200;
 
+    private View? _currentlyBuiltView;
+
+    protected override void OnBindingContextChanged()
+    {
+        base.OnBindingContextChanged();
+
+        if (_currentlyBuiltView != null)
+        {
+            _currentlyBuiltView.BindingContext = BindingContext;
+        }
+    }
+
     public override void LoadView()
     {
         TaskMonitor.Create(
             async () =>
                 {
-                    View? view = new TView
+                    _currentlyBuiltView = new TView
                     {
                         BindingContext = BindingContext,
                     };
@@ -20,7 +32,7 @@ public class DelayedView<TView> : LazyView<TView>
                     await Task.Delay(DelayInMilliseconds);
 
                     IsLoaded = true;
-                    Content = view;
+                    Content = _currentlyBuiltView;
                 });
     }
 }
