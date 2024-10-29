@@ -22,9 +22,9 @@
 
 	<PropertyGroup>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<AssemblyVersion>3.2.0</AssemblyVersion>
-		<AssemblyFileVersion>3.2.0</AssemblyFileVersion>
-		<Version>3.2.0</Version>
+		<AssemblyVersion>3.2.1</AssemblyVersion>
+		<AssemblyFileVersion>3.2.1</AssemblyFileVersion>
+		<Version>3.2.1</Version>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 
@@ -41,7 +41,7 @@
 		<PackageReadmeFile>docs\ReadMe.md</PackageReadmeFile>
 		<PackageTags>maui dotnetmaui xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</PackageTags>
 		<PackageReleaseNotes>
-			Added loading view for Lazy and Delayed view.
+			Fix errors when styling tab host view.
 		</PackageReleaseNotes>
 
 		<Title>"Pure" MAUI Tabs (no renderers)</Title>
