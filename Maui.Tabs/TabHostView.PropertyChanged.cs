@@ -299,7 +299,7 @@ public partial class TabHostView
     {
         InitializeIfNeeded();
 
-        Border.Stroke = SegmentedOutlineColor;
+        Border.BorderColor = SegmentedOutlineColor;
         foreach (var separator in _grid.Children.Where(c => c is BoxView))
         {
             ((BoxView)separator).Color = SegmentedOutlineColor;
@@ -330,10 +330,7 @@ public partial class TabHostView
     {
         InitializeIfNeeded();
 
-        Border.StrokeShape = new RoundRectangle
-        {
-            CornerRadius = CornerRadius,
-        };
+        Border.CornerRadius = CornerRadius;
     }
 
     private void AddSeparators()

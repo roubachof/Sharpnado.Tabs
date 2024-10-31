@@ -142,18 +142,16 @@ public partial class TabHostView : ContentView
             return;
         }
 
-        Border = new Border
+        Border = new Frame()
         {
             Padding = 0,
             BackgroundColor = Colors.Transparent,
             HorizontalOptions = LayoutOptions.Fill,
             VerticalOptions = LayoutOptions.Fill,
-            StrokeShape = new RoundRectangle
-            {
-                CornerRadius = CornerRadius,
-            },
-
-            Stroke = SegmentedOutlineColor,
+            HasShadow = false,
+            IsClippedToBounds = true,
+            CornerRadius = CornerRadius,
+            BorderColor = SegmentedOutlineColor,
         };
 
         _grid = new Grid
@@ -166,7 +164,7 @@ public partial class TabHostView : ContentView
         };
     }
 
-    public Border Border { get; private set; }
+    public Frame Border { get; private set; }
 
     public IEnumerable ItemsSource
     {
