@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using Microsoft.Maui.Controls.Shapes;
+using Sharpnado.Tabs.Effects;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
-
-using Microsoft.Maui.Controls.Shapes;
-
-using Sharpnado.Tabs.Effects;
 
 namespace Sharpnado.Tabs;
 
@@ -420,7 +418,7 @@ public partial class TabHostView : ContentView
                 tabIndexInGrid,
                 new ColumnDefinition
                 {
-                    Width = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto,
+                    Width = ((TabType == TabType.Fixed) && ((tabItem is not TabButton tabButton) || tabButton.ExpandToTabSize)) ? GridLength.Star : GridLength.Auto,
                 });
 
             if (TabType == TabType.Scrollable)
@@ -449,7 +447,7 @@ public partial class TabHostView : ContentView
                 tabIndexInGrid,
                 new RowDefinition
                 {
-                    Height = TabType == TabType.Fixed ? GridLength.Star : GridLength.Auto,
+                    Height = ((TabType == TabType.Fixed) && ((tabItem is not TabButton tabButton) || tabButton.ExpandToTabSize)) ? GridLength.Star : GridLength.Auto,
                 });
 
             if (TabType == TabType.Scrollable)
@@ -742,9 +740,30 @@ public partial class TabHostView : ContentView
     private void OnTabItemPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         var tabItem = (TabItem)sender;
+        if (e.PropertyName == "ExpandToTabSize" && tabItem is TabButton tabButton)
+        {
+            UpdateTabButtonSize(tabButton);
+        }
+        else
         if (e.PropertyName == nameof(IsVisible))
         {
             UpdateTabVisibility(tabItem);
+        }
+    }
+
+    private void UpdateTabButtonSize(TabButton tabItem)
+    {
+        if (Orientation == OrientationType.Horizontal)
+        {
+            int columnIndex = Grid.GetColumn(tabItem);
+            ColumnDefinition columnDefinition = _grid.ColumnDefinitions[columnIndex];
+            columnDefinition.Width = tabItem.IsVisible ? (tabItem.ExpandToTabSize ? GridLength.Star : GridLength.Auto) : 0;
+        }
+        else
+        {
+            int rowIndex = Grid.GetRow(tabItem);
+            RowDefinition rowDefinition = _grid.RowDefinitions[rowIndex];
+            rowDefinition.Height = tabItem.IsVisible ? (tabItem.ExpandToTabSize ? GridLength.Star : GridLength.Auto) : 0;
         }
     }
 
@@ -753,13 +772,13 @@ public partial class TabHostView : ContentView
         if (Orientation == OrientationType.Horizontal)
         {
             int columnIndex = Grid.GetColumn(tabItem);
-            var columnDefinition = _grid.ColumnDefinitions[columnIndex];
+            ColumnDefinition columnDefinition = _grid.ColumnDefinitions[columnIndex];
             columnDefinition.Width = tabItem.IsVisible ? GridLength.Star : 0;
         }
         else
         {
             int rowIndex = Grid.GetRow(tabItem);
-            var rowDefinition = _grid.RowDefinitions[rowIndex];
+            RowDefinition rowDefinition = _grid.RowDefinitions[rowIndex];
             rowDefinition.Height = tabItem.IsVisible ? GridLength.Star : 0;
         }
     }
