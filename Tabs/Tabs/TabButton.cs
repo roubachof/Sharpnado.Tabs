@@ -15,6 +15,11 @@ namespace Sharpnado.Tabs
             typeof(ICommand),
             typeof(TabButton));
 
+        public static readonly BindableProperty ButtonBackgroundProperty = BindableProperty.Create(
+            nameof(ButtonBackground),
+            typeof(Brush),
+            typeof(TabButton));
+
         public static readonly BindableProperty ButtonBackgroundColorProperty = BindableProperty.Create(
             nameof(ButtonBackgroundColor),
             typeof(Color),
@@ -44,6 +49,11 @@ namespace Sharpnado.Tabs
         public static readonly BindableProperty ButtonCircleSizeProperty = BindableProperty.Create(
             nameof(ButtonCircleSize),
             typeof(double),
+            typeof(TabButton));
+
+        public static readonly BindableProperty ExpandToTabSizeProperty = BindableProperty.Create(
+            nameof(ExpandToTabSize),
+            typeof(bool),
             typeof(TabButton));
 
         private ImageButton _imageButton;
@@ -77,6 +87,12 @@ namespace Sharpnado.Tabs
             set => SetValue(CornerRadiusProperty, value);
         }
 
+        public Brush ButtonBackground
+        {
+            get => (Brush)GetValue(ButtonBackgroundProperty);
+            set => SetValue(ButtonBackgroundProperty, value);
+        }
+
         public Color ButtonBackgroundColor
         {
             get => (Color)GetValue(ButtonBackgroundColorProperty);
@@ -107,6 +123,17 @@ namespace Sharpnado.Tabs
             set => SetValue(ButtonCircleSizeProperty, value);
         }
 
+        /// <summary>
+        /// When this property is disabled, the button occupies the calculated width (for horizontal tab bars) or height (for vertical tab bars), letting other tabs' content be properly centered within the free space.
+        /// When this property is enabled, the button occupies the same width (for horizontal tab bars) or height (for vertical tab bars) as the other tabs.
+        /// </summary>
+        public bool ExpandToTabSize
+        {
+            get => (bool)GetValue(ExpandToTabSizeProperty);
+            set => SetValue(ExpandToTabSizeProperty, value);
+        }
+
+
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -115,6 +142,10 @@ namespace Sharpnado.Tabs
             {
                 case nameof(CornerRadius):
                     UpdateCornerRadius();
+                    break;
+
+                case nameof(ButtonBackground):
+                    _imageButton.Background = ButtonBackground;
                     break;
 
                 case nameof(ButtonBackgroundColor):
@@ -201,6 +232,7 @@ namespace Sharpnado.Tabs
             }
         }
 
+
         private void Initialize()
         {
             _imageButton = new ImageButton
@@ -215,8 +247,10 @@ namespace Sharpnado.Tabs
 
             Content = _imageButton;
 
+            ExpandToTabSize = true;
             IsSelectable = false;
 
+            _imageButton.Background = ButtonBackground;
             _imageButton.BackgroundColor = ButtonBackgroundColor;
             _imageButton.Source = IconImageSource;
             _imageButton.Command = TapCommand;

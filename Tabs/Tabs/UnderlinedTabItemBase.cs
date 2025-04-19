@@ -4,6 +4,8 @@ namespace Sharpnado.Tabs
 {
     public abstract class UnderlinedTabItemBase : TabTextItem
     {
+        private bool _underlineColorSet = false;
+
         public static readonly BindableProperty UnderlineAllTabProperty = BindableProperty.Create(
             nameof(UnderlineAllTab),
             typeof(bool),
@@ -15,6 +17,19 @@ namespace Sharpnado.Tabs
             typeof(double),
             typeof(UnderlinedTabItemBase),
             3d);
+
+        public static readonly BindableProperty UnderlineColorProperty = BindableProperty.Create(
+            nameof(UnderlineColor),
+            typeof(Color),
+            typeof(TabItem),
+            Colors.Magenta);
+
+
+        public Color UnderlineColor
+        {
+            get => (Color)GetValue(UnderlineColorProperty);
+            set => SetValue(UnderlineColorProperty, value);
+        }
 
         public bool UnderlineAllTab
         {
@@ -59,6 +74,10 @@ namespace Sharpnado.Tabs
                 case nameof(UnselectedLabelColor):
                 case nameof(SelectedTabColor):
                 case nameof(IsSelected):
+                    UpdateColors();
+                    break;
+                case nameof(UnderlineColor):
+                    _underlineColorSet = true;
                     UpdateColors();
                     break;
             }
@@ -108,7 +127,7 @@ namespace Sharpnado.Tabs
         private void UpdateColors()
         {
             InnerLabelImpl.TextColor = IsSelectable ? IsSelected ? SelectedTabColor : UnselectedLabelColor : DisabledLabelColor;
-            UnderlineImpl.Color = SelectedTabColor;
+            UnderlineImpl.Color = _underlineColorSet ? UnderlineColor : SelectedTabColor;
         }
     }
 }
