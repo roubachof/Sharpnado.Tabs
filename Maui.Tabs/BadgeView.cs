@@ -110,7 +110,7 @@ namespace Sharpnado.Tabs
             set => SetValue(ShowIndicatorProperty, value);
         }
 
-        private Label BadgeLabel => (Label)Content;
+        private Label BadgeLabel => (Label)Content!;
 
         protected override void OnHandlerChanged()
         {
@@ -118,7 +118,7 @@ namespace Sharpnado.Tabs
             Update();
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

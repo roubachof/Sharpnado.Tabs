@@ -1,17 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+        <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
 		<RootNamespace>MauiSample</RootNamespace>
 		<UseMaui>true</UseMaui>
-		<MauiVersion>8.0.92</MauiVersion>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
 
+        <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+        
 		<!-- Display name -->
 		<ApplicationTitle>MauiTabs</ApplicationTitle>
 
@@ -23,6 +25,9 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
+        <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+        <WindowsPackageType>None</WindowsPackageType>
+        
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -32,41 +37,9 @@
 		<ProvisioningType>automatic</ProvisioningType>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios'">
+	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
 	  <CodesignKey>Apple Development: Created via API (K8Q3S2AN24)</CodesignKey>
 	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <MtouchLink>None</MtouchLink>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <MtouchLink>None</MtouchLink>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -120,9 +93,10 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+      <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	  <PackageReference Include="Sharpnado.Maui.TaskLoaderView" Version="2.5.1" />
 	  <PackageReference Include="SimpleInjector" Version="5.4.0" />
-	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0" />
+	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="3.0.0-preview.13" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -130,43 +104,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Presentation\Views\AnotherLazyView.xaml.cs">
-	    <DependentUpon>AnotherLazyView.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Presentation\Views\TabI.xaml.cs">
-	    <DependentUpon>TabI.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Presentation\Views\TabU.xaml.cs">
-	    <DependentUpon>TabU.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Presentation\Views\TabA.xaml.cs">
-	    <DependentUpon>TabA.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Presentation\Views\TabM.xaml.cs">
-	    <DependentUpon>TabM.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Localization\SillyResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>SillyResources.resx</DependentUpon>
 	  </Compile>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Presentation\Views\AnotherLazyView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Presentation\Views\TabI.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Presentation\Views\TabU.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Presentation\Views\TabA.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
-
+    
 	<ItemGroup>
 		<EmbeddedResource Update="Localization\SillyResources.resx">
 		  <Generator>ResXFileCodeGenerator</Generator>

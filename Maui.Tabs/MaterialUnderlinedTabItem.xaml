@@ -49,8 +49,7 @@
                 <Image x:Name="IconImage"
                        Style="{StaticResource TabIconImage}"
                        WidthRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
-                       HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
-                       Source="{Binding Source={x:Reference RootLayout}, Path=IconImageSource}" />
+                       HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}" />
                 <Label x:Name="InnerLabel"
                        Style="{StaticResource TabTextHeader}"
                        FontFamily="{Binding Source={x:Reference RootLayout}, Path=FontFamily}"

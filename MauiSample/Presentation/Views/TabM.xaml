@@ -75,7 +75,8 @@
                     <tabs:TabHostView x:Name="TabHost"
                                       Grid.Row="1"
                                       Margin="0"
-                                      BackgroundColor="{StaticResource Gray900}">
+                                      BackgroundColor="{StaticResource Gray900}"
+                                      SelectedIndex="1">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
                                                         IconImageSource="list_96.png"
                                                         IconOptions="TopIcon"
@@ -168,8 +169,7 @@
                                       BackgroundColor="{StaticResource Gray900}"
                                       SelectedIndex="1"
                                       ShowScrollbar="False"
-                                      TabType="Scrollable"
-                                      UseMauiTapGesture="True">
+                                      TabType="Scrollable">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />

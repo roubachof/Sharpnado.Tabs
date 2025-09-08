@@ -6,6 +6,7 @@
              xmlns:tabs="http://sharpnado.com"
              xmlns:viewModels="clr-namespace:MauiSample.Presentation.ViewModels"
              xmlns:views="clr-namespace:MauiSample.Presentation.Views"
+             Padding="0"
              x:DataType="viewModels:BottomTabsPageViewModel"
              BackgroundColor="{StaticResource Black}">
 
@@ -63,10 +64,12 @@
             <tabs:DelayedView x:TypeArguments="views:TabA"
                               AccentColor="{StaticResource Primary}"
                               Animate="True"
+                              DelayInMilliseconds="1000"
                               UseActivityIndicator="True" />
             <tabs:DelayedView x:TypeArguments="views:TabU"
                               AccentColor="{StaticResource Primary}"
                               Animate="True"
+                              DelayInMilliseconds="1000"
                               UseActivityIndicator="True" />
             <tabs:LazyView x:TypeArguments="views:TabI" Animate="True" />
         </tabs:ViewSwitcher>
@@ -87,9 +90,8 @@
                               IsSegmented="True"
                               Orientation="Horizontal"
                               SegmentedOutlineColor="{StaticResource Gray950}"
-                              SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}"
-                              TabType="Fixed"
-                              UseMauiTapGesture="False">
+                              SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}"
+                              TabType="Fixed">
                 <tabs:TabHostView.Shadow>
                     <Shadow Brush="{StaticResource Primary}"
                             Opacity="0.7"
