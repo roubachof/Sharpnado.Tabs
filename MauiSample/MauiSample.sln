@@ -10,9 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{BED4D695-52B4-4682-BECC-780F39FF50FA}"
 	ProjectSection(SolutionItems) = preProject
 		..\LICENSE = ..\LICENSE
-		..\make-package.ps1 = ..\make-package.ps1
 		..\README.md = ..\README.md
-		..\Sharpnado.Tabs.nuspec = ..\Sharpnado.Tabs.nuspec
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiShellSample", "..\MauiShellSample\MauiShellSample.csproj", "{75F26D59-6560-4B75-94ED-7A1947BEBF9A}"

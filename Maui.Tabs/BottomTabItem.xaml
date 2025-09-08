@@ -3,7 +3,6 @@
 <tabs:TabTextItem x:Class="Sharpnado.Tabs.BottomTabItem"
                   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:effects="clr-namespace:Sharpnado.Tabs.Effects"
                   xmlns:tabs="clr-namespace:Sharpnado.Tabs"
                   x:Name="RootLayout">
 
@@ -37,8 +36,7 @@
                    Grid.Row="0"
                    Style="{StaticResource TabIcon}"
                    WidthRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
-                   HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}"
-                   Source="{Binding Source={x:Reference RootLayout}, Path=IconImageSource}" />
+                   HeightRequest="{Binding Source={x:Reference RootLayout}, Path=IconSize}" />
 
             <Label x:Name="IconText"
                    Grid.Row="1"

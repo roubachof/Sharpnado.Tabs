@@ -1,1 +1,0 @@
- namespace Xamarin.Forms;

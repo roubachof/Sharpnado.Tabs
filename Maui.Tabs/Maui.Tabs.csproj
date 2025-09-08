@@ -1,15 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+        <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
 		<RootNamespace>Sharpnado.Tabs</RootNamespace>
 		<UseMaui>true</UseMaui>
+        <Nullable>enable</Nullable>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
+        <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+        
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
@@ -17,14 +20,16 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        
 		<CodeAnalysisRuleSet>Configuration\StyleCopRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<AssemblyVersion>3.2.1</AssemblyVersion>
-		<AssemblyFileVersion>3.2.1</AssemblyFileVersion>
-		<Version>3.2.1</Version>
+		<AssemblyVersion>3.3.0</AssemblyVersion>
+		<AssemblyFileVersion>3.3.0</AssemblyFileVersion>
+		<Version>3.3.0</Version>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 
@@ -41,7 +46,9 @@
 		<PackageReadmeFile>docs\ReadMe.md</PackageReadmeFile>
 		<PackageTags>maui dotnetmaui xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</PackageTags>
 		<PackageReleaseNotes>
-			Fix errors when styling tab host view.
+            Removed all touch and tap effects.
+			Fixes many issues.
+            Add SelectedIconSource property.
 		</PackageReleaseNotes>
 
 		<Title>"Pure" MAUI Tabs (no renderers)</Title>
@@ -54,33 +61,17 @@
 			* Material design tabs (top and leading icon)
 			* Support for SVG images
 			* Segmented tabs
-			* Custom shadows (neumorphism ready)
 			* Badges on tabs
 			* Circle button in tab bar
 			* Bottom bar tabs (ios tabs style)
 			* Custom tabs (be creative just implement TabItem)
 			* Independent ViewSwitcher
 			* Bindable with ItemsSource
-
-			## Installation
-
-			* In Core project, in `MauiProgram.cs`:
-
-			```csharp
-			public static MauiApp CreateMauiApp()
-			{
-				var builder = MauiApp.CreateBuilder();
-				builder
-					.UseMauiApp()
-					.UseSharpnadoTabs(loggerEnabled: false);
-			}
-			```
-			
 		</Description>
 
 		<Owners>Jean-Marie Alfonsi</Owners>
 		<Authors>Jean-Marie Alfonsi</Authors>
-		<Copyright>Copyright 2022 Sharpnado</Copyright>
+		<Copyright>Copyright 2025 Sharpnado</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 
@@ -88,79 +79,24 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>3.0.0</FileVersion>
+		<FileVersion>3.3.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="..\Docs\logo_maui.png" Pack="true" PackagePath="\images" />
 		<None Include="ReadMe.md" Pack="true" PackagePath="\docs" />
 	</ItemGroup>
-	
-	<ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.iOS')) != true AND $(TargetFramework.StartsWith('net8.0-ios')) != true AND $(TargetFramework.StartsWith('net8.0-maccatalyst')) != true ">
-		<Compile Remove="**\**\*.ios.cs" />
-		<None Include="**\**\*.ios.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-		<Compile Remove="**\ios\**\*.cs" />
-		<None Include="**\ios\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	</ItemGroup>
-	<ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.Mac')) != true ">
-		<Compile Remove="**\*.macos.cs" />
-		<None Include="**\*.macos.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-		<Compile Remove="**\macos\**\*.cs" />
-		<None Include="**\macos\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	</ItemGroup>
-	<ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.Mac')) != true AND $(TargetFramework.StartsWith('Xamarin.iOS')) != true AND $(TargetFramework.StartsWith('net8.0-ios')) != true AND $(TargetFramework.StartsWith('net8.0-maccatalyst')) != true">
-		<Compile Remove="**\*.macios.cs" />
-		<None Include="**\*.macios.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-		<Compile Remove="**\macios\**\*.cs" />
-		<None Include="**\macios\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	</ItemGroup>
-	<ItemGroup Condition="$(TargetFramework.StartsWith('MonoAndroid')) != true AND $(TargetFramework.StartsWith('net8.0-android')) != true ">
-		<Compile Remove="**\**\*.android.cs" />
-		<None Include="**\**\*.android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-		<Compile Remove="**\android\**\*.cs" />
-		<None Include="**\android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	</ItemGroup>
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true ">
-		<Compile Remove="**\*.windows.cs" />
-		<None Include="**\*.windows.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-		<Compile Remove="**\windows\**\*.cs" />
-		<None Include="**\windows\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
-	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Sharpnado.TaskMonitor" Version="1.0.2" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-	  <Compile Include="..\Tabs\Tabs\AssemblyConfiguration.cs" Link="AssemblyConfiguration.cs" />
-	  <Compile Include="..\Tabs\Tabs\BottomTabItem.xaml.cs" Link="BottomTabItem.xaml.cs" />
-	  <Compile Include="..\Tabs\Tabs\DelayedView.cs" Link="DelayedView.cs" />
-	  <Compile Include="..\Tabs\Tabs\Effects\ImageEffect.cs" Link="Effects\ImageEffect.cs" />
-	  <Compile Include="..\Tabs\Tabs\IAnimatableReveal.cs" Link="IAnimatableReveal.cs" />
-	  <Compile Include="..\Tabs\Tabs\IconOptions.cs" Link="IconOptions.cs" />
-	  <Compile Include="..\Tabs\Tabs\Initializer.cs" Link="Initializer.cs" />
-	  <Compile Include="..\Tabs\Tabs\InternalLogger.cs" Link="InternalLogger.cs" />
-	  <Compile Include="..\Tabs\Tabs\LazyView.cs" Link="LazyView.cs" />
-	  <Compile Include="..\Tabs\Tabs\MaterialUnderlinedTabItem.xaml.cs" Link="MaterialUnderlinedTabItem.xaml.cs" />
-	  <Compile Include="..\Tabs\Tabs\SegmentedTabItem.cs" Link="SegmentedTabItem.cs" />
-	  <Compile Include="..\Tabs\Tabs\TabButton.cs" Link="TabButton.cs" />
-	  <Compile Include="..\Tabs\Tabs\TabHostView.cs" Link="TabHostView.cs" />
-	  <Compile Include="..\Tabs\Tabs\TabItem.cs" Link="TabItem.cs" />
-	  <Compile Include="..\Tabs\Tabs\TabTextItem.cs" Link="TabTextItem.cs" />
-	  <Compile Include="..\Tabs\Tabs\TapCommand.cs" Link="TapCommand.cs" />
-	  <Compile Include="..\Tabs\Tabs\UnderlinedTabItem.xaml.cs" Link="UnderlinedTabItem.xaml.cs" />
-	  <Compile Include="..\Tabs\Tabs\UnderlinedTabItemBase.cs" Link="UnderlinedTabItemBase.cs" />
-	  <Compile Include="..\Tabs\Tabs\ViewSwitcher.cs" Link="ViewSwitcher.cs" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Platforms\MacCatalyst\" />
-	  <Folder Include="Platforms\Tizen\" />
-	  <Folder Include="Platforms\Windows\" />
+	  <Folder Include="Effects\" />
 	</ItemGroup>
 
 </Project>

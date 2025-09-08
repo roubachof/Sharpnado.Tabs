@@ -41,7 +41,8 @@ namespace MauiSample.Presentation.CustomViews
 
             var navigationService = DependencyContainer.Instance.GetInstance<INavigationService>();
 
-            Commands.SetTap(BackButton, new TaskLoaderCommand(() => navigationService.NavigateBackAsync()));
+            BackButton.GestureRecognizers.Add(new TapGestureRecognizer
+                { Command = new TaskLoaderCommand(() => navigationService.NavigateBackAsync()) });
         }
 
         public bool ShowBackButton

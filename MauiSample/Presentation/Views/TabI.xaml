@@ -46,8 +46,7 @@
                                    BoldFontFamily="OpenSansBold"
                                    Markdown="**Sharpnado.Maui.Tabs** " />
             <Label Style="{StaticResource LabelDescription}" Text="MIT License" />
-            <Label Style="{StaticResource LabelDescription}" Text="Copyright 2022 Sharpnado" />
-            <Label Style="{StaticResource LabelDescription}" Text="TouchEffect by Vladislav Zhukov" />
+            <Label Style="{StaticResource LabelDescription}" Text="Copyright 2025 Sharpnado" />
 
         </VerticalStackLayout>
 

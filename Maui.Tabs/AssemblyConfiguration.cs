@@ -1,4 +1,4 @@
 ﻿[assembly: XmlnsDefinition("http://sharpnado.com", "XamEffects")]
 [assembly: XmlnsDefinition("http://sharpnado.com", "Sharpnado.Tabs")]
 [assembly: XmlnsDefinition("http://sharpnado.com", "Sharpnado.Tabs.Effects")]
-[assembly: XmlnsPrefix("http://sharpnado.com", "sho")]
+[assembly: Microsoft.Maui.Controls.XmlnsPrefix("http://sharpnado.com", "sho")]

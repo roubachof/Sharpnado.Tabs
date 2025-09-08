@@ -1,22 +1,18 @@
-# Sharpnado.Tabs for MAUI and Xamarin.Forms
-
-<p align="left"><img src="Docs/logo.png" width="400"/>
+# Sharpnado.Tabs for .NET MAUI 
 
 <p align="left"><img src="Docs/logo_maui.png" width="400"/>
 
-
 Get it from NuGet:
-
-[![Nuget](https://img.shields.io/nuget/v/Sharpnado.Tabs.svg)](https://www.nuget.org/packages/Sharpnado.Tabs)
 
 [![Nuget](https://img.shields.io/nuget/v/Sharpnado.Tabs.Maui.svg)](https://www.nuget.org/packages/Sharpnado.Tabs.Maui)
 
-| Supported MAUI platforms   | Supported XF platforms   |
-|----------------------------|----------------------------|
-| :heavy_check_mark: Android |:heavy_check_mark: Android  |
-| :heavy_check_mark: iOS     |:heavy_check_mark: iOS      |
-| :question: Windows     |:heavy_check_mark: UWP      |
-| :question: Mac |
+| Supported MAUI platforms   | 
+|----------------------------|
+| :heavy_check_mark: Android |
+| :heavy_check_mark: iOS     |
+| :heavy_check_mark: Windows            |
+| :heavy_check_mark: Mac             |
+
 * MAUI version
 * Fully customizable
 * Underlined tabs, bottom tabs, Segmented control, scrollable tabs
@@ -159,10 +155,6 @@ Get it from NuGet:
 
 For dotnet MAUI, you can just have a look at the `MauiSample` solution.
 
-For Xamarin.Forms the tabs components are presented in the Silly! app in the following repository:
-
-https://github.com/roubachof/Xamarin-Forms-Practices
-
 ## Installation
 
 ### MAUI
@@ -182,50 +174,14 @@ public static class MauiProgram
 }
 ```
 
-### Xamarin.Forms
+## Version 3.3: .net 9
 
-Because Tabs uses platform-specific effects like tinted images and tap feedback color, you must install the nuget package in all your targeted platforms projects (netstandard, ios, android, uwp).
+:warning: All touch and tap effects have been removed for better stability and performance.
+Tap are now handled by simple maui gestures.
 
-* In Core project in `App.xaml.cs`:
+:new: property: `SelectedIconSource`, if you prefer to have two different icons for selected and unselected states.
 
-For the namespace xaml schema to work (remove duplicates xml namespace: [see this xamarin doc](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/custom-namespace-schemas)), you need to call tabs and shadows initializers from the `App.xaml.cs` file like this:
-
-```csharp
-public App()
-{
-    InitializeComponent();
-
-    Sharpnado.Tabs.Initializer.Initialize(false, false);
-    Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
-    ...
-}
-```
-
-* Mandatory initializations on iOS:
-
-```csharp
-    Xamarin.Forms.Forms.Init();
-    Sharpnado.Tabs.iOS.Preserver.Preserve();
-```
-
-* Mandatory initializations on UWP:
-
-```csharp
-    var rendererAssemblies = new[] 
-    { 
-        typeof(UWPShadowsRenderer).GetTypeInfo().Assembly,
-        typeof(UwpTintableImageEffect).GetTypeInfo().Assembly,
-    };
-    Xamarin.Forms.Forms.Init(e, rendererAssemblies);
-```
-
-## Version 3.0 (MAUI only)
-
-### Attached Properties
-
-You can use `Commands.Tap` to add a tap gesture to any view. 
-
-The `TouchEffect.Color` property will set a native touch feedback with the desired color.
+## Version 3.0
 
 ### DelayedView 
 
@@ -266,18 +222,6 @@ All you have is wrap your view in a `DelayedView` inside your `ViewSwitcher`, or
 
 It can totally work outside of the `Tabs` context.
 
-
-## Shadows (Xamarin.Forms only)
-
-The `TabHostView` inherits directly from `Shadows`. It means you can add as many shades as you like to your tab bar.
-It behaves exactly the same as the `Shadows` component.
-
-Since shadows are now handled by `Shades`, the old shadow renderers have been removed.
-The `ShadowType` property is gone.
-
-For more information about custom shades, visit the [Sharpnado.Shadows](https://github.com/roubachof/Sharpnado.Shadows) repo.
-
-
 ## UnderlinedTabItem with ViewSwitcher
 
 Let's consider this view:
@@ -307,7 +251,7 @@ And let's have a look at its code:
                       Grid.Row="4"
                       Margin="-16,0"
                       BackgroundColor="#272727"
-                      SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
+                      SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
         <tabs:TabHostView.Tabs>
             <tabs:UnderlinedTabItem Style="{StaticResource TabStyle}" Label="{loc:Translate Tabs_Quote}" />
             <tabs:UnderlinedTabItem Style="{StaticResource TabStyle}" Label="{loc:Translate Tabs_Filmography}" />
