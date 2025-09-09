@@ -66,7 +66,8 @@
                     <tabs:TabHostView x:Name="TabHostBadge"
                                       Grid.Row="1"
                                       Margin="0"
-                                      BackgroundColor="{StaticResource Gray900}">
+                                      BackgroundColor="{StaticResource Gray900}"
+                                      TouchColor="{StaticResource Tertiary}">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
                                                         IconImageSource="list_96.png"
                                                         IconOptions="TopIcon"
@@ -147,7 +148,8 @@
                     <tabs:TabHostView x:Name="TabHostButton"
                                       Grid.Row="3"
                                       Margin="0"
-                                      BackgroundColor="{StaticResource Gray900}">
+                                      BackgroundColor="{StaticResource Gray900}"
+                                      TouchColor="BlueViolet">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource BottomTabStyle}"
                                                         IconImageSource="list_96.png"
                                                         IconOptions="TopIcon"

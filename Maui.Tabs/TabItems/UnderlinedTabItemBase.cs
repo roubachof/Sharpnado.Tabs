@@ -85,6 +85,15 @@ namespace Sharpnado.Tabs
 
         protected void UpdateUnderlineAllTab()
         {
+            if (this.TryGetTouchOverlay(out var overlay))
+            {
+                overlay!.Margin = new Thickness(
+                    -Margin.Left - Padding.Left,
+                    0,
+                    -Margin.Right - Padding.Right,
+                    0);
+            }
+
             UnderlineImpl.Margin = UnderlineAllTab
                 ? new Thickness(-Margin.Left - Padding.Left, 0, -Margin.Right - Padding.Right, 0)
                 : new Thickness(0);
@@ -93,6 +102,15 @@ namespace Sharpnado.Tabs
 
         private void UpdatePadding()
         {
+            if (this.TryGetTouchOverlay(out var overlay))
+            {
+                overlay!.Margin = new Thickness(
+                    UnderlineImpl.Margin.Left - Padding.Left,
+                    0,
+                    UnderlineImpl.Margin.Right - Padding.Right,
+                    0);
+            }
+
             UnderlineImpl.Margin = UnderlineAllTab
                 ? new Thickness(UnderlineImpl.Margin.Left - Padding.Left, 0, UnderlineImpl.Margin.Right - Padding.Right, 0)
                 : new Thickness(0);
@@ -100,6 +118,15 @@ namespace Sharpnado.Tabs
 
         private void UpdateMargin()
         {
+            if (this.TryGetTouchOverlay(out var overlay))
+            {
+                overlay!.Margin = new Thickness(
+                    UnderlineImpl.Margin.Left - Margin.Left,
+                    0,
+                    UnderlineImpl.Margin.Right - Margin.Right,
+                    0);
+            }
+
             UnderlineImpl.Margin = UnderlineAllTab
                 ? new Thickness(UnderlineImpl.Margin.Left - Margin.Left, 0, UnderlineImpl.Margin.Right - Margin.Right, 0)
                 : new Thickness(0);

@@ -124,6 +124,8 @@ public partial class TabHostView : ContentView
 
         HandlerChanged += TabHostView_HandlerChanged;
 
+        _touchGestureRecognizer.Tapped += OnTouchStarted;
+
         base.BackgroundColor = Colors.Transparent;
     }
 
@@ -409,6 +411,8 @@ public partial class TabHostView : ContentView
         }
 
         ConsolidateSelectedIndex();
+
+        AddTouchEffectIfNeeded(tabItem);
 
         BatchCommit();
         _grid.BatchCommit();

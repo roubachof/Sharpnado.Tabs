@@ -213,7 +213,7 @@ namespace Sharpnado.Tabs
                 BackgroundColor = Colors.Transparent,
             };
 
-            Content = _imageButton;
+            AddContent(_imageButton);
 
             IsSelectable = false;
 

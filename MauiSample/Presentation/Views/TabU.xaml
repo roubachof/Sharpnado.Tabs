@@ -102,7 +102,8 @@
                                       Grid.Row="2"
                                       Margin="0"
                                       BackgroundColor="{StaticResource Gray900}"
-                                      SelectedIndex="1">
+                                      SelectedIndex="1"
+                                      TouchColor="{StaticResource Yellow100Accent}">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
                                                         IconImageSource="list_96.png"
                                                         IconOptions="TopIcon"

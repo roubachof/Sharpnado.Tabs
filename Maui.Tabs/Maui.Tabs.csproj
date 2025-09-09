@@ -99,4 +99,31 @@
 	  <Folder Include="Effects\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="TabItems\MaterialUnderlinedTabItem.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="TabItems\UnderlinedTabItem.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="TabItems\BottomTabItem.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="TabItems\MaterialUnderlinedTabItem.xaml.cs">
+	    <DependentUpon>MaterialUnderlinedTabItem.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="TabItems\UnderlinedTabItem.xaml.cs">
+	    <DependentUpon>UnderlinedTabItem.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="TabItems\BottomTabItem.xaml.cs">
+	    <DependentUpon>BottomTabItem.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

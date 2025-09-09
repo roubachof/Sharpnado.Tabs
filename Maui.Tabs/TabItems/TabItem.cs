@@ -65,6 +65,11 @@
 
         protected abstract void OnBadgeChanged(BadgeView oldBadge);
 
+        protected void AddContent(View content)
+        {
+            Content = content;
+        }
+
         private static void OnBadgeChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
             var tabItem = (TabItem)bindable;

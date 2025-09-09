@@ -66,7 +66,7 @@ namespace Sharpnado.Tabs
 
             Background = IsSelected ? SelectedTabColor : Colors.Transparent;
 
-            Content = label;
+            AddContent(label);
         }
     }
 }
