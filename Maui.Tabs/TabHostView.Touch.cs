@@ -5,6 +5,13 @@ namespace Sharpnado.Tabs;
 
 public class TouchOverlay : BoxView;
 
+public enum TouchEffectType
+{
+    None = 0,
+    PoorsManRipple = 1,
+    Standard = 2,
+}
+
 public partial class TabHostView
 {
     private TapGestureRecognizer _touchGestureRecognizer = new ();
@@ -18,12 +25,31 @@ public partial class TabHostView
         {
             if (bindable is not TabHostView tabHostView) return;
 
-            if (newValue is Color color
-                && Equals(color, Colors.Transparent))
+            if (newValue is Color
+                && !tabHostView.HasTouchEffect)
             {
                 tabHostView.ClearTouchEffect();
             }
-            else if (!Equals(oldValue, newValue))
+            else if (!Equals(oldValue, newValue) && tabHostView.HasTouchEffect)
+            {
+                tabHostView.CreateTouchEffect();
+            }
+        });
+
+    public static readonly BindableProperty TouchEffectTypeProperty = BindableProperty.Create(
+        nameof(TouchColor),
+        typeof(TouchEffectType),
+        typeof(TabHostView),
+        TouchEffectType.None,
+        propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            if (bindable is not TabHostView tabHostView) return;
+
+            if (newValue is TouchEffectType && tabHostView.HasTouchEffect)
+            {
+                tabHostView.ClearTouchEffect();
+            }
+            else if (!Equals(oldValue, newValue) && tabHostView.HasTouchEffect)
             {
                 tabHostView.CreateTouchEffect();
             }
@@ -35,9 +61,17 @@ public partial class TabHostView
         set => SetValue(TouchColorProperty, value);
     }
 
+    public TouchEffectType TouchEffectType
+    {
+        get => (TouchEffectType)GetValue(TouchEffectTypeProperty);
+        set => SetValue(TouchEffectTypeProperty, value);
+    }
+
+    public bool HasTouchEffect => TouchEffectType != TouchEffectType.None && !Equals(TouchColor, Colors.Transparent);
+
     private void CreateTouchEffect()
     {
-        if (Equals(TouchColor, Colors.Transparent)) return;
+        if (!HasTouchEffect) return;
 
         foreach (var selectableTab in _selectableTabs)
         {
@@ -64,7 +98,7 @@ public partial class TabHostView
 
     private void AddTouchEffectIfNeeded(TabItem tabItem)
     {
-        if (Equals(TouchColor, Colors.Transparent)) return;
+        if (!HasTouchEffect) return;
 
         if (tabItem.Content is Grid grid && grid.Children[0] is not TouchOverlay)
         {
@@ -87,26 +121,44 @@ public partial class TabHostView
 
     private async void OnTouchStarted(object? sender, TappedEventArgs e)
     {
-        if (sender is TabItem { Content: Grid grid } && grid.Children[0] is TouchOverlay touchOverlay)
+        if (sender is TabItem { Content: Grid grid } tabItem && grid.Children[0] is TouchOverlay touchOverlay)
         {
-            touchOverlay.Color = TouchColor;
-            await touchOverlay.FadeTo(1, 300);
-            await touchOverlay.FadeTo(0, 100);
+            switch (TouchEffectType)
+            {
+                case TouchEffectType.PoorsManRipple:
+                    await PoorsManRipple(tabItem, touchOverlay);
+                    break;
+                case TouchEffectType.Standard:
+                    await Standard(tabItem, touchOverlay);
+                    break;
+            }
         }
     }
 
-    public void AnimateColor(Color startColor, Color endColor, double durationMs)
+    private async Task PoorsManRipple(TabItem tabItem, TouchOverlay touchOverlay)
     {
-        var animation = new Microsoft.Maui.Controls.Animation(
-            callback: progress => { TouchColor = startColor.Lerp(endColor, progress); },
-            start: 0,
-            end: 1);
+        tabItem.Clip = new RectangleGeometry(Rect.FromLTRB(0, 0, tabItem.Width, tabItem.Height));
+        touchOverlay.Color = TouchColor.WithAlpha(0.5f);
+        touchOverlay.Scale = 0.2;
+        touchOverlay.CornerRadius = new CornerRadius(30);
 
-        animation.Commit(
-            owner: this,
-            name: "ColorAnimation",
-            length: (uint)durationMs,
-            easing: Easing.Linear);
+        await Task.WhenAll(
+            Blink(touchOverlay, 200),
+            touchOverlay.ScaleTo(1.5, 200, Easing.CubicIn));
+    }
+
+    private async Task Standard(TabItem tabItem, TouchOverlay touchOverlay)
+    {
+        tabItem.Clip = null;
+        touchOverlay.Color = TouchColor;
+
+        await Blink(touchOverlay, 200);
+    }
+
+    private static async Task Blink(TouchOverlay touchOverlay, uint delay)
+    {
+        await touchOverlay.FadeTo(1, delay);
+        await touchOverlay.FadeTo(0, delay / 2);
     }
 }
 

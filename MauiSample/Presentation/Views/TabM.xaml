@@ -77,7 +77,8 @@
                                       Margin="0"
                                       BackgroundColor="{StaticResource Gray900}"
                                       SelectedIndex="1"
-                                      TouchColor="{StaticResource Primary}">
+                                      TouchColor="{StaticResource Primary}"
+                                      TouchEffectType="PoorsManRipple">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
                                                         IconImageSource="list_96.png"
                                                         IconOptions="TopIcon"
@@ -171,7 +172,8 @@
                                       SelectedIndex="1"
                                       ShowScrollbar="False"
                                       TabType="Scrollable"
-                                      TouchColor="{StaticResource Secondary}">
+                                      TouchColor="{StaticResource Secondary}"
+                                      TouchEffectType="PoorsManRipple">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />

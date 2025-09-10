@@ -92,7 +92,8 @@
                               SegmentedOutlineColor="{StaticResource Gray950}"
                               SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}"
                               TabType="Fixed"
-                              TouchColor="Purple">
+                              TouchColor="Purple"
+                              TouchEffectType="PoorsManRipple">
                 <tabs:TabHostView.Shadow>
                     <Shadow Brush="{StaticResource Primary}"
                             Opacity="0.7"
