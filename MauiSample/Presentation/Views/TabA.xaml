@@ -38,13 +38,6 @@
                 <Setter Property="VerticalOptions" Value="Center" />
             </Style>
 
-            <Style x:Key="Card" TargetType="Border">
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Stroke" Value="{StaticResource Gray975}" />
-                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
-                <Setter Property="StrokeThickness" Value="2" />
-            </Style>
-
         </ResourceDictionary>
     </ContentView.Resources>
 
@@ -61,13 +54,14 @@
                 <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,50,60">
                     <Label Grid.Row="0"
                            Style="{StaticResource LabelHeader}"
-                           Text="BADGES" />
+                           Text="BADGES (Standard touch effect)" />
 
                     <tabs:TabHostView x:Name="TabHostBadge"
                                       Grid.Row="1"
                                       Margin="0"
                                       BackgroundColor="{StaticResource Gray900}"
-                                      TouchColor="{StaticResource Tertiary}">
+                                      TouchColor="{StaticResource Tertiary}"
+                                      TouchEffectType="Standard">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
                                                         IconImageSource="list_96.png"
                                                         IconOptions="TopIcon"
@@ -128,7 +122,7 @@
                 <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,60,120,50">
                     <Label Grid.Row="0"
                            Style="{StaticResource LabelHeader}"
-                           Text="TAB BUTTON" />
+                           Text="TAB BUTTON (PoorsManRipple)" />
 
                     <Label Grid.Row="1"
                            Grid.RowSpan="2"
@@ -149,7 +143,8 @@
                                       Grid.Row="3"
                                       Margin="0"
                                       BackgroundColor="{StaticResource Gray900}"
-                                      TouchColor="BlueViolet">
+                                      TouchColor="BlueViolet"
+                                      TouchEffectType="PoorsManRipple">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource BottomTabStyle}"
                                                         IconImageSource="list_96.png"
                                                         IconOptions="TopIcon"
@@ -181,7 +176,7 @@
                 </Grid>
             </Border>
 
-            <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+            <Border Style="{StaticResource Card}" Margin="16,0,16,30">
                 <Border.Shadow>
                     <Shadow Brush="{StaticResource Gray950}"
                             Opacity="1"

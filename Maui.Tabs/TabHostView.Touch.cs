@@ -8,8 +8,9 @@ public class TouchOverlay : BoxView;
 public enum TouchEffectType
 {
     None = 0,
-    PoorsManRipple = 1,
-    Standard = 2,
+    Standard = 1,
+    PoorsManRipple = 2,
+    CircularRipple = 3,
 }
 
 public partial class TabHostView
@@ -128,6 +129,9 @@ public partial class TabHostView
                 case TouchEffectType.PoorsManRipple:
                     await PoorsManRipple(tabItem, touchOverlay);
                     break;
+                case TouchEffectType.CircularRipple:
+                    await CircularRipple(tabItem, touchOverlay);
+                    break;
                 case TouchEffectType.Standard:
                     await Standard(tabItem, touchOverlay);
                     break;
@@ -141,6 +145,22 @@ public partial class TabHostView
         touchOverlay.Color = TouchColor.WithAlpha(0.5f);
         touchOverlay.Scale = 0.2;
         touchOverlay.CornerRadius = new CornerRadius(30);
+
+        await Task.WhenAll(
+            Blink(touchOverlay, 200),
+            touchOverlay.ScaleTo(1.5, 200, Easing.CubicIn));
+    }
+
+    private async Task CircularRipple(TabItem tabItem, TouchOverlay touchOverlay)
+    {
+        tabItem.Clip = new RectangleGeometry(Rect.FromLTRB(0, 0, tabItem.Width, tabItem.Height));
+        touchOverlay.VerticalOptions = LayoutOptions.Center;
+        touchOverlay.HorizontalOptions = LayoutOptions.Center;
+        touchOverlay.WidthRequest = Math.Max(tabItem.Width, tabItem.Height);
+        touchOverlay.HeightRequest = touchOverlay.WidthRequest;
+        touchOverlay.CornerRadius = new CornerRadius(touchOverlay.WidthRequest / 2);
+        touchOverlay.Color = TouchColor.WithAlpha(0.5f);
+        touchOverlay.Scale = 0.2;
 
         await Task.WhenAll(
             Blink(touchOverlay, 200),

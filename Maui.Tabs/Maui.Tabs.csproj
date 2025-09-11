@@ -27,9 +27,9 @@
 
 	<PropertyGroup>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<AssemblyVersion>3.3.0</AssemblyVersion>
-		<AssemblyFileVersion>3.3.0</AssemblyFileVersion>
-		<Version>3.3.0</Version>
+		<AssemblyVersion>3.4.0</AssemblyVersion>
+		<AssemblyFileVersion>3.4.0</AssemblyFileVersion>
+		<Version>3.4.0</Version>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 
@@ -46,9 +46,10 @@
 		<PackageReadmeFile>docs\ReadMe.md</PackageReadmeFile>
 		<PackageTags>maui dotnetmaui xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</PackageTags>
 		<PackageReleaseNotes>
-            Removed all touch and tap effects.
-			Fixes many issues.
-            Add SelectedIconSource property.
+            Pure MAUI touch effects:
+            * Circular ripple
+            * Standard touch effect
+            * Poor's man ripple
 		</PackageReleaseNotes>
 
 		<Title>"Pure" MAUI Tabs (no renderers)</Title>

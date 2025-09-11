@@ -3,6 +3,7 @@
 <ContentView x:Class="MauiSample.Presentation.Views.TabM"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customViews="clr-namespace:MauiSample.Presentation.CustomViews"
              xmlns:tabs="http://sharpnado.com">
 
     <ContentView.Resources>
@@ -44,14 +45,8 @@
             <Style x:Key="LabelDescription" TargetType="Label">
                 <Setter Property="FontFamily" Value="OpenSansRegular" />
                 <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{StaticResource White}" />
                 <Setter Property="VerticalOptions" Value="Center" />
-            </Style>
-
-            <Style x:Key="Card" TargetType="Border">
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Stroke" Value="{StaticResource Gray975}" />
-                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
-                <Setter Property="StrokeThickness" Value="2" />
             </Style>
 
         </ResourceDictionary>
@@ -59,6 +54,29 @@
 
     <ScrollView>
         <VerticalStackLayout Margin="0,120,0,95" Spacing="20">
+
+
+            <Border Style="{StaticResource Card}">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray950}"
+                            Opacity="1"
+                            Radius="20"
+                            Offset="0,10" />
+                </Border.Shadow>
+                <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,Auto">
+                    <Label Grid.Row="0"
+                           Style="{StaticResource LabelHeader}"
+                           Text="v3.4.0 - Pure touch effects \o/" />
+
+                    <customViews:RichLabel Grid.Row="1"
+                                           Style="{StaticResource LabelDescription}"
+                                           Margin="16,0,16,16"
+                                           VerticalOptions="Start"
+                                           BoldColor="{StaticResource Primary}"
+                                           BoldFontFamily="OpenSansBold"
+                                           Markdown="Use the **TouchEffectType** with the **TouchColor** properties to obtain nice touch effects including: **Standard**, **CircularRipple** and **PoorsManRipple**." />
+                </Grid>
+            </Border>
 
             <Border Style="{StaticResource Card}">
                 <Border.Shadow>
@@ -70,7 +88,7 @@
                 <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,50,60">
                     <Label Grid.Row="0"
                            Style="{StaticResource LabelHeader}"
-                           Text="MATERIAL TABS" />
+                           Text="MATERIAL TABS (CircularRipple)" />
 
                     <tabs:TabHostView x:Name="TabHost"
                                       Grid.Row="1"
@@ -78,7 +96,7 @@
                                       BackgroundColor="{StaticResource Gray900}"
                                       SelectedIndex="1"
                                       TouchColor="{StaticResource Primary}"
-                                      TouchEffectType="PoorsManRipple">
+                                      TouchEffectType="CircularRipple">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
                                                         IconImageSource="list_96.png"
                                                         IconOptions="TopIcon"
@@ -154,7 +172,7 @@
                 </Grid>
             </Border>
 
-            <Border Style="{StaticResource Card}" Margin="0,0,0,10">
+            <Border Style="{StaticResource Card}" Margin="16,0,16,30">
                 <Border.Shadow>
                     <Shadow Brush="{StaticResource Gray950}"
                             Opacity="1"
@@ -164,7 +182,7 @@
                 <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,50,60">
                     <Label Grid.Row="0"
                            Style="{StaticResource LabelHeader}"
-                           Text="SCROLLABLE TABS" />
+                           Text="SCROLLABLE TABS (Standard)" />
 
                     <tabs:TabHostView Grid.Row="1"
                                       HeightRequest="50"
@@ -173,7 +191,7 @@
                                       ShowScrollbar="False"
                                       TabType="Scrollable"
                                       TouchColor="{StaticResource Secondary}"
-                                      TouchEffectType="PoorsManRipple">
+                                      TouchEffectType="Standard">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Super" />
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="MAUI" />
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}" Label="Sample" />

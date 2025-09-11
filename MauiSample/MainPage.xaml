@@ -22,7 +22,7 @@
     </ContentPage.Resources>
 
 
-    <Grid Margin="16,0" RowDefinitions="120,*,95">
+    <Grid Margin="0" RowDefinitions="120,*,95">
 
         <ContentView ZIndex="100">
             <ContentView.Background>
