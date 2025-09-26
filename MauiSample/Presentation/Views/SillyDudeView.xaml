@@ -33,27 +33,6 @@
             </Grid>
         </Border>
 
-        <tlv:TemplatedTaskLoader TaskLoaderNotifier="{Binding Notifier}">
-            <tlv:TemplatedTaskLoader.LoadingControlTemplate>
-                <ControlTemplate>
-                    <Grid>
-                        <ActivityIndicator HorizontalOptions="Center"
-                                           VerticalOptions="Center"
-                                           IsRunning="True"
-                                           Color="{StaticResource Primary}" />
-                    </Grid>
-                </ControlTemplate>
-            </tlv:TemplatedTaskLoader.LoadingControlTemplate>
-            <tlv:TemplatedTaskLoader.ResultControlTemplate>
-                <ControlTemplate>
-                    <VerticalStackLayout>
-                        <Label Style="{StaticResource LabelHeader}" Text="MES COUILLES" />
-                        <Label Style="{StaticResource LabelHeader}" Text="MES COUILLES" />
-                        <Label Style="{StaticResource LabelHeader}" Text="MES COUILLES" />
-                    </VerticalStackLayout>
-                </ControlTemplate>
-            </tlv:TemplatedTaskLoader.ResultControlTemplate>
-        </tlv:TemplatedTaskLoader>
         <Border Style="{StaticResource Card}" VerticalOptions="Fill">
             <Border.Shadow>
                 <Shadow Brush="{StaticResource Gray950}"
@@ -73,11 +52,10 @@
                     </ControlTemplate>
                 </tlv:TemplatedTaskLoader.LoadingControlTemplate>
                 <tlv:TemplatedTaskLoader.ResultControlTemplate>
-                    <ControlTemplate>
-                        <RefreshView HeightRequest="350"
-                                     Command="{Binding Notifier.RefreshCommand}"
+                    <ControlTemplate x:DataType="viewModels:SillyDudeViewModel">
+                        <RefreshView Command="{Binding Notifier.RefreshCommand}"
                                      IsRefreshing="{Binding Notifier.ShowRefresher}">
-                            <VerticalStackLayout>
+                            <VerticalStackLayout BackgroundColor="{StaticResource Gray950}">
 
                                 <sho:TabHostView HeightRequest="50"
                                                  VerticalOptions="Fill"
@@ -94,7 +72,7 @@
                                     </sho:TabHostView.ItemTemplate>
                                 </sho:TabHostView>
 
-                                <CarouselView ItemsSource="{Binding Notifier.Result}" Position="{Binding SelectedViewModelIndex}">
+                                <CarouselView HeightRequest="300" ItemsSource="{Binding Notifier.Result}" Position="{Binding SelectedViewModelIndex}">
                                     <CarouselView.ItemTemplate>
                                         <DataTemplate x:DataType="silly:SillyDude">
                                             <Grid x:Name="GridContainer">

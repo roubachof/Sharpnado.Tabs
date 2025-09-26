@@ -294,9 +294,16 @@ public partial class TabHostView : ContentView
 
                 break;
 
+            case NotifyCollectionChangedAction.Reset:
+                foreach (var tab in Tabs.ToList())
+                {
+                    OnChildRemoved(tab);
+                }
+
+                break;
+
             case NotifyCollectionChangedAction.Move:
             case NotifyCollectionChangedAction.Replace:
-            case NotifyCollectionChangedAction.Reset:
             default:
                 throw new NotSupportedException();
         }
