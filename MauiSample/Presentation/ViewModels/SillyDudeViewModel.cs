@@ -11,7 +11,6 @@ using System.Collections.ObjectModel;
 using MauiSample.Domain.Silly;
 using MauiSample.Presentation.Navigables;
 
-using Sharpnado.Tabs;
 using Sharpnado.TaskLoaderView;
 
 namespace MauiSample.Presentation.ViewModels
@@ -19,21 +18,21 @@ namespace MauiSample.Presentation.ViewModels
     /// <summary>
     /// Class SillyDudeVm.
     /// </summary>
-    public class SillyDudeVm : ANavigableViewModel
+    public class SillyDudeViewModel : ANavigableViewModel
     {
         /// <summary>
         /// The front service.
         /// </summary>
         private readonly ISillyDudeService _dudeService;
 
-        private readonly Random _randomizer = new Random();
+        private readonly Random _randomizer = new ();
 
-        private int _addedTabCount = 0;
+        private int _addedTabCount;
 
-        private int _selectedViewModelIndex = 0;
+        private int _selectedViewModelIndex;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SillyDudeVm"/> class.
+        /// Initializes a new instance of the <see cref="SillyDudeViewModel"/> class.
         /// </summary>
         /// <param name="navigationService">
         /// The navigation service.
@@ -41,28 +40,22 @@ namespace MauiSample.Presentation.ViewModels
         /// <param name="sillyDudeService">
         /// The silly front service.
         /// </param>
-        public SillyDudeVm(INavigationService navigationService, ISillyDudeService sillyDudeService)
+        public SillyDudeViewModel(INavigationService navigationService, ISillyDudeService sillyDudeService)
             : base(navigationService)
         {
             Console.WriteLine("Building SillyDudeVm...");
             _dudeService = sillyDudeService;
 
-            SillyDudeLoaderNotifier = new TaskLoaderNotifier<SillyDudeVmo>();
+            Notifier = new ();
         }
 
         /// <summary>
         /// Gets or sets the silly dude task.
         /// </summary>
         /// <value>The silly dude task.</value>
-        public TaskLoaderNotifier<SillyDudeVmo> SillyDudeLoaderNotifier { get; }
+        public TaskLoaderNotifier<ObservableCollection<SillyDude>> Notifier { get; }
 
-        public ObservableCollection<string> TabTitles { get; set;  }
-
-        public QuoteVmo Quote { get; private set; }
-
-        public FilmoVmo Filmo { get; private set; }
-
-        public MemeVmo Meme { get; private set; }
+        public ObservableCollection<string> TabTitles { get; private set; }
 
         public int SelectedViewModelIndex
         {
@@ -78,40 +71,23 @@ namespace MauiSample.Presentation.ViewModels
         /// </param>
         public override void Load(object parameter)
         {
-            Console.WriteLine($"SillyDudeVm|Load( id: {parameter} )");
-            SillyDudeLoaderNotifier.Load(_ => LoadSillyDude((int)parameter));
+            Console.WriteLine("SillyDudeVm|Load()");
+            Notifier.Load(_ => LoadSillyDude());
         }
 
-        private async Task<SillyDudeVmo> LoadSillyDude(int id)
+        private async Task<ObservableCollection<SillyDude>> LoadSillyDude()
         {
-            var dude = await _dudeService.GetSilly(id);
-
-            Quote = new QuoteVmo(
-                dude.SourceUrl,
-                dude.Description,
-                new TapCommand(url => {}));
-            Filmo = new FilmoVmo(dude.FilmoMarkdown);
-            Meme = new MemeVmo(dude.MemeUrl);
-            RaisePropertyChanged(nameof(Quote));
-            RaisePropertyChanged(nameof(Filmo));
-            RaisePropertyChanged(nameof(Meme));
-
-            TabTitles = new ObservableCollection<string>
-            {
-                "Quote",
-                "Movies",
-                "Fun",
-                "Well",
-                "Yo!",
-            };
-
+            var dudeList = await _dudeService.GetSillyPeople();
+            
+            TabTitles = new ObservableCollection<string>(dudeList.Select(d => d.Name));
+            
             RaisePropertyChanged(nameof(TabTitles));
 
-            Console.WriteLine($"SillyDudeVm|LoadSillyDude(): {dude.FullName} loaded)");
+            Console.WriteLine($"SillyDudeVm|LoadSillyDude(): {TabTitles.Count} dudes loaded)");
 
             // TaskMonitor.Create(TestTabsItemsSourceNotifications);
 
-            return new SillyDudeVmo(dude, null);
+            return new ObservableCollection<SillyDude>(dudeList);
         }
 
         private async Task TestTabsItemsSourceNotifications()

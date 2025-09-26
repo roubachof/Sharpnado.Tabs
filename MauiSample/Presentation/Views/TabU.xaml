@@ -31,16 +31,6 @@
                 <Setter Property="StrokeThickness" Value="2" />
             </Style>
 
-            <Style x:Key="MaterialTabStyle" TargetType="tabs:MaterialUnderlinedTabItem">
-                <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
-                <!--<Setter Property="SelectedTabTextColor" Value="{StaticResource Secondary}" />-->
-                <Setter Property="IconSize" Value="24" />
-                <Setter Property="FontFamily" Value="OpenSansRegular" />
-                <Setter Property="LabelSize" Value="14" />
-                <Setter Property="UnderlineAllTab" Value="True" />
-                <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
-            </Style>
-
         </ResourceDictionary>
     </ContentView.Resources>
 

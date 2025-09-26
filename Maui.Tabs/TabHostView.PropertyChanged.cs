@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 using Microsoft.Maui.Controls.Shapes;
@@ -229,6 +230,7 @@ public partial class TabHostView
             return;
         }
 
+        Tabs.Clear();
         int index = 0;
         foreach (object model in ItemsSource ?? Array.Empty<object>())
         {
@@ -292,6 +294,8 @@ public partial class TabHostView
         }
 
         tabItem.BindingContext = item;
+
+        InternalLogger.Debug(() => $"TabItem binding context changed to {item}");
         return tabItem;
     }
 
@@ -396,6 +400,29 @@ public partial class TabHostView
         }
 
         SelectedIndex = selectedIndex;
+        if (TabType == TabType.Scrollable)
+        {
+            var selectedTab = _selectableTabs[selectedIndex];
+
+            // Get the position and size of the selected tab
+            double tabStart = selectedTab.X;
+            double tabEnd = tabStart + selectedTab.Width;
+
+            // Get the current scroll position and viewport width
+            double scrollX = _scrollView!.ScrollX;
+            double viewportWidth = _scrollView.Width;
+
+            // If the tab is not fully visible, scroll to it
+            if (tabStart < scrollX)
+            {
+                _scrollView.ScrollToAsync(tabStart, 0, true);
+            }
+            else if (tabEnd > scrollX + viewportWidth)
+            {
+                _scrollView.ScrollToAsync(tabEnd - viewportWidth, 0, true);
+            }
+        }
+
         InternalLogger.Debug(Tag, () => $"SelectedIndex: {SelectedIndex}");
     }
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
-
 using Microsoft.Maui.Controls.Shapes;
 using Sharpnado.Tabs.Effects;
 
@@ -128,6 +128,7 @@ namespace Sharpnado.Tabs
 
             switch (propertyName)
             {
+                case nameof(Label):
                 case nameof(UnselectedLabelColor):
                 case nameof(SelectedTabColor):
                 case nameof(IsSelected):

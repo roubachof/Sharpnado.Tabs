@@ -92,14 +92,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-      <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-	  <PackageReference Include="Sharpnado.Maui.TaskLoaderView" Version="2.5.1" />
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.90" />
+      <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.90" />
 	  <PackageReference Include="SimpleInjector" Version="5.4.0" />
 	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="3.0.0-preview.13" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\Sharpnado.TaskLoaderView\Sharpnado.Maui.TaskLoaderView\Sharpnado.Maui.TaskLoaderView.csproj" />
 	  <ProjectReference Include="..\Maui.Tabs\Maui.Tabs.csproj" />
 	</ItemGroup>
 

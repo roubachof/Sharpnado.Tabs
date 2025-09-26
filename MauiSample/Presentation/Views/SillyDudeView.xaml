@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Class="MauiSample.Presentation.Views.SillyDudeView"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customViews="clr-namespace:MauiSample.Presentation.CustomViews"
+             xmlns:sho="http://sharpnado.com"
+             xmlns:silly="clr-namespace:MauiSample.Domain.Silly"
+             xmlns:skiaRate="clr-namespace:SkiaRate"
+             xmlns:tlv="clr-namespace:Sharpnado.TaskLoaderView;assembly=Sharpnado.Maui.TaskLoaderView"
+             xmlns:viewModels="clr-namespace:MauiSample.Presentation.ViewModels"
+             x:DataType="viewModels:SillyDudeViewModel">
+
+    <VerticalStackLayout Margin="0,120,0,95" Spacing="20">
+        <Border Style="{StaticResource Card}">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource Gray950}"
+                        Opacity="1"
+                        Radius="20"
+                        Offset="0,10" />
+            </Border.Shadow>
+            <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,Auto">
+                <Label Grid.Row="0"
+                       Style="{StaticResource LabelHeader}"
+                       Text="SillyDude" />
+
+                <customViews:RichLabel Grid.Row="1"
+                                       Style="{StaticResource LabelDescription}"
+                                       Margin="16,0,16,16"
+                                       VerticalOptions="Start"
+                                       BoldColor="{StaticResource Primary}"
+                                       BoldFontFamily="OpenSansBold"
+                                       Markdown="Here we will be testing Tabs scrolling, selection of tabs and vertical tabs." />
+            </Grid>
+        </Border>
+
+        <tlv:TemplatedTaskLoader TaskLoaderNotifier="{Binding Notifier}">
+            <tlv:TemplatedTaskLoader.LoadingControlTemplate>
+                <ControlTemplate>
+                    <Grid>
+                        <ActivityIndicator HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           IsRunning="True"
+                                           Color="{StaticResource Primary}" />
+                    </Grid>
+                </ControlTemplate>
+            </tlv:TemplatedTaskLoader.LoadingControlTemplate>
+            <tlv:TemplatedTaskLoader.ResultControlTemplate>
+                <ControlTemplate>
+                    <VerticalStackLayout>
+                        <Label Style="{StaticResource LabelHeader}" Text="MES COUILLES" />
+                        <Label Style="{StaticResource LabelHeader}" Text="MES COUILLES" />
+                        <Label Style="{StaticResource LabelHeader}" Text="MES COUILLES" />
+                    </VerticalStackLayout>
+                </ControlTemplate>
+            </tlv:TemplatedTaskLoader.ResultControlTemplate>
+        </tlv:TemplatedTaskLoader>
+        <Border Style="{StaticResource Card}" VerticalOptions="Fill">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource Gray950}"
+                        Opacity="1"
+                        Radius="20"
+                        Offset="0,10" />
+            </Border.Shadow>
+            <tlv:TemplatedTaskLoader TaskLoaderNotifier="{Binding Notifier}">
+                <tlv:TemplatedTaskLoader.LoadingControlTemplate>
+                    <ControlTemplate>
+                        <Grid HeightRequest="200">
+                            <ActivityIndicator HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               IsRunning="True"
+                                               Color="{StaticResource Primary}" />
+                        </Grid>
+                    </ControlTemplate>
+                </tlv:TemplatedTaskLoader.LoadingControlTemplate>
+                <tlv:TemplatedTaskLoader.ResultControlTemplate>
+                    <ControlTemplate>
+                        <RefreshView HeightRequest="350"
+                                     Command="{Binding Notifier.RefreshCommand}"
+                                     IsRefreshing="{Binding Notifier.ShowRefresher}">
+                            <VerticalStackLayout>
+
+                                <sho:TabHostView HeightRequest="50"
+                                                 VerticalOptions="Fill"
+                                                 ItemsSource="{Binding TabTitles}"
+                                                 SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}"
+                                                 TabType="Scrollable">
+                                    <sho:TabHostView.ItemTemplate>
+                                        <DataTemplate x:DataType="x:String">
+                                            <sho:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"
+                                                                           Margin="0.5,0"
+                                                                           Padding="10,0"
+                                                                           Label="{Binding}" />
+                                        </DataTemplate>
+                                    </sho:TabHostView.ItemTemplate>
+                                </sho:TabHostView>
+
+                                <CarouselView ItemsSource="{Binding Notifier.Result}" Position="{Binding SelectedViewModelIndex}">
+                                    <CarouselView.ItemTemplate>
+                                        <DataTemplate x:DataType="silly:SillyDude">
+                                            <Grid x:Name="GridContainer">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="200" />
+                                                    <RowDefinition Height="40" />
+                                                    <RowDefinition Height="30" />
+                                                    <RowDefinition Height="30" />
+                                                </Grid.RowDefinitions>
+
+                                                <!--  ROW 1  -->
+                                                <Image x:Name="Image"
+                                                       Grid.RowSpan="4"
+                                                       Margin="-16,-16,-16,0"
+                                                       Aspect="AspectFill"
+                                                       Source="{Binding ImageUrl}" />
+
+                                                <BoxView Grid.Row="1"
+                                                         Grid.RowSpan="3"
+                                                         Margin="-16,0"
+                                                         CornerRadius="0"
+                                                         Color="#C0000000" />
+
+                                                <Label Grid.Row="1"
+                                                       Style="{StaticResource LabelHeader}"
+                                                       VerticalOptions="End"
+                                                       Text="{Binding FullName}"
+                                                       TextColor="White" />
+
+                                                <Label Grid.Row="2"
+                                                       Style="{StaticResource LabelDescription}"
+                                                       Margin="16,0"
+                                                       Text="{Binding Role}"
+                                                       TextColor="White" />
+
+                                                <skiaRate:RatingView Grid.Row="3"
+                                                                     WidthRequest="100"
+                                                                     HeightRequest="30"
+                                                                     Margin="16,0"
+                                                                     HorizontalOptions="Start"
+                                                                     ColorOn="{StaticResource Primary}"
+                                                                     Count="5"
+                                                                     OutlineOffColor="Transparent"
+                                                                     RatingType="Floating"
+                                                                     Value="{Binding SillinessDegree}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CarouselView.ItemTemplate>
+                                </CarouselView>
+                            </VerticalStackLayout>
+                        </RefreshView>
+                    </ControlTemplate>
+                </tlv:TemplatedTaskLoader.ResultControlTemplate>
+            </tlv:TemplatedTaskLoader>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>
+

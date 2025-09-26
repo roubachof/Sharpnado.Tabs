@@ -62,7 +62,7 @@ namespace MauiSample.Presentation.ViewModels
                 return;
             }
 
-            await NavigationService.NavigateToAsync<SillyDudeVm>(sillyDude.Id);
+            await NavigationService.NavigateToAsync<SillyDudeViewModel>(sillyDude.Id);
         }
     }
 }

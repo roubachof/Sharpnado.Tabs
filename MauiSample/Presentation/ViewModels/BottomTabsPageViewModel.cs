@@ -6,6 +6,11 @@ namespace MauiSample.Presentation.ViewModels
 {
     public class BottomTabsPageViewModel : ANavigableViewModel
     {
+        private enum Tab
+        {
+            SillyDude = 3
+        }
+        
         private int _selectedViewModelIndex;
 
         public BottomTabsPageViewModel(
@@ -14,30 +19,36 @@ namespace MauiSample.Presentation.ViewModels
             ErrorEmulator errorEmulator)
             : base(navigationService)
         {
-            HomePageViewModel = new HomePageViewModel(navigationService, sillyDudeService);
-            GridPageViewModel = new GridPageViewModel(navigationService, sillyDudeService);
+            SillyDudeViewModel = new SillyDudeViewModel(navigationService, sillyDudeService);
 
             // If you want to start at the 3rd page
             // SelectedViewModelIndex = 2;
         }
 
+        public SillyDudeViewModel SillyDudeViewModel { get; }
+        
         public int SelectedViewModelIndex
         {
             get => _selectedViewModelIndex;
-            set => SetAndRaise(ref _selectedViewModelIndex, value);
+            set
+            {
+                if (SetAndRaise(ref _selectedViewModelIndex, value))
+                {
+                    OnViewModelSelected((Tab)value);
+                }
+            }
         }
 
-        public HomePageViewModel HomePageViewModel { get; }
-
-        public GridPageViewModel GridPageViewModel { get; }
-
-        public bool IsTabVisible { get; set; } = true;
+        private void OnViewModelSelected(Tab value)
+        {
+            if (value == Tab.SillyDude && SillyDudeViewModel.Notifier.IsNotStarted)
+            {
+                SillyDudeViewModel.Load(null);
+            }
+        }
 
         public override void Load(object parameter)
         {
-            HomePageViewModel.Load(parameter);
-            GridPageViewModel.Load(parameter);
-
             // Uncomment to test tab visibility
             // TaskMonitor.Create(
             //    async () =>
