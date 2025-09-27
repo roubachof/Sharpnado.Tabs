@@ -84,11 +84,11 @@ public partial class TabHostView
     {
         foreach (var selectableTab in _selectableTabs)
         {
-            RemoveTouchEffect(selectableTab);
+            RemoveTouchEffectIfNeeded(selectableTab);
         }
     }
 
-    private void RemoveTouchEffect(TabItem tabItem)
+    private void RemoveTouchEffectIfNeeded(TabItem tabItem)
     {
         if (tabItem.Content is Grid grid && grid.Children[0] is TouchOverlay touchOverlay)
         {

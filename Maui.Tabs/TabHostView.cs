@@ -164,6 +164,11 @@ public partial class TabHostView : ContentView
 
     public Border Border { get; private set; }
 
+    /// <summary>
+    /// Not a bindable property. Default is true.
+    /// </summary>
+    public bool AutoScrollToSelectedTab { get; set; } = true;
+
     public IEnumerable ItemsSource
     {
         get => (IEnumerable)GetValue(ItemsSourceProperty);
@@ -275,6 +280,7 @@ public partial class TabHostView : ContentView
 
     private void OnTabsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
+        InternalLogger.Debug(Tag, () => $"OnTabsCollectionChanged: {e.Action}");
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Add:
@@ -295,11 +301,7 @@ public partial class TabHostView : ContentView
                 break;
 
             case NotifyCollectionChangedAction.Reset:
-                foreach (var tab in Tabs.ToList())
-                {
-                    OnChildRemoved(tab);
-                }
-
+                ResetTabs();
                 break;
 
             case NotifyCollectionChangedAction.Move:
@@ -447,6 +449,8 @@ public partial class TabHostView : ContentView
 
     private void OnChildRemoved(TabItem tabItem)
     {
+        InternalLogger.Debug(Tag, () => $"OnChildRemoved( tabItem: {tabItem.GetType().Name})");
+
         if (_grid.ColumnDefinitions.Count == 0)
         {
             return;
@@ -478,6 +482,7 @@ public partial class TabHostView : ContentView
         _grid.ColumnDefinitions.RemoveAt(tabItemIndex);
 
         tabItem.PropertyChanged -= OnTabItemPropertyChanged;
+        RemoveTouchEffectIfNeeded(tabItem);
 
         if (IsSegmented && SegmentedHasSeparator)
         {
