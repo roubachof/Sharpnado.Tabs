@@ -50,10 +50,10 @@ Get it from NuGet:
   </thead>
   <tbody>
     <tr>
-      <td><img src="Docs/videos/iphone_400.gif" width="200" /></td>
-      <td><img src="Docs/videos/android_400.gif" width="200" /></td>
-      <td><img src="Docs/videos/windows_400.gif" width="200" /></td>
-      <td><img src="Docs/videos/maccatalyst_400.gif" width="200" /></td>
+      <td><img src="Docs/videos/iphone_400.gif" width="190" /></td>
+      <td><img src="Docs/videos/android_400.gif" width="190" /></td>
+      <td><img src="Docs/videos/windows_400.gif" width="190" /></td>
+      <td><img src="Docs/videos/maccatalyst_400.gif" width="190" /></td>
     </tr>
   </tbody>
 </table>
