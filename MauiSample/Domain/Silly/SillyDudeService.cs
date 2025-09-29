@@ -34,7 +34,7 @@ namespace MauiSample.Domain.Silly
 #if LOCAL_DATA
                             "will_ferrell.jpg",
 #else
-                        "https://news.usc.edu/files/2017/03/Will-Ferrell-Step-Brothers_Horizontal_web-824x549.jpg",
+                        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Will_Ferrell_as_MegaMind_by_Gage_Skidmore.jpg/1920px-Will_Ferrell_as_MegaMind_by_Gage_Skidmore.jpg",
 #endif
                         4,
                         "N/A",
@@ -66,7 +66,7 @@ namespace MauiSample.Domain.Silly
 #if LOCAL_DATA
                             "jean_claude_van_damme.jpg",
 #else
-                        "https://m.media-amazon.com/images/M/MV5BNjU1NzVkOWMtYmJjYy00M2UwLTkxYmEtNmU0YjI5M2ZhYTU3XkEyXkFqcGdeQXVyMjUyNDk2ODc@._V1_.jpg",
+                        "https://upload.wikimedia.org/wikipedia/en/b/b6/Kickboxer_poster.jpg",
 #endif
                         5,
                         "N/A",

@@ -10,25 +10,11 @@
     <ContentView.Resources>
         <ResourceDictionary>
 
-            <Style x:Key="LabelHeader" TargetType="Label">
-                <Setter Property="FontFamily" Value="OpenSansExtraBold" />
-                <Setter Property="FontSize" Value="14" />
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="Margin" Value="16,0" />
-            </Style>
-
             <Style x:Key="LabelDescription" TargetType="Label">
                 <Setter Property="FontFamily" Value="OpenSansRegular" />
                 <Setter Property="FontSize" Value="14" />
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="TextColor" Value="{StaticResource White}" />
-            </Style>
-
-            <Style x:Key="Card" TargetType="Border">
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Stroke" Value="{StaticResource Gray975}" />
-                <Setter Property="StrokeShape" Value="RoundRectangle 20" />
-                <Setter Property="StrokeThickness" Value="2" />
             </Style>
 
         </ResourceDictionary>

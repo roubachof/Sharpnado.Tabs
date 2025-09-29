@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
-<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:sho="http://sharpnado.com">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -377,6 +379,47 @@
         <Setter Property="BarTextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="UnselectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+    </Style>
+
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="16, 0" />
+        <Setter Property="Stroke" Value="{StaticResource Gray975}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="StrokeThickness" Value="2" />
+    </Style>
+
+    <Style x:Key="LabelHeader" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansExtraBold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Margin" Value="16,0" />
+    </Style>
+
+    <Style x:Key="ScrollableTabStyle" TargetType="sho:MaterialUnderlinedTabItem">
+        <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="LabelSize" Value="14" />
+        <Setter Property="Padding" Value="20, 0" />
+        <Setter Property="UnderlineAllTab" Value="True" />
+        <Setter Property="UnderlineHeight" Value="2" />
+        <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
+    </Style>
+
+    <Style x:Key="LabelDescription" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="MaterialTabStyle" TargetType="sho:MaterialUnderlinedTabItem">
+        <Setter Property="SelectedTabColor" Value="{StaticResource Primary}" />
+        <Setter Property="IconSize" Value="24" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="LabelSize" Value="14" />
+        <Setter Property="UnderlineAllTab" Value="True" />
+        <Setter Property="UnselectedLabelColor" Value="{StaticResource Gray200}" />
     </Style>
 
 </ResourceDictionary>

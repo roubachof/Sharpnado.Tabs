@@ -4,7 +4,7 @@ using MauiSample.Presentation.Navigables;
 using MauiSample.Presentation.Navigables.Impl;
 using MauiSample.Presentation.ViewModels;
 using Sharpnado.Tabs;
-
+using Sharpnado.TaskLoaderView;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace MauiSample;
@@ -17,6 +17,7 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
             .UseSharpnadoTabs(loggerEnable: true, debugLogEnable: true)
+			.ConfigureTaskLoader(true, debugLogEnable: true)
 			.UseSkiaSharp()
 			.ConfigureFonts(fonts =>
 			{

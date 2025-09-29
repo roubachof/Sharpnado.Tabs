@@ -7,6 +7,5 @@ public partial class TabM : ContentView
     public TabM()
     {
         InitializeComponent();
-        TabHost.SelectedIndex = 0;
     }
 }

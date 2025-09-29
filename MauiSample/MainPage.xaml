@@ -22,7 +22,7 @@
     </ContentPage.Resources>
 
 
-    <Grid Margin="16,0" RowDefinitions="120,*,95">
+    <Grid Margin="0" RowDefinitions="120,*,95">
 
         <ContentView ZIndex="100">
             <ContentView.Background>
@@ -49,7 +49,6 @@
             <tabs:DelayedView x:TypeArguments="views:TabM"
                               AccentColor="{StaticResource Primary}"
                               Animate="True"
-                              BindingContext="{Binding HomePageViewModel}"
                               DelayInMilliseconds="5000"
                               UseActivityIndicator="True">
                 <tabs:DelayedView.LoadingView>
@@ -71,7 +70,9 @@
                               Animate="True"
                               DelayInMilliseconds="1000"
                               UseActivityIndicator="True" />
-            <tabs:LazyView x:TypeArguments="views:TabI" Animate="True" />
+            <tabs:LazyView x:TypeArguments="views:SillyDudeView"
+                           Animate="True"
+                           BindingContext="{Binding SillyDudeViewModel}" />
         </tabs:ViewSwitcher>
 
         <ContentView Grid.Row="2">
@@ -91,7 +92,9 @@
                               Orientation="Horizontal"
                               SegmentedOutlineColor="{StaticResource Gray950}"
                               SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}"
-                              TabType="Fixed">
+                              TabType="Fixed"
+                              TouchColor="Purple"
+                              TouchEffectType="PoorsManRipple">
                 <tabs:TabHostView.Shadow>
                     <Shadow Brush="{StaticResource Primary}"
                             Opacity="0.7"

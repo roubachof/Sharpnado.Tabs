@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-        <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks>net9.0;net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
         <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
@@ -14,7 +14,7 @@
         <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
         
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
@@ -27,9 +27,9 @@
 
 	<PropertyGroup>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<AssemblyVersion>3.3.0</AssemblyVersion>
-		<AssemblyFileVersion>3.3.0</AssemblyFileVersion>
-		<Version>3.3.0</Version>
+		<AssemblyVersion>4.0.0</AssemblyVersion>
+		<AssemblyFileVersion>4.0.0</AssemblyFileVersion>
+		<Version>4.0.0</Version>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 
@@ -46,15 +46,21 @@
 		<PackageReadmeFile>docs\ReadMe.md</PackageReadmeFile>
 		<PackageTags>maui dotnetmaui xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</PackageTags>
 		<PackageReleaseNotes>
-            Removed all touch and tap effects.
-			Fixes many issues.
-            Add SelectedIconSource property.
+            Pure MAUI touch effects:
+            * Circular ripple
+            * Standard touch effect
+            * Poor's man ripple
+            A lot of fixes and improvements:
+            * SelectedItem
+            * Scroll to selected tab
+            * MacCatalyst support
+            * Windows support
 		</PackageReleaseNotes>
 
 		<Title>"Pure" MAUI Tabs (no renderers)</Title>
 		<Summary>The Ultimate Tabs customization solution for .net MAUI, including fixed tabs, scrollable tabs, bottom tabs, badge, segmented control, custom tabs, button tabs, ...</Summary>
 		<Description>
-			Pure MAUI Tabs:
+			Pure MAUI Tabs (No handlers, no renderers, no effects):
 			* Fixed tabs (android tabs style)
 			* Scrollable tabs
 			* Vertical tabs
@@ -67,6 +73,7 @@
 			* Custom tabs (be creative just implement TabItem)
 			* Independent ViewSwitcher
 			* Bindable with ItemsSource
+            * Ripple touch effect for all platforms
 		</Description>
 
 		<Owners>Jean-Marie Alfonsi</Owners>
@@ -79,7 +86,7 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>3.3.0</FileVersion>
+		<FileVersion>4.0.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -88,7 +95,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Sharpnado.TaskMonitor" Version="1.0.2" />
+		<PackageReference Include="Sharpnado.TaskMonitor" Version="1.1.0" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -97,6 +104,33 @@
 
 	<ItemGroup>
 	  <Folder Include="Effects\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="TabItems\MaterialUnderlinedTabItem.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="TabItems\UnderlinedTabItem.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="TabItems\BottomTabItem.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="TabItems\MaterialUnderlinedTabItem.xaml.cs">
+	    <DependentUpon>MaterialUnderlinedTabItem.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="TabItems\UnderlinedTabItem.xaml.cs">
+	    <DependentUpon>UnderlinedTabItem.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="TabItems\BottomTabItem.xaml.cs">
+	    <DependentUpon>BottomTabItem.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

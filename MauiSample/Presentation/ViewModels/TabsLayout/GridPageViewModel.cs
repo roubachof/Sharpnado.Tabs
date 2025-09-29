@@ -74,7 +74,7 @@ namespace MauiSample.Presentation.ViewModels
                         return Task.CompletedTask;
                     }
 
-                    return NavigationService.NavigateToAsync<SillyDudeVm>(((SillyDudeVmo)parameter).Id);
+                    return NavigationService.NavigateToAsync<SillyDudeViewModel>(((SillyDudeVmo)parameter).Id);
                 });
 
             OnScrollBeginCommand = new Command(

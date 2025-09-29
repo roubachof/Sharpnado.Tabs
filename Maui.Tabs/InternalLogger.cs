@@ -24,6 +24,16 @@ namespace Sharpnado.Tabs
             Debug(tag, message());
         }
 
+        public static void Debug(Func<string> message)
+        {
+            if (!EnableDebug)
+            {
+                return;
+            }
+
+            Debug(message());
+        }
+
         public static void Debug(string tag, string format, params object[] parameters)
         {
             if (!EnableDebug)
