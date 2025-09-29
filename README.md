@@ -1,6 +1,17 @@
-# Sharpnado.Tabs for .NET MAUI 
+# Sharpnado.Tabs for .NET MAUI
 
-<p align="left"><img src="Docs/logo_maui.png" width="400"/>
+<table>
+  <thead>
+    <tr>
+      <th>MAUI sample</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="Docs/MAUI/banner.png" width="600" /></td>
+    </tr>
+  </tbody>
+</table>
 
 Get it from NuGet:
 
@@ -16,6 +27,7 @@ Get it from NuGet:
 * MAUI version
 * Fully customizable
 * Underlined tabs, bottom tabs, Segmented control, scrollable tabs
+* Pure MAUI touch effects (ripple, standard touch effect) for ALL platforms
 * Vertical tabs
 * Lazy and Delayed views
 * Material tabs specs full implementation
@@ -23,38 +35,122 @@ Get it from NuGet:
 * Badge on tabs
 * Component oriented architecture
 * Layout your tabs and ViewSwitcher as you want
-* Shadows included in TabHost
 * Bindable
+
+## Platform Demonstrations
 
 <table>
   <thead>
     <tr>
-      <th>MAUI sample</th>
+      <th>iOS</th>
+      <th>Android</th>
+      <th>Windows</th>
+      <th>MacCatalyst</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><img src="Docs/MAUI/banner.png" width="600" /></td>
+      <td><img src="Docs/videos/iphone_400.gif" width="200" /></td>
+      <td><img src="Docs/videos/android_400.gif" width="200" /></td>
+      <td><img src="Docs/videos/windows_400.gif" width="200" /></td>
+      <td><img src="Docs/videos/maccatalyst_400.gif" width="200" /></td>
     </tr>
   </tbody>
 </table>
 
+## What's New in Version 4.0
+
+### Pure MAUI Touch Effects
+
+Version 4.0 introduces new touch effect properties that work across all platforms without custom handlers:
+
+* **TouchEffectType**: Choose from `CircularRipple`, `Standard`, or `PoorsManRipple`
+* **TouchColor**: Set the color of the touch effect
+
+#### Examples:
+
+**CircularRipple Effect:**
+```xml
+<tabs:TabHostView TouchColor="{StaticResource Primary}" 
+                  TouchEffectType="CircularRipple">
+    <tabs:MaterialUnderlinedTabItem Label="Tab 1" />
+    <tabs:MaterialUnderlinedTabItem Label="Tab 2" />
+</tabs:TabHostView>
+```
+
+**Standard Touch Effect:**
+```xml
+<tabs:TabHostView TouchColor="{StaticResource Secondary}" 
+                  TouchEffectType="Standard">
+    <tabs:MaterialUnderlinedTabItem Label="Tab 1" />
+    <tabs:MaterialUnderlinedTabItem Label="Tab 2" />
+</tabs:TabHostView>
+```
+
+**PoorsManRipple Effect:**
+```xml
+<tabs:TabHostView TouchColor="BlueViolet" 
+                  TouchEffectType="PoorsManRipple">
+    <tabs:MaterialUnderlinedTabItem Label="Tab 1" />
+    <tabs:MaterialUnderlinedTabItem Label="Tab 2" />
+</tabs:TabHostView>
+```
+
+**Live Examples:** See these effects in action in the sample project:
+- [TabM.xaml](MauiSample/Presentation/Views/TabM.xaml) - CircularRipple and Standard effects
+- [TabA.xaml](MauiSample/Presentation/Views/TabA.xaml) - Standard and PoorsManRipple effects  
+- [TabU.xaml](MauiSample/Presentation/Views/TabU.xaml) - CircularRipple effect with SelectedIconSource
+
+### Other Improvements
+
+* **Enhanced platform support**: Full MacCatalyst and Windows support  
+* **Improved performance**: Better SelectedItem handling and scroll-to-selected functionality
+* **Touch gesture updates**: Modern MAUI gesture handling for better stability
+* **SelectedIconSource**: Display different icons for selected/unselected states
+
+
+## Installation
+
+### MAUI Setup
+
+In your `MauiProgram.cs`, add the Sharpnado.Tabs initialization:
+
+```csharp
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .UseSharpnadoTabs(loggerEnable: false);
+
+        return builder.Build();
+    }
+}
+```
+
+
+## Features Showcase
 
 <table>
   <thead>
     <tr>
       <th>Bottom bar tabs</th>
       <th>Fixed tabs</th>
+      <th>Scrollable tabs</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><img src="Docs/ios_bottom_tabs.gif" width="300" /></td>
-      <td><img src="Docs/android_fixed_tabs.gif" width="300" /></td>
+      <td><img src="Docs/ios_bottom_tabs.gif" width="250" /></td>
+      <td><img src="Docs/android_fixed_tabs.gif" width="250" /></td>
+      <td><img src="Docs/ios_scrollable_tabs.gif" width="250" /></td>
     </tr>
     <tr>
       <td>BottomTabItem</td>
       <td>UnderlinedTabItem</td>
+      <td>TabType.Scrollable</td>
     </tr>   
   </tbody>
 </table>
@@ -63,16 +159,16 @@ Get it from NuGet:
   <thead>
     <tr>      
       <th>Segmented tabs</th>
-      <th>Neumorphic tabs</th>
+      <th>Custom tabs</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><img src="Docs/android_segmented_light_carrel.png" width="300" /></td>
-      <td><img src="Docs/ios_segmented_neu.png" width="300" /></td>
+      <td><img src="Docs/android_spam_tabs.gif" width="300" /></td>
     </tr>
     <tr>
-      <td>TabType.Scrollable</td>
+      <td>Neumorphic design</td>
       <td>inherit from TabItem</td>
     </tr>   
   </tbody>
@@ -93,25 +189,6 @@ Get it from NuGet:
     <tr>
       <td>IconOptions="TopIcon"</td>
       <td>IconOptions="LeadingIcon"</td>
-    </tr>   
-  </tbody>
-</table>
-
-<table>
-  <thead>
-    <tr>      
-      <th>Scrollable tabs</th>
-      <th>Custom tabs</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><img src="Docs/ios_scrollable_tabs.gif" width="300" /></td>
-      <td><img src="Docs/android_spam_tabs.gif" width="300" /></td>
-    </tr>
-    <tr>
-      <td>TabType.Scrollable</td>
-      <td>inherit from TabItem</td>
     </tr>   
   </tbody>
 </table>
@@ -151,78 +228,99 @@ Get it from NuGet:
   </tbody>
 </table>
 
-## Sample app
+## Getting Started
 
-For dotnet MAUI, you can just have a look at the `MauiSample` solution.
+### Basic Usage
 
-## Installation
-
-### MAUI
-
-```csharp
-public static class MauiProgram
-{
-    public static MauiApp CreateMauiApp()
-    {
-        var builder = MauiApp.CreateBuilder();
-        builder
-            .UseMauiApp<App>()
-            .UseSharpnadoTabs(loggerEnable: false);
-
-        return builder.Build();
-    }
-}
-```
-
-## Version 3.3: .net 9
-
-:warning: All touch and tap effects have been removed for better stability and performance.
-Tap are now handled by simple maui gestures.
-
-:new: property: `SelectedIconSource`, if you prefer to have two different icons for selected and unselected states.
-
-## Version 3.0
-
-### DelayedView 
-
-You probably know the `LazyView` by now, the `DelayedView` is an evolution of it enabling full control of your UI building times.
-
-Using a `DelayedView` will reduce application startup time by deferring the UI building of your components by some milliseconds (the value can be configured).
-
-
-
-https://user-images.githubusercontent.com/596903/193819937-eecca609-b0c0-4705-92d2-e52a24803f8d.mp4
-
-
-
-All you have is wrap your view in a `DelayedView` inside your `ViewSwitcher`, or even anywhere in your app.
+The core concept is to separate your tabs (`TabHostView`) from your content (`ViewSwitcher`). They communicate through the `SelectedIndex` property:
 
 ```xml
-<tabs:ViewSwitcher x:Name="Switcher"
-                           Grid.RowSpan="3"
-                           Margin="0"
-                           Animate="True"
-                           SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
-    <tabs:DelayedView x:TypeArguments="views:TabM"
-                        AccentColor="{StaticResource Primary}"
-                        Animate="True"
-                        BindingContext="{Binding HomePageViewModel}"
-                        UseActivityIndicator="True" />
-    <tabs:DelayedView x:TypeArguments="views:TabA"
-                        AccentColor="{StaticResource Primary}"
-                        Animate="True"
-                        UseActivityIndicator="True" />
-    <tabs:DelayedView x:TypeArguments="views:TabU"
-                        AccentColor="{StaticResource Primary}"
-                        Animate="True"
-                        UseActivityIndicator="True" />
-    <tabs:LazyView x:TypeArguments="views:TabI" Animate="True" />
+<tabs:TabHostView SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
+    <tabs:UnderlinedTabItem Label="Tab 1" />
+    <tabs:UnderlinedTabItem Label="Tab 2" />
+    <tabs:UnderlinedTabItem Label="Tab 3" />
+</tabs:TabHostView>
+
+<tabs:ViewSwitcher SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
+    <views:View1 />
+    <views:View2 />
+    <views:View3 />
 </tabs:ViewSwitcher>
 ```
 
-It can totally work outside of the `Tabs` context.
+## Features
 
-## UnderlinedTabItem with ViewSwitcher
+### Material tabs
+
+Contributor: @mkanyo (Miklos Kanyo)
+
+Since version 2.2, a new type of tab has been introduced: the `MaterialUnderlinedTabItem`.
+It's a full implementation of the material tabs specifications:
+
+https://material.io/components/tabs
+
+![material tabs](Docs/material_tabs.png)
+
+`IconOptions` values:
+
+1. TopIcon
+2. IconOnly
+3. LeadingIcon
+4. TextOnly
+
+You can also set precisely the gap between the icon and the text thanks to the `IconTextSpacing`.
+
+Instead of using a classic `Image` you can also set a svg `Geometry` (SVG image) icon thanks to the `GeometryIcon` property.
+
+**Cool Hack**: you can use `MaterialUnderlinedTabItem` (and then use a SVG image) as a bottom bar item, just specify `UnderlineHeight = 0`.
+
+If you chose to go down this road you can also set the following properties:
+
+* `public bool Fill`
+* `public double StrokeThickness`
+* `public double IconTextSpacing`
+
+```xml
+<tabs:TabHostView x:Name="TabHost"
+                  Grid.Row="4"
+                  Style="{DynamicResource DynamicBottomShadow}"
+                  Margin="-16,0"
+                  BackgroundColor="{DynamicResource Elevation4dpColor}"
+                  ShowScrollbar="False"
+                  TabType="Scrollable"
+                  SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
+    <tabs:TabHostView.Tabs>
+        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
+                                        IconImageSource="list_96.png"
+                                        IconOptions="TopIcon"
+                                        IconSize="24"
+                                        IconTextSpacing="0"
+                                        Label="{localization:Translate Tabs_Quote}"
+                                        UnderlineHeight="2" />
+        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
+                                        IconImageSource="theme_96.png"
+                                        IconOptions="IconOnly"
+                                        IconSize="24"
+                                        IconTextSpacing="0"
+                                        Label="FILMO" />
+        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
+                                        IconImageSource="grid_view_96.png"
+                                        IconOptions="LeadingIcon"
+                                        IconSize="24"
+                                        IconTextSpacing="0"
+                                        Label="{localization:Translate Tabs_Meme}" />
+        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
+                                        Padding="10,0"
+                                        IconImageSource="house_96.png"
+                                        IconOptions="TextOnly"
+                                        IconSize="24"
+                                        IconTextSpacing="0"
+                                        Label="NONSENSE" />
+      </tabs:TabHostView.Tabs>
+</tabs:TabHostView> 
+```
+
+### UnderlinedTabItem
 
 Let's consider this view:
 
@@ -277,18 +375,7 @@ Since they don't know each other, you just need to link them through their ```Se
 
 You can also see a mysterious ```Animate``` property. It just adds a nice appearing effect. It's really just a little bonus.
 
-### UnderlineAllTab
-
-`UnderlinedTabItem.UnderlineAllTab=(true|false)`
-
-You can decide whether or not you want the underline to take the whole tab width, or just the text width.
-
-<p align="center">
-  <img src="Docs/scrollable_tabs_underline_text.gif" width="250" />
-</p>
-
-
-## View model
+#### View Model
 
 ```csharp
     public TaskLoaderNotifier<SillyDudeVmo> SillyDudeLoader { get; }
@@ -331,7 +418,18 @@ You can decide whether or not you want the underline to take the whole tab width
 Well I won't go into details it's pretty obvious.
 If you want to know more about the mystery ```TaskLoaderNotifier```, please read this post (https://www.sharpnado.com/taskloaderview-2-0-lets-burn-isbusy-true/).
 
-### Styling
+
+#### UnderlineAllTab
+
+`UnderlinedTabItem.UnderlineAllTab=(true|false)`
+
+You can decide whether or not you want the underline to take the whole tab width, or just the text width.
+
+<p align="center">
+  <img src="Docs/scrollable_tabs_underline_text.gif" width="250" />
+</p>
+
+#### Styling
 
 The tab style is defined in the content page resources, but we could put it the App.xaml since most of the time we will have one type of top tabs (well it's up to your crazy designer really :)
 
@@ -348,7 +446,7 @@ The tab style is defined in the content page resources, but we could put it the 
 </ContentPage.Resources>
 ```
 
-## BottomTabItem with Neumorphism and corner radius
+### BottomTabItem
 
 And let's have a look at its xaml:
 
@@ -384,7 +482,6 @@ And let's have a look at its xaml:
                       CornerRadius="30"
                       Margin="15"
                       BackgroundColor="#F0F0F3"  
-                      Shades="{sh:NeumorphismShades}"
                       SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
         <tabs:TabHostView.Tabs>
             <tabs:BottomTabItem Style="{StaticResource BottomTabStyle}"
@@ -408,7 +505,7 @@ And let's have a look at its xaml:
   <img src="Docs/ios_segmented_neu.png" width="250" />
 </p>
 
-### IsTextVisible
+#### IsTextVisible
 
 `BottomTabItem.IsTextVisible=(true|false)`
 
@@ -418,12 +515,12 @@ If you like your bottom bar items without text:
   <img src="Docs/tab_bottom_notext.png" width="250" />
 </p>
 
-### SelectedTabColor and SelectedTabTextColor
+#### SelectedTabColor and SelectedTabTextColor
 
 You can set a color for the selected tab via `SelectedTabColor`. 
 If you want to have a *different* color for the text, you can specify `SelectedTabTextColor`.
 
-### Styling
+#### Styling
 
 ```xml
 <ContentPage.Resources>
@@ -441,7 +538,7 @@ If you want to have a *different* color for the text, you can specify `SelectedT
 </ContentPage.Resources>
 ```
 
-## Scrollable tabs
+### Scrollable tabs
 
 <p align="center">
   <img src="Docs/ios_scrollable_tabs.gif" width="250" />
@@ -457,79 +554,9 @@ public enum TabType
     Fixed = 0,
     Scrollable,
 }
-```
+``` 
 
-## Version 2.2: Material tabs
-
-Contributor: @mkanyo (Miklos Kanyo)
-
-Since version 2.2, a new type of tab has been introduced: the `MaterialUnderlinedTabItem`.
-It's a full implementation of the material tabs specifications:
-
-https://material.io/components/tabs
-
-![material tabs](Docs/material_tabs.png)
-
-`IconOptions` values:
-
-1. TopIcon
-2. IconOnly
-3. LeadingIcon
-4. TextOnly
-
-You can also set precisely the gap between the icon and the text thanks to the `IconTextSpacing`.
-
-Instead of using a classic `Image` you can also set a svg `Geometry` (SVG image) icon thanks to the `GeometryIcon` property. 
-
-**Cool Hack**: you can use `MaterialUnderlinedTabItem` (and then use a SVG image) as a bottom bar item, just specify `UnderlineHeight = 0`.
-
-If you chose to go down this road you can also set the following properties:
-
- * `public bool Fill`
- * `public double StrokeThickness`
- * `public double IconTextSpacing`
-
-```xml
-<tabs:TabHostView x:Name="TabHost"
-                  Grid.Row="4"
-                  Style="{DynamicResource DynamicBottomShadow}"
-                  Margin="-16,0"
-                  BackgroundColor="{DynamicResource Elevation4dpColor}"
-                  ShowScrollbar="False"
-                  TabType="Scrollable"
-                  SelectedIndex="{Binding Source={x:Reference Switcher}, Path=SelectedIndex, Mode=TwoWay}">
-    <tabs:TabHostView.Tabs>
-        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
-                                        IconImageSource="list_96.png"
-                                        IconOptions="TopIcon"
-                                        IconSize="24"
-                                        IconTextSpacing="0"
-                                        Label="{localization:Translate Tabs_Quote}"
-                                        UnderlineHeight="2" />
-        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
-                                        IconImageSource="theme_96.png"
-                                        IconOptions="IconOnly"
-                                        IconSize="24"
-                                        IconTextSpacing="0"
-                                        Label="FILMO" />
-        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
-                                        IconImageSource="grid_view_96.png"
-                                        IconOptions="LeadingIcon"
-                                        IconSize="24"
-                                        IconTextSpacing="0"
-                                        Label="{localization:Translate Tabs_Meme}" />
-        <tabs:MaterialUnderlinedTabItem Style="{StaticResource ScrollableTabStyle}"
-                                        Padding="10,0"
-                                        IconImageSource="house_96.png"
-                                        IconOptions="TextOnly"
-                                        IconSize="24"
-                                        IconTextSpacing="0"
-                                        Label="NONSENSE" />
-      </tabs:TabHostView.Tabs>
-</tabs:TabHostView> 
-```
-                  
-## Version 2.1: Vertical tabs
+### Vertical tabs
 
 Contributor: @nor0x (Joachim Leonfellner)
 
@@ -557,7 +584,7 @@ You can find in the silly app (https://github.com/roubachof/Xamarin-Forms-Practi
 
 ![vertical tabs gif](Docs/vertical_tabs.gif)
 
-## Segmented control
+### Segmented control
 
 Since version 1.7 we can mimic iOS segmented control style.
 
@@ -603,7 +630,7 @@ Use it with `IsSegmented`, `SegmentedOutlineColor`, and `SegmentedHasSeparator`,
 </Style>
 ```
 
-### Properties
+#### Properties
 
 <table>
   <tr>
@@ -625,7 +652,7 @@ Use it with `IsSegmented`, `SegmentedOutlineColor`, and `SegmentedHasSeparator`,
 </table>
 
 
-## TabButton
+### TabButton
 
 Sometimes your designer wants to spice-up a bit the bottom bar tabs by adding a button like a take a picture button. The issue is that the semantic differs from the others tabs since you will make an action instead of swaping views.
 
@@ -706,14 +733,49 @@ You can also decide to have a more boring button, why not?
                 IconImageSource="camera_96.png" />
 ```
 
+### Performance Optimization with DelayedView
 
-## BadgeView (Chips)
+You probably know the `LazyView` by now, the `DelayedView` is an evolution of it enabling full control of your UI building times.
+
+Using a `DelayedView` will reduce application startup time by deferring the UI building of your components by some milliseconds (the value can be configured).
+
+https://user-images.githubusercontent.com/596903/193819937-eecca609-b0c0-4705-92d2-e52a24803f8d.mp4
+
+All you have is wrap your view in a `DelayedView` inside your `ViewSwitcher`, or even anywhere in your app.
+
+```xml
+<tabs:ViewSwitcher x:Name="Switcher"
+                           Grid.RowSpan="3"
+                           Margin="0"
+                           Animate="True"
+                           SelectedIndex="{Binding SelectedViewModelIndex, Mode=TwoWay}">
+    <tabs:DelayedView x:TypeArguments="views:TabM"
+                        AccentColor="{StaticResource Primary}"
+                        Animate="True"
+                        BindingContext="{Binding HomePageViewModel}"
+                        UseActivityIndicator="True" />
+    <tabs:DelayedView x:TypeArguments="views:TabA"
+                        AccentColor="{StaticResource Primary}"
+                        Animate="True"
+                        UseActivityIndicator="True" />
+    <tabs:DelayedView x:TypeArguments="views:TabU"
+                        AccentColor="{StaticResource Primary}"
+                        Animate="True"
+                        UseActivityIndicator="True" />
+    <tabs:LazyView x:TypeArguments="views:TabI" Animate="True" />
+</tabs:ViewSwitcher>
+```
+
+It can totally work outside of the `Tabs` context.
+
+
+### BadgeView (Chips)
 
 You can add a badge on any `UnderlinedTabItem` and `BottomTabItem`.
 
 By default the `BadgeView` is placed in the top right corner of the `TabItem` by setting `HorizontalOptions=End` and `VerticalOptions=Start`.
 
-### Badges on BottomTabItem
+#### Badges on BottomTabItem
 
 <p align="center">
   <img src="Docs/bottom_tabs_badge.png" width="350" />
@@ -764,7 +826,7 @@ By default the `BadgeView` is placed in the top right corner of the `TabItem` by
 </tabs:TabHostView>
 ```
 
-### Badges on UnderlinedTabItem
+#### Badges on UnderlinedTabItem
 
 <p align="center">
   <img src="Docs/underlined_tabs_badge.png" width="350" />
@@ -813,7 +875,7 @@ By default the `BadgeView` is placed in the top right corner of the `TabItem` by
     </tabs:TabHostView>
 ```
 
-### Properties
+#### Properties
 
 <table>
   <tr>
@@ -879,9 +941,7 @@ If it's an integer, the badge will be hidden if the value is 0.</td>
   </tr>
 </table>
 
-
-
-## Custom SPAM tabs !
+### Custom SPAM tabs !
 
 As I said, your designer can go cuckoo and you won't even sweat it.
 <br>Just extend the abstract ```TabItem``` and fulfill the wildest dreams of your colleagues.
@@ -950,3 +1010,21 @@ private void Animate(bool isSelected)
         });
 }
 ```
+## Sample Applications
+
+Explore the sample projects in this repository:
+- **MauiSample**: Complete demonstration of all features
+
+## Resources
+
+- [NuGet Package](https://www.nuget.org/packages/Sharpnado.Tabs.Maui)
+- [Sample Project](https://github.com/roubachof/Sharpnado.Tabs/tree/master/MauiSample)
+- [Issues & Support](https://github.com/roubachof/Sharpnado.Tabs/issues)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues, feature requests, and pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -21,7 +21,6 @@
     <ScrollView>
         <VerticalStackLayout Margin="0,120,0,95" Spacing="20">
 
-
             <Border Style="{StaticResource Card}">
                 <Border.Shadow>
                     <Shadow Brush="{StaticResource Gray950}"
@@ -32,7 +31,7 @@
                 <Grid BackgroundColor="{StaticResource Gray950}" RowDefinitions="50,Auto">
                     <Label Grid.Row="0"
                            Style="{StaticResource LabelHeader}"
-                           Text="v3.4.0 - Pure touch effects \o/" />
+                           Text="v4.0.0 - Pure touch effects and many fixes \o/" />
 
                     <customViews:RichLabel Grid.Row="1"
                                            Style="{StaticResource LabelDescription}"
@@ -60,7 +59,7 @@
                                       Grid.Row="1"
                                       Margin="0"
                                       BackgroundColor="{StaticResource Gray900}"
-                                      SelectedIndex="1"
+                                      SelectedIndex="0"
                                       TouchColor="{StaticResource Primary}"
                                       TouchEffectType="CircularRipple">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"

@@ -12,6 +12,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
+        <!-- Enable XAML compilation in debug mode to catch XAML issues earlier -->
+        <_MauiForceXamlCForDebug>false</_MauiForceXamlCForDebug>
+        
         <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
         
 		<!-- Display name -->
@@ -93,12 +96,12 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
+	  <PackageReference Include="Sharpnado.Maui.TaskLoaderView" Version="2.6.1" />
 	  <PackageReference Include="SimpleInjector" Version="5.4.0" />
 	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="3.0.0-preview.13" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Sharpnado.TaskLoaderView\Sharpnado.Maui.TaskLoaderView\Sharpnado.Maui.TaskLoaderView.csproj" />
 	  <ProjectReference Include="..\Maui.Tabs\Maui.Tabs.csproj" />
 	</ItemGroup>
 

@@ -82,6 +82,12 @@ public partial class TabHostView
         tabHostView.RaiseSelectedTabIndexChanged(new SelectedPositionChangedEventArgs(selectedIndex));
     }
 
+    private static void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var tabHostView = (TabHostView)bindable;
+        tabHostView.UpdateSelectedIndexFromSelectedItem(newValue);
+    }
+
     private static void OrientationPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
     {
         if (oldvalue != newvalue)
@@ -117,7 +123,6 @@ public partial class TabHostView
         }
 
         _grid.Children.Clear();
-        _selectableTabs.Clear();
         _lastFillingColumn = null;
         _lastFillingRow = null;
 
@@ -217,8 +222,6 @@ public partial class TabHostView
                 UpdateTabVisibility(tabItem);
             }
 
-            UpdateSelectableTabs();
-
             if (IsSegmented && SegmentedHasSeparator)
             {
                 ConsolidateSeparatedColumnIndexes();
@@ -228,7 +231,6 @@ public partial class TabHostView
                 ConsolidateColumnIndexes();
             }
 
-            ConsolidateSelectedIndex();
             index++;
         }
 
@@ -427,29 +429,69 @@ public partial class TabHostView
 
     private void UpdateSelectedIndex(int selectedIndex)
     {
-        if (_selectableTabs.Count == 0)
+        InternalLogger.Debug(Tag, () => $"UpdateSelectedIndex: {selectedIndex}");
+        for (int index = 0; index < Tabs.Count; index++)
         {
-            selectedIndex = -1;
-        }
-
-        if (selectedIndex > _selectableTabs.Count)
-        {
-            selectedIndex = _selectableTabs.Count - 1;
-        }
-
-        for (int index = 0; index < _selectableTabs.Count; index++)
-        {
-            _selectableTabs[index].IsSelected = selectedIndex == index;
+            var tabItem = Tabs[index];
+            tabItem.IsSelected = tabItem.IsSelectable && selectedIndex == index;
         }
 
         SelectedIndex = selectedIndex;
+        UpdateSelectedItem(selectedIndex);
+
         if (TabType == TabType.Scrollable && AutoScrollToSelectedTab)
         {
-            var selectedTab = _selectableTabs[selectedIndex];
+            var selectedTab = Tabs[selectedIndex];
             TaskMonitor.Create(AnimateScrollToAsync(selectedTab));
         }
 
         InternalLogger.Debug(Tag, () => $"SelectedIndex: {SelectedIndex}, isFromItemTapped: {_fromTabItemTapped}");
+    }
+
+    private void UpdateSelectedItem(int index)
+    {
+        InternalLogger.Debug(Tag, () => $"UpdateSelectedItem: {index}");
+        if (index == -1)
+        {
+            InternalLogger.Debug(Tag, () => "    Selected index is -1, setting SelectedItem to null");
+            SetValue(SelectedItemProperty, null);
+            return;
+        }
+
+        if (!ReferenceEquals(ItemsSource, EmptyItemsSource))
+        {
+            var item = index < ItemsSource.Count ? ItemsSource[index] : null;
+            InternalLogger.Debug(Tag, () => $"    Selected item from ItemsSource: {(item == null ? "null" : item.GetType().Name)}");
+            SetValue(SelectedItemProperty, item);
+            return;
+        }
+
+        if (index >= Tabs.Count)
+        {
+            InternalLogger.Debug(Tag, () => "    Selected index is out of range of Tabs, setting SelectedItem to null");
+            SetValue(SelectedItemProperty, null);
+            return;
+        }
+
+        var tab = Tabs[index];
+        InternalLogger.Debug(Tag, () => $"    Selected item from Tabs: {tab.GetType().Name}");
+        SetValue(SelectedItemProperty, tab);
+    }
+
+    private void UpdateSelectedIndexFromSelectedItem(object selectedItem)
+    {
+        InternalLogger.Debug(Tag, () => $"UpdateSelectedIndexFromSelectedItem: {selectedItem.GetType().Name}");
+        if (!ReferenceEquals(ItemsSource, EmptyItemsSource))
+        {
+            var sourceIndex = ItemsSource.IndexOf(selectedItem);
+            InternalLogger.Debug(Tag, () => $"    Index in ItemsSource: {sourceIndex}");
+            SetValue(SelectedIndexProperty, sourceIndex);
+            return;
+        }
+
+        var tabIndex = Tabs.IndexOf((TabItem)selectedItem);
+        InternalLogger.Debug(Tag, () => $"    Index in Tabs: {tabIndex}");
+        SetValue(SelectedIndexProperty, tabIndex);
     }
 
     private async Task AnimateScrollToAsync(TabItem selectedTab)

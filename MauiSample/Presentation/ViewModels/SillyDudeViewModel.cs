@@ -82,7 +82,9 @@ public class SillyDudeViewModel : ANavigableViewModel
         var dudeList = await _dudeService.GetSillyPeople();
             
         TabTitles = new ObservableCollection<SillyDudeTab>(dudeList.Select((d, index) => new SillyDudeTab(d.Name, index % 3 != 0)));
-            
+
+        var selected = TabTitles.FirstOrDefault(t => t.IsSelectable);
+        SelectedViewModelIndex = selected is null ? -1 : TabTitles.IndexOf(selected);
         RaisePropertyChanged(nameof(TabTitles));
 
         Console.WriteLine($"SillyDudeVm|LoadSillyDude(): {TabTitles.Count} dudes loaded)");

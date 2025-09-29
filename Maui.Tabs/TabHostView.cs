@@ -26,12 +26,13 @@ public enum OrientationType
 public partial class TabHostView : ContentView
 {
     private const string Tag = nameof(TabHostView);
+    private static readonly IList EmptyItemsSource = Array.Empty<TabItem>();
 
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),
-        typeof(IEnumerable),
+        typeof(IList),
         typeof(TabHostView),
-        defaultValueCreator: _ => Array.Empty<TabItem>());
+        defaultValueCreator: _ => EmptyItemsSource);
 
     public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
         nameof(ItemTemplate),
@@ -85,6 +86,15 @@ public partial class TabHostView : ContentView
         BindingMode.TwoWay,
         propertyChanged: SelectedIndexPropertyChanged);
 
+    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
+        nameof(SelectedItem),
+        typeof(object),
+        typeof(TabHostView),
+        null,
+        BindingMode.TwoWay,
+        propertyChanged: OnSelectedItemChanged);
+
+
     public static readonly BindableProperty OrientationProperty = BindableProperty.Create(
         nameof(Orientation),
         typeof(OrientationType),
@@ -112,8 +122,6 @@ public partial class TabHostView : ContentView
 
     private ScrollView? _scrollView;
 
-    private List<TabItem> _selectableTabs = new();
-
     public TabHostView()
     {
         UpdateTabType();
@@ -121,15 +129,19 @@ public partial class TabHostView : ContentView
         TabItemTappedCommand = new TapCommand(OnTabItemTapped);
 
         Tabs.CollectionChanged += OnTabsCollectionChanged;
-
-        HandlerChanged += TabHostView_HandlerChanged;
-
+        Loaded += OnLoaded;
         _touchGestureRecognizer.Tapped += OnTouchStarted;
 
         base.BackgroundColor = Colors.Transparent;
     }
 
     public event EventHandler<SelectedPositionChangedEventArgs>? SelectedTabIndexChanged;
+
+    private void OnLoaded(object? sender, EventArgs e)
+    {
+        InternalLogger.Debug(Tag, "OnLoaded");
+        UpdateSelectedIndex(SelectedIndex);
+    }
 
     private void InitializeIfNeeded()
     {
@@ -169,9 +181,9 @@ public partial class TabHostView : ContentView
     /// </summary>
     public bool AutoScrollToSelectedTab { get; set; } = true;
 
-    public IEnumerable ItemsSource
+    public IList ItemsSource
     {
-        get => (IEnumerable)GetValue(ItemsSourceProperty);
+        get => (IList)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 
@@ -229,6 +241,12 @@ public partial class TabHostView : ContentView
         set => SetValue(SelectedIndexProperty, value);
     }
 
+    public object SelectedItem
+    {
+        get => GetValue(SelectedItemProperty);
+        set => SetValue(SelectedItemProperty, value);
+    }
+
     public OrientationType Orientation
     {
         get => (OrientationType)GetValue(OrientationProperty);
@@ -258,16 +276,12 @@ public partial class TabHostView : ContentView
 
     private ICommand TabItemTappedCommand { get; }
 
-    private void TabHostView_HandlerChanged(object? sender, EventArgs e)
-    {
-        InternalLogger.Debug(Tag, () => "HandlerChanged");
-    }
-
     private void OnTabItemTapped(object tappedItem)
     {
-        int selectedIndex = _selectableTabs.IndexOf((TabItem)tappedItem);
+        var tabItem = (TabItem)tappedItem;
+        int selectedIndex = Tabs.IndexOf(tabItem);
 
-        if (selectedIndex == -1 || !_selectableTabs[selectedIndex].IsSelectable)
+        if (selectedIndex == -1 || !tabItem.IsSelectable)
         {
             return;
         }
@@ -408,8 +422,6 @@ public partial class TabHostView : ContentView
             UpdateTabVisibility(tabItem);
         }
 
-        UpdateSelectableTabs();
-
         if (IsSegmented && SegmentedHasSeparator)
         {
             ConsolidateSeparatedColumnIndexes();
@@ -418,8 +430,6 @@ public partial class TabHostView : ContentView
         {
             ConsolidateColumnIndexes();
         }
-
-        ConsolidateSelectedIndex();
 
         AddTouchEffectIfNeeded(tabItem);
 
@@ -493,17 +503,10 @@ public partial class TabHostView : ContentView
             ConsolidateColumnIndexes();
         }
 
-        UpdateSelectableTabs();
         ConsolidateSelectedIndex();
 
         BatchCommit();
         _grid.BatchCommit();
-    }
-
-    private void UpdateSelectableTabs()
-    {
-        _selectableTabs = Tabs.Where(t => t.IsSelectable)
-            .ToList();
     }
 
     private void ConsolidateColumnIndexes()
@@ -633,41 +636,22 @@ public partial class TabHostView : ContentView
 
     private void ConsolidateSelectedIndex()
     {
-        if (_selectableTabs.Count == 0)
+        var selectedTab = Tabs.FirstOrDefault(tab => tab.IsSelected);
+        if (selectedTab != null)
         {
-            SelectedIndex = 0;
+            SelectedIndex = Tabs.IndexOf(selectedTab);
             return;
         }
 
-        bool found = false;
-        for (int index = 0; index < _selectableTabs.Count; index++)
+        if (SelectedIndex >= Tabs.Count)
         {
-            var tabItem = _selectableTabs[index];
-            if (tabItem.IsSelected)
-            {
-                if (found)
-                {
-                    tabItem.IsSelected = false;
-                }
-                else
-                {
-                    SelectedIndex = index;
-                    found = true;
-                }
-            }
+            SelectedIndex = Tabs.Count - 1;
         }
 
-        if (found || SelectedIndex < 0)
-        {
+        if (SelectedIndex < 0)
             return;
-        }
 
-        if (SelectedIndex >= _selectableTabs.Count)
-        {
-            SelectedIndex = _selectableTabs.Count - 1;
-        }
-
-        _selectableTabs[SelectedIndex].IsSelected = true;
+        Tabs[SelectedIndex].IsSelected = Tabs[SelectedIndex].IsSelectable;
     }
 
     private void OnTabItemPropertyChanged(object? sender, PropertyChangedEventArgs e)

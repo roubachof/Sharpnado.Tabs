@@ -85,7 +85,7 @@
                                       Grid.Row="2"
                                       Margin="0"
                                       BackgroundColor="{StaticResource Gray900}"
-                                      SelectedIndex="1"
+                                      SelectedIndex="3"
                                       TouchColor="{StaticResource Yellow100Accent}"
                                       TouchEffectType="CircularRipple">
                         <tabs:MaterialUnderlinedTabItem Style="{StaticResource MaterialTabStyle}"

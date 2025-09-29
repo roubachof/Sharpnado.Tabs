@@ -13,6 +13,7 @@
 * Custom tabs (be creative just implement TabItem)
 * Independent ViewSwitcher
 * Bindable with ItemsSource
+* Pure MAUI touch effects
 
 ## Installation
 

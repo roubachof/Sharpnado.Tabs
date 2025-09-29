@@ -74,7 +74,7 @@ public partial class TabHostView
     {
         if (!HasTouchEffect) return;
 
-        foreach (var selectableTab in _selectableTabs)
+        foreach (var selectableTab in Tabs.Where(t => t.IsSelectable))
         {
             AddTouchEffectIfNeeded(selectableTab);
         }
@@ -82,7 +82,7 @@ public partial class TabHostView
 
     private void ClearTouchEffect()
     {
-        foreach (var selectableTab in _selectableTabs)
+        foreach (var selectableTab in Tabs.Where(t => t.IsSelectable))
         {
             RemoveTouchEffectIfNeeded(selectableTab);
         }

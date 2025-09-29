@@ -27,9 +27,9 @@
 
 	<PropertyGroup>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<AssemblyVersion>3.4.0</AssemblyVersion>
-		<AssemblyFileVersion>3.4.0</AssemblyFileVersion>
-		<Version>3.4.0</Version>
+		<AssemblyVersion>4.0.0</AssemblyVersion>
+		<AssemblyFileVersion>4.0.0</AssemblyFileVersion>
+		<Version>4.0.0</Version>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 
@@ -50,12 +50,17 @@
             * Circular ripple
             * Standard touch effect
             * Poor's man ripple
+            A lot of fixes and improvements:
+            * SelectedItem
+            * Scroll to selected tab
+            * MacCatalyst support
+            * Windows support
 		</PackageReleaseNotes>
 
 		<Title>"Pure" MAUI Tabs (no renderers)</Title>
 		<Summary>The Ultimate Tabs customization solution for .net MAUI, including fixed tabs, scrollable tabs, bottom tabs, badge, segmented control, custom tabs, button tabs, ...</Summary>
 		<Description>
-			Pure MAUI Tabs:
+			Pure MAUI Tabs (No handlers, no renderers, no effects):
 			* Fixed tabs (android tabs style)
 			* Scrollable tabs
 			* Vertical tabs
@@ -68,6 +73,7 @@
 			* Custom tabs (be creative just implement TabItem)
 			* Independent ViewSwitcher
 			* Bindable with ItemsSource
+            * Ripple touch effect for all platforms
 		</Description>
 
 		<Owners>Jean-Marie Alfonsi</Owners>
@@ -80,7 +86,7 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>3.3.0</FileVersion>
+		<FileVersion>4.0.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -89,7 +95,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Sharpnado.TaskMonitor" Version="1.0.2" />
+		<PackageReference Include="Sharpnado.TaskMonitor" Version="1.1.0" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
