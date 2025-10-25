@@ -27,9 +27,9 @@
 
 	<PropertyGroup>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
-		<AssemblyVersion>4.0.0</AssemblyVersion>
-		<AssemblyFileVersion>4.0.0</AssemblyFileVersion>
-		<Version>4.0.0</Version>
+		<AssemblyVersion>4.0.1</AssemblyVersion>
+		<AssemblyFileVersion>4.0.1</AssemblyFileVersion>
+		<Version>4.0.1</Version>
 		<PackOnBuild>true</PackOnBuild>
 		<NeutralLanguage>en</NeutralLanguage>
 
@@ -46,15 +46,15 @@
 		<PackageReadmeFile>docs\ReadMe.md</PackageReadmeFile>
 		<PackageTags>maui dotnetmaui xamarin.forms android ios uwp netstandard tabs segmented control bottombar fixed tabs scrollable tabs badge</PackageTags>
 		<PackageReleaseNotes>
-            Pure MAUI touch effects:
-            * Circular ripple
-            * Standard touch effect
-            * Poor's man ripple
-            A lot of fixes and improvements:
-            * SelectedItem
-            * Scroll to selected tab
-            * MacCatalyst support
-            * Windows support
+            v4.0.1 - Windows Platform Inclusion
+            
+            PACKAGING FIX:
+            * Re-release to include Windows platform binaries (net9.0-windows10.0.19041.0)
+            * Previous 4.0.0 release was missing Windows support due to being packaged on macOS
+            
+            No code changes from v4.0.0.
+            
+            See documentation: https://github.com/roubachof/Sharpnado.Tabs
 		</PackageReleaseNotes>
 
 		<Title>"Pure" MAUI Tabs (no renderers)</Title>
@@ -86,7 +86,7 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<FileVersion>4.0.0</FileVersion>
+		<FileVersion>4.0.1</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -95,6 +95,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.82" />
 		<PackageReference Include="Sharpnado.TaskMonitor" Version="1.1.0" />
 		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">
 			<PrivateAssets>all</PrivateAssets>
